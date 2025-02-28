@@ -22,9 +22,10 @@ body {
 }
 
 .container {
+    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 15px;
 }
 
 /* Header */
@@ -427,6 +428,38 @@ footer {
 }
 
 @media screen and (max-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+
+    .container {
+        padding: 0 10px;
+    }
+
+    /* Adjust sections for mobile */
+    section {
+        padding: 40px 0;
+    }
+
+    /* Adjust images and logos */
+    img, .logo {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Adjust text sizes for mobile */
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+    }
+
     nav {
         width: 100%;
         overflow-x: auto; /* Allows horizontal scrolling if needed */
@@ -447,6 +480,18 @@ footer {
 }
 
 @media screen and (max-width: 480px) {
+    body {
+        font-size: 14px;
+    }
+
+    .container {
+        padding: 0 8px;
+    }
+
+    section {
+        padding: 30px 0;
+    }
+
     .nav-link {
         font-size: 12px;
         max-width: 60px; /* Even smaller for very small screens */
