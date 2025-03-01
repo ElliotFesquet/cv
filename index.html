@@ -24,12 +24,17 @@
     <nav>
         <div class="container nav-container">
             <a href="#" class="nav-logo">Elliot Fesquet</a>
+            <div class="language-switcher">
+                <button id="en-btn" class="lang-btn active">EN</button>
+                <span class="lang-divider">|</span>
+                <button id="fr-btn" class="lang-btn">FR</button>
+            </div>
             <ul class="nav-links">
-                <li><a href="#about" class="nav-link">À&nbsp;propos</a></li>
-                <li><a href="#skills">Compétences</a></li>
-                <li><a href="#experience">Expérience</a></li>
-                <li><a href="#education">Formation</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#about" class="nav-link" data-lang="nav-about">À&nbsp;propos</a></li>
+                <li><a href="#skills" class="nav-link" data-lang="nav-skills">Compétences</a></li>
+                <li><a href="#experience" class="nav-link" data-lang="nav-experience">Expérience</a></li>
+                <li><a href="#education" class="nav-link" data-lang="nav-education">Formation</a></li>
+                <li><a href="#contact" class="nav-link" data-lang="nav-contact">Contact</a></li>
             </ul>
         </div>
     </nav>
@@ -38,10 +43,10 @@
     <section id="about">
         <div class="container">
             <div class="section-title">
-                <h2>À PROPOS DE MOI</h2>
+                <h2 data-lang="about-title">À PROPOS DE MOI</h2>
             </div>
             <div class="profile-content">
-                <p>
+                <p data-lang="about-description">
                     Ayant vécu à Londres pendant 17 ans, j'ai choisi d'étudier à Efrei Paris, une école d'ingénierie numérique pour obtenir un diplôme d'ingénierie numérique. Je suis actuellement en master de Data IA à l'Efrei et en alternance chez Deloitte en tant que data analyste.
                 </p>
             </div>
@@ -52,7 +57,7 @@
     <section id="skills" style="background-color: #f9f9f9;">
         <div class="container">
             <div class="section-title">
-                <h2>COMPÉTENCES</h2>
+                <h2 data-lang="skills-title">COMPÉTENCES</h2>
             </div>
             <div class="skills-container">
                 <div class="skill-category">
@@ -97,7 +102,7 @@
     <section id="experience">
         <div class="container">
             <div class="section-title">
-                <h2>EXPÉRIENCE</h2>
+                <h2 data-lang="experience-title">EXPÉRIENCE</h2>
             </div>
             <div class="timeline">
                 
@@ -176,7 +181,7 @@
     <section id="education" style="background-color: #f9f9f9;">
         <div class="container">
             <div class="section-title">
-                <h2>FORMATION</h2>
+                <h2 data-lang="education-title">FORMATION</h2>
             </div>
             <div class="education-container">
                 <div class="education-item">
@@ -250,7 +255,7 @@
     <section id="contact" style="background-color: #f9f9f9;">
         <div class="container">
             <div class="section-title">
-                <h2>CONTACT</h2>
+                <h2 data-lang="contact-title">CONTACT</h2>
             </div>
             <div class="contact-container">
                 <div class="contact-item">
