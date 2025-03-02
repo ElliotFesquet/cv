@@ -478,6 +478,29 @@ footer {
         font-size: 14px;
         max-width: 80px; /* Smaller max-width for mobile */
     }
+
+    .nav-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .nav-links {
+        display: flex;
+        justify-content: space-around; /* Distribute items equally */
+        width: 100%; /* Ensure it takes full width */
+        padding: 0;
+    }
+    
+    .nav-link {
+        flex: 1; /* Make each link take equal space */
+        text-align: center; /* Center the text */
+        padding: 1rem 0; /* Adjust padding for better spacing */
+    }
+
+    .nav-link {
+        font-size: 14px;
+        max-width: 100vw; /* Increase max-width for mobile */
+    }
 }
 
 @media screen and (max-width: 480px) {
@@ -500,6 +523,11 @@ footer {
     
     .nav-title {
         font-size: 1.2rem; /* Adjust title size if needed */
+    }
+
+    .nav-link {
+        font-size: 12px;
+        max-width: 80px; /* Increase max-width for very small screens */
     }
 }
 
