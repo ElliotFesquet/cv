@@ -70,14 +70,71 @@ document.addEventListener('DOMContentLoaded', function() {
             'a[href="#contact"]': 'Contact',
             
             // Section headings - select by closest h2 in section
-            'section#about h2': 'About Me',
-            'section#skills h2': 'Skills',
-            'section#experience h2': 'Experience',
-            'section#education h2': 'Education',
-            'section#projects h2': 'Projects',
-            'section#contact h2': 'Contact',
+            'section#about h2': 'ABOUT ME',
+            'section#skills h2': 'SKILLS',
+            'section#experience h2': 'EXPERIENCE',
+            'section#education h2': 'EDUCATION',
+            'section#extracurricular h2': 'EXTRACURRICULAR',
+            'section#contact h2': 'CONTACT',
+
+            // Paragraphs
+            'p[data-lang="about-description"]': 'Having lived in London for 17 years, I chose to study at Efrei Paris, a digital engineering school to obtain a degree in computer sciences engineering. I am currently in a Data & AI master\'s program at Efrei and doing an apprenticeship at Deloitte as a data analyst.',
             
-            // Add more selectors as needed
+            // Skills section headings
+            'section#skills .skill-category:nth-child(1) h3': 'Tech Skills',
+            'section#skills .skill-category:nth-child(2) h3': 'Languages',
+            'section#skills .skill-category:nth-child(3) h3': 'Soft Skills',
+
+            'section#skills .skill-category:nth-child(2) ul li:nth-child(1)': 'French - Native',
+            'section#skills .skill-category:nth-child(2) ul li:nth-child(2)': 'English - C2 / Bilingual',
+            'section#skills .skill-category:nth-child(2) ul li:nth-child(3)': 'Spanish - B2',
+            'section#skills .skill-category:nth-child(2) ul li:nth-child(4)': 'German - A2',
+            'section#skills .skill-category:nth-child(2) ul li:nth-child(5)': 'Italian - A1',
+    
+            'section#skills .skill-category:nth-child(3) ul li:nth-child(1)': 'Teamwork',
+            'section#skills .skill-category:nth-child(3) ul li:nth-child(2)': 'Project Work',
+            'section#skills .skill-category:nth-child(3) ul li:nth-child(3)': 'Adaptability',
+            'section#skills .skill-category:nth-child(3) ul li:nth-child(4)': 'Curiosity',
+            'section#skills .skill-category:nth-child(3) ul li:nth-child(5)': 'Efficiency',
+            'section#skills .skill-category:nth-child(3) ul li:nth-child(6)': 'Resilience',
+            //deloitte
+            'section#experience .timeline .timeline-item:nth-child(1) h3': 'DATA ANALYST - APPRENTICESHIP',
+            'section#experience .timeline .timeline-item:nth-child(1) h4': 'DELOITTE | PARIS | SEPT 2024-AUG 2026',
+            'section#experience .timeline .timeline-item:nth-child(1) ul li:nth-child(1)': 'Disruptive dashboards using Tableau Prep/Tableau, powered by Excel & Dataverse',
+            'section#experience .timeline .timeline-item:nth-child(1) ul li:nth-child(2)': 'Agile automation with Python, Power Automate and internal Salesforce CRM',
+            'section#experience .timeline .timeline-item:nth-child(1) ul li:nth-child(3)': 'Optimized data storage and smart access via Excel',
+            'section#experience .timeline .timeline-item:nth-child(1) ul li:nth-child(4)': 'High-tech marketing analyses with ML, generating impactful insights',
+            //kickmaker
+            'section#experience .timeline .timeline-item:nth-child(2) h3': 'DATA OPS - APPRENTICESHIP',
+            'section#experience .timeline .timeline-item:nth-child(2) h4': 'KICKMAKER | PARIS | SEPT 2023 - AUG 2024',
+            'section#experience .timeline .timeline-item:nth-child(2) ul li:nth-child(1)': 'Implementation and development of advanced reports under Power BI, using Microsoft Dataverse capabilities',
+            'section#experience .timeline .timeline-item:nth-child(2) ul li:nth-child(2)': 'Process automation with Python and Power Automate',
+            'section#experience .timeline .timeline-item:nth-child(2) ul li:nth-child(3)': 'Optimization of data storage and access for analysis',
+            'section#experience .timeline .timeline-item:nth-child(2) ul li:nth-child(4)': 'In-depth marketing analyses, generating detailed reports to support strategic decisions',
+            //ohm
+            'section#experience .timeline .timeline-item:nth-child(3) h3': 'DATA SCIENTIST - INTERNSHIP',
+            'section#experience .timeline .timeline-item:nth-child(3) h4': 'OHM ENERGIE | PARIS | MAY 2023 - AUG 2023',
+            'section#experience .timeline .timeline-item:nth-child(3) ul li:nth-child(1)': 'Creation of Python, VBA, Excel and SQL tools generating significant efficiency gains',
+            'section#experience .timeline .timeline-item:nth-child(3) ul li:nth-child(2)': 'Creation and deployment of interactive dashboards via Tableau®',
+            'section#experience .timeline .timeline-item:nth-child(3) ul li:nth-child(3)': 'Experience in data manipulation, cleaning, transformation, processing and API integration',
+            //oilx
+            'section#experience .timeline .timeline-item:nth-child(4) h3': 'DATA ANALYST - INTERNSHIP',
+            'section#experience .timeline .timeline-item:nth-child(1) h4': 'OILX | LONDON | MAY 2022 - AUG 2022',
+            'section#experience .timeline .timeline-item:nth-child(4) ul li:nth-child(1)': 'Implementation of oil price forecasting models, based on historical data',
+            'section#experience .timeline .timeline-item:nth-child(4) ul li:nth-child(2)': 'Collection and analysis of large-scale data via web scraping',
+            'section#experience .timeline .timeline-item:nth-child(4) ul li:nth-child(3)': 'Data manipulation and analysis using pandas, matplotlib, and vizzu',
+            
+            "section#education .education-container .education-details:nth-child(1) h3": "MASTER OF DATA & AI",
+            "section#education .education-container .education-item .education-year:nth-child(1) span::nth-child(1)": "2024",
+            "section#education .education-container .education-item .education-year:nth-child(1) span::nth-child(2)": "2026",
+
+            "section#education .education-container .education-details:nth-child(2) h3": "COMPUTER SCIENCES ENGINEERING",
+            "section#education .education-container .education-item .education-year:nth-child(2) span::nth-child(1)": "2021",
+            "section#education .education-container .education-item .education-year:nth-child(2) span::nth-child(2)": "2024",
+
+            "section#education .education-container .education-item:nth-child(3) h3": "INTEGRATED PREPARATORY CLASSES",
+            "section#education .education-container .education-item .education-year:nth-child(3) span::nth-child(1)": "2020",
+            "section#education .education-container .education-item .education-year:nth-child(3) span::nth-child(2)": "2021",
         },
         fr: {
             // Navigation
@@ -89,14 +146,69 @@ document.addEventListener('DOMContentLoaded', function() {
             'a[href="#contact"]': 'Contact',
             
             // Section headings
-            'section#about h2': 'À Propos de Moi',
-            'section#skills h2': 'Compétences',
-            'section#experience h2': 'Expérience Professionnelle',
-            'section#education h2': 'Formation',
-            'section#projects h2': 'Projets',
-            'section#contact h2': 'Contact',
+            'section#about h2': 'A PROPOS DE MOI',
+            'section#skills h2': 'COMPÉTENCES',
+            'section#experience h2': 'EXPÉRIENCE',
+            'section#education h2': 'FORMATION',
+            'section#extracurricular h2': 'ACTIVITÉS EXTRA-SCOLAIRES',
+            'section#contact h2': 'CONTACT',
             
-            // Add more selectors as needed
+            // Paragraphs
+            'p[data-lang="about-description"]': 'Ayant vécu à Londres pendant 17 ans, j\'ai choisi d\'étudier à Efrei Paris, une école d\'ingénierie numérique pour obtenir un diplôme d\'ingénierie numérique. Je suis actuellement en master de Data IA à l\'Efrei et en alternance chez Deloitte en tant que data analyste.',
+            
+
+            'section#skills .skill-category:nth-child(2) ul li:nth-child(1)': 'Français - Maternelle',
+            'section#skills .skill-category:nth-child(2) ul li:nth-child(2)': 'Anglais - C2 / Bilingue',
+            'section#skills .skill-category:nth-child(2) ul li:nth-child(3)': 'Espagnol - B2',
+            'section#skills .skill-category:nth-child(2) ul li:nth-child(4)': 'Allemand - A2',
+            'section#skills .skill-category:nth-child(2) ul li:nth-child(5)': 'Italien - A1',
+
+            'section#skills .skill-category:nth-child(3) ul li:nth-child(1)': 'Travail d\'équipe',
+            'section#skills .skill-category:nth-child(3) ul li:nth-child(2)': 'Travail en Projet',
+            'section#skills .skill-category:nth-child(3) ul li:nth-child(3)': 'Adaptabilité',
+            'section#skills .skill-category:nth-child(3) ul li:nth-child(4)': 'Curiosité',
+            'section#skills .skill-category:nth-child(3) ul li:nth-child(5)': 'Efficacité',
+            'section#skills .skill-category:nth-child(3) ul li:nth-child(6)': 'Résilience',
+            //deloitte
+            'section#experience .timeline .timeline-item:nth-child(1) h3': 'DATA ANALYST - ALTERNANCE',
+            'section#experience .timeline .timeline-item:nth-child(1) h4': 'DELOITTE | PARIS | SEPT 2024-AOUT 2026',
+            'section#experience .timeline .timeline-item:nth-child(1) ul li:nth-child(1)': 'Dashboards disruptifs sous Tableau Prep/Tableau, boostés par Excel & Dataverse',
+            'section#experience .timeline .timeline-item:nth-child(1) ul li:nth-child(2)': 'Automatisation agile avec Python, Power Automate et CRM Salesforce interne',
+            'section#experience .timeline .timeline-item:nth-child(1) ul li:nth-child(3)': 'Stockage data optimisé et accès intelligent via Excel',
+            'section#experience .timeline .timeline-item:nth-child(1) ul li:nth-child(4)': 'Analyses marketing high-tech avec ML, générant des insights percutants',
+            //kickmaker
+            'section#experience .timeline .timeline-item:nth-child(2) h3': 'DATA OPS - ALTERNANCE',
+            'section#experience .timeline .timeline-item:nth-child(2) h4': 'KICKMAKER | PARIS | SEPT 2023 - AOUT 2024',
+            'section#experience .timeline .timeline-item:nth-child(2) ul li:nth-child(1)': 'Mise en place et développement de rapports avancés sous Power BI, utilisant les capacités de Microsoft Dataverse',
+            'section#experience .timeline .timeline-item:nth-child(2) ul li:nth-child(2)': 'Automatisation des processus avec Python et Power Automate',
+            'section#experience .timeline .timeline-item:nth-child(2) ul li:nth-child(3)': "Optimisation du stockage et de l'accès aux données pour les analyse",
+            'section#experience .timeline .timeline-item:nth-child(2) ul li:nth-child(4)': 'Analyses marketing approfondies, générant des rapports détaillés pour soutenir les décisions stratégiques',
+            
+            
+            //ohm
+            'section#experience .timeline .timeline-item:nth-child(3) h3': 'DATA SCIENTIST - STAGE',
+            'section#experience .timeline .timeline-item:nth-child(3) h4': 'OHM ENERGIE | PARIS | MAI 2023 - AOUT 2023',
+            'section#experience .timeline .timeline-item:nth-child(3) ul li:nth-child(1)': "Création d'outils Python, VBA, Excel et SQL générant des gains d'efficacité significatifs",
+            'section#experience .timeline .timeline-item:nth-child(3) ul li:nth-child(2)': 'Création et déploiement de tableaux de bord interactifs via Tableau®',
+            'section#experience .timeline .timeline-item:nth-child(3) ul li:nth-child(3)': "Expérience en manipulation de données, nettoyage, transformation, traitement et intégration d'API",
+            //oilx
+            'section#experience .timeline .timeline-item:nth-child(4) h3': 'DATA ANALYST - STAGE',
+            'section#experience .timeline .timeline-item:nth-child(1) h4': 'OILX | LONDON | MAI 2022 - AOUT 2022',
+            'section#experience .timeline .timeline-item:nth-child(4) ul li:nth-child(1)': "Mise en place de modèles de prévision de prix du pétrole, basés sur des données historiques",
+            'section#experience .timeline .timeline-item:nth-child(4) ul li:nth-child(2)': 'Collecte et analyse de données à grande échelle via web scraping',
+            'section#experience .timeline .timeline-item:nth-child(4) ul li:nth-child(3)': "Manipulation et analyse de données à l'aide de pandas, matplotlib, et vizzu",
+            
+            "section#education .education-container .education-item:nth-child(1) h3": "MASTER DE DATA & IA",
+            "section#education .education-container .education-item .education-year:nth-child(1) span:nth-child(1)": "2024",
+            "section#education .education-container .education-item .education-year:nth-child(1) span:nth-child(2)": "2026",
+
+            "section#education .education-container .education-item:nth-child(2) h3": "INGÉNIERIE NUMÉRIQUE",
+            "section#education .education-container .education-item .education-year:nth-child(2) span:nth-child(1)": "2021",
+            "section#education .education-container .education-item .education-year:nth-child(2) span:nth-child(2)": "2024",
+
+            "section#education .education-container .education-item:nth-child(3) h3": "CLASSES PRÉPARATOIRES INTÉGRÉES",
+            "section#education .education-container .education-item .education-year:nth-child(3) span:nth-child(1)": "2020",
+            "section#education .education-container .education-item .education-year:nth-child(3) span:nth-child(2)": "2021",
         }
     };
     
@@ -131,20 +243,11 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('language', lang);
         console.log("Language preference saved");
     }
+
+    enBtn.addEventListener('click', () => switchLanguage('en'));
+    frBtn.addEventListener('click', () => switchLanguage('fr'));
     
-    // Set up click event listeners
-    enBtn.addEventListener('click', function() {
-        console.log("English button clicked");
-        switchLanguage('en');
-    });
-    
-    frBtn.addEventListener('click', function() {
-        console.log("French button clicked");
-        switchLanguage('fr');
-    });
-    
-    console.log("Event listeners attached to language buttons");
-    
+
     // Check for saved language preference
     const savedLanguage = localStorage.getItem('language');
     if (savedLanguage) {
