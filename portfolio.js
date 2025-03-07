@@ -124,17 +124,25 @@ document.addEventListener('DOMContentLoaded', function() {
             'section#experience .timeline .timeline-item:nth-child(4) ul li:nth-child(2)': 'Collection and analysis of large-scale data via web scraping',
             'section#experience .timeline .timeline-item:nth-child(4) ul li:nth-child(3)': 'Data manipulation and analysis using pandas, matplotlib, and vizzu',
             
-            "section#education .education-container .education-details:nth-child(1) h3": "MASTER OF DATA & AI",
-            "section#education .education-container .education-item .education-year:nth-child(1) span::nth-child(1)": "2024",
-            "section#education .education-container .education-item .education-year:nth-child(1) span::nth-child(2)": "2026",
+            "section#education .education-container .education-item:nth-child(1) h3": "MASTER OF DATA ENGINEERING AND AI",
+            "section#education .education-container .education-item:nth-child(1) .education-year span:nth-child(1)": "2024",
+            "section#education .education-container .education-item:nth-child(1) .education-year span:nth-child(2)": "2026",
 
-            "section#education .education-container .education-details:nth-child(2) h3": "COMPUTER SCIENCES ENGINEERING",
-            "section#education .education-container .education-item .education-year:nth-child(2) span::nth-child(1)": "2021",
-            "section#education .education-container .education-item .education-year:nth-child(2) span::nth-child(2)": "2024",
+            "section#education .education-container .education-item:nth-child(2) h3": "COMPUTER SCIENCES ENGINEERING",
+            "section#education .education-container .education-item:nth-child(2) .education-year span:nth-child(1)": "2021",
+            "section#education .education-container .education-item:nth-child(2) .education-year span:nth-child(2)": "2024",
 
             "section#education .education-container .education-item:nth-child(3) h3": "INTEGRATED PREPARATORY CLASSES",
-            "section#education .education-container .education-item .education-year:nth-child(3) span::nth-child(1)": "2020",
-            "section#education .education-container .education-item .education-year:nth-child(3) span::nth-child(2)": "2021",
+            "section#education .education-container .education-item:nth-child(3) .education-year span:nth-child(1)": "2020",
+            "section#education .education-container .education-item:nth-child(3) .education-year span:nth-child(2)": "2021",
+
+            'section#extracurricular .skill-category:nth-child(1) .skill-list li:nth-child(2)': 'Private coach',       
+            'section#extracurricular .skill-category:nth-child(3) h3': 'Other',
+            'section#extracurricular .skill-category:nth-child(3) .skill-list li:nth-child(1)': 'Maths and English tutoring',      
+            
+            'section#contact .contact-container .contact-item:nth-child(1) h3': 'Phone',
+            'section#contact .contact-container .contact-item:nth-child(2) h3': 'Email',
+            'section#contact .contact-container .contact-item:nth-child(3) h3': 'Address',
         },
         fr: {
             // Navigation
@@ -198,17 +206,26 @@ document.addEventListener('DOMContentLoaded', function() {
             'section#experience .timeline .timeline-item:nth-child(4) ul li:nth-child(2)': 'Collecte et analyse de données à grande échelle via web scraping',
             'section#experience .timeline .timeline-item:nth-child(4) ul li:nth-child(3)': "Manipulation et analyse de données à l'aide de pandas, matplotlib, et vizzu",
             
-            "section#education .education-container .education-item:nth-child(1) h3": "MASTER DE DATA & IA",
-            "section#education .education-container .education-item .education-year:nth-child(1) span:nth-child(1)": "2024",
-            "section#education .education-container .education-item .education-year:nth-child(1) span:nth-child(2)": "2026",
+            "section#education .education-container .education-item:nth-child(1) h3": "MASTER DE DATA ENGINEERING & IA",
+            "section#education .education-container .education-item:nth-child(1) .education-year span:nth-child(1)": "2024",
+            "section#education .education-container .education-item:nth-child(1) .education-year span:nth-child(2)": "2026",
 
             "section#education .education-container .education-item:nth-child(2) h3": "INGÉNIERIE NUMÉRIQUE",
-            "section#education .education-container .education-item .education-year:nth-child(2) span:nth-child(1)": "2021",
-            "section#education .education-container .education-item .education-year:nth-child(2) span:nth-child(2)": "2024",
+            "section#education .education-container .education-item:nth-child(2) .education-year span:nth-child(1)": "2021",
+            "section#education .education-container .education-item:nth-child(2) .education-year span:nth-child(2)": "2024",
 
             "section#education .education-container .education-item:nth-child(3) h3": "CLASSES PRÉPARATOIRES INTÉGRÉES",
-            "section#education .education-container .education-item .education-year:nth-child(3) span:nth-child(1)": "2020",
-            "section#education .education-container .education-item .education-year:nth-child(3) span:nth-child(2)": "2021",
+            "section#education .education-container .education-item:nth-child(3) .education-year span:nth-child(1)": "2020",
+            "section#education .education-container .education-item:nth-child(3) .education-year span:nth-child(2)": "2021",
+            
+            
+            'section#extracurricular .skill-category:nth-child(1) .skill-list li:nth-child(2)': 'Coach privé',      
+            'section#extracurricular .skill-category:nth-child(3) h3': 'Autre',      
+            'section#extracurricular .skill-category:nth-child(3) .skill-list li:nth-child(1)': 'Tutorat Maths et Anglais',      
+
+            'section#contact .contact-container .contact-item:nth-child(1) h3': 'Téléphone',
+            'section#contact .contact-container .contact-item:nth-child(2) h3': 'Email',
+            'section#contact .contact-container .contact-item:nth-child(3) h3': 'Adresse',
         }
     };
     
