@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Elliot Fesquet</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="charts.min.css">
+    <link rel="stylesheet" href="charts.css">
+    <script src="script.js" defer></script>
+
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <h1>TEST</h1>
+        </div>
+    </header>
+    
+    <!-- Replace the existing navbar with this code -->
+    <nav>
+        <div class="container nav-container">
+            <a href="index.html" class="nav-logo">Projects</a>
+            <div class="language-switcher">
+                <button id="en-btn" class="lang-btn active">EN</button>
+                <span class="lang-divider">|</span>
+                <button id="fr-btn" class="lang-btn">FR</button>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html#about" class="nav-link" data-lang="nav-about">À&nbsp;propos</a></li>
+                <li><a href="index.html#skills" class="nav-link" data-lang="nav-skills">Compétences</a></li>
+                <li><a href="index.html#experience" class="nav-link" data-lang="nav-experience">Expérience</a></li>
+                <li><a href="index.html#education" class="nav-link" data-lang="nav-education">Formation</a></li>
+                <li><a href="index.html#contact" class="nav-link" data-lang="nav-contact">Contact</a></li>
+                <li><a href="portfolio.html" class="nav-link" data-lang="nav-portfolio">Portfolio</a></li>
+                
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Add this where you want your chart to appear in portfolio.html -->
+    <section id="stats">
+        <div class="container">
+            <div class="section-title">
+                <h2 data-lang="stats-title">STATISTICS</h2>
+            </div>
+            <table class="charts-css column show-data-on-hover" id="animations-example">
+                <caption>Project Success Metrics</caption>
+                <tbody>
+                    <tr>
+                        <td style="--size: calc(65/100)"><span class="data">65% Code Efficiency</span></td>
+                    </tr>
+                    <tr>
+                        <td style="--size: calc(80/100)"><span class="data">80% Client Satisfaction</span></td>
+                    </tr>
+                    <tr>
+                        <td style="--size: calc(90/100)"><span class="data">90% On-Time Delivery</span></td>
+                    </tr>
+                    <tr>
+                        <td style="--size: calc(75/100)"><span class="data">75% Budget Efficiency</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</body>
+</html>

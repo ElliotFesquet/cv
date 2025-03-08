@@ -271,6 +271,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log(`Restoring saved language: ${savedLanguage}`);
         switchLanguage(savedLanguage);
     }
+
 });
 
 // Function to handle scroll animations
@@ -359,3 +360,5 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
+
+
