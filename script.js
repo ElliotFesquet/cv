@@ -62,7 +62,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const elementTranslations = {
         en: {
             // Navigation - select by link href
-            'a[href="#about"]': 'About Me',
             'a[href="#skills"]': 'Skills',
             'a[href="#experience"]': 'Experience',
             'a[href="#education"]': 'Education',
@@ -70,7 +69,6 @@ document.addEventListener('DOMContentLoaded', function() {
             'a[href="#contact"]': 'Contact',
             
             // Section headings - select by closest h2 in section
-            'section#about h2': 'ABOUT ME',
             'section#skills h2': 'SKILLS',
             'section#experience h2': 'EXPERIENCE',
             'section#education h2': 'EDUCATION',
@@ -146,7 +144,6 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         fr: {
             // Navigation
-            'a[href="#about"]': 'À Propos',
             'a[href="#skills"]': 'Compétences',
             'a[href="#experience"]': 'Expérience',
             'a[href="#education"]': 'Formation',
@@ -154,7 +151,6 @@ document.addEventListener('DOMContentLoaded', function() {
             'a[href="#contact"]': 'Contact',
             
             // Section headings
-            'section#about h2': 'A PROPOS DE MOI',
             'section#skills h2': 'COMPÉTENCES',
             'section#experience h2': 'EXPÉRIENCE',
             'section#education h2': 'FORMATION',

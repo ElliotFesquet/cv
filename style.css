@@ -30,8 +30,10 @@ body {
 
 /* Header */
 header {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-    color: var(--white);
+    background: url('https://i.ibb.co/LXqL8pr1/back.webp') no-repeat center center;
+    background-size: cover;
+    background-attachment: fixed; /* Optional: fixes the background during scrolling */
+    color: var(--white); /* Ensures text remains visible */
     padding: 2rem 0;
     text-align: center;
 }
@@ -49,15 +51,16 @@ header {
     color: var(--primary);
 }
 
-.header-content h1 {
-    font-size: 3rem;
-    margin-bottom: 0.5rem;
+._blank {
+    height: 200px;
 }
 
 .header-content h2 {
     font-size: 1.5rem;
-    font-weight: 400;
-    opacity: 0.9;
+    font-weight: 500;
+    opacity: 1;
+    text-shadow: 1px 1px 3px rgba(6, 6, 6, 0.812);
+    color: #ff5722;
 }
 
 /* Navbar */
