@@ -136,9 +136,9 @@ document.addEventListener('DOMContentLoaded', function() {
             "section#education .education-container .education-item:nth-child(3) .education-year span:nth-child(1)": "2020",
             "section#education .education-container .education-item:nth-child(3) .education-year span:nth-child(2)": "2021",
 
-            'section#extracurricular .skill-category:nth-child(1) .skill-list li:nth-child(2)': 'Private coach',       
+            'section#extracurricular .skill-category:nth-child(1) .skill-list li:nth-child(2)': 'Private Coach',       
             'section#extracurricular .skill-category:nth-child(3) h3': 'Other',
-            'section#extracurricular .skill-category:nth-child(3) .skill-list li:nth-child(1)': 'Maths and English tutoring',      
+            'section#extracurricular .skill-category:nth-child(3) .skill-list li:nth-child(1)': 'Maths and English Tutoring',      
             
             'section#contact .contact-container .contact-item:nth-child(1) h3': 'Phone',
             'section#contact .contact-container .contact-item:nth-child(2) h3': 'Email',
@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
             "section#education .education-container .education-item:nth-child(3) .education-year span:nth-child(2)": "2021",
             
             
-            'section#extracurricular .skill-category:nth-child(1) .skill-list li:nth-child(2)': 'Coach privé',      
+            'section#extracurricular .skill-category:nth-child(1) .skill-list li:nth-child(2)': 'Coach Privé',      
             'section#extracurricular .skill-category:nth-child(3) h3': 'Autre',      
             'section#extracurricular .skill-category:nth-child(3) .skill-list li:nth-child(1)': 'Tutorat Maths et Anglais',      
 
@@ -271,9 +271,6 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log(`Restoring saved language: ${savedLanguage}`);
         switchLanguage(savedLanguage);
     }
-
-    // Add chart animations
-    createChartAnimations();
 });
 
 // Function to handle scroll animations
@@ -362,121 +359,3 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
-
-// Simplified chart animations function without looping
-function createChartAnimations() {
-    const sections = ['about', 'skills', 'experience', 'education', 'extracurricular'];
-    
-    // Color options based on your theme with gradient definitions
-    const colors = [
-        {line: 'rgba(191, 125, 101, 0.8)', gradient: ['rgba(191, 125, 101, 0.3)', 'rgba(191, 125, 101, 0)']},
-        {line: 'rgba(103, 115, 85, 0.8)', gradient: ['rgba(103, 115, 85, 0.3)', 'rgba(103, 115, 85, 0)']},
-        {line: 'rgba(255, 87, 34, 0.8)', gradient: ['rgba(255, 87, 34, 0.3)', 'rgba(255, 87, 34, 0)']},
-        {line: 'rgba(76, 175, 80, 0.8)', gradient: ['rgba(76, 175, 80, 0.3)', 'rgba(76, 175, 80, 0)']},
-        {line: 'rgba(33, 150, 243, 0.8)', gradient: ['rgba(33, 150, 243, 0.3)', 'rgba(33, 150, 243, 0)']}
-    ];
-    
-    // Generate trading-style points for the line
-    function generateTradingPoints() {
-        let points = '';
-        const numPoints = 20; // More points for smoother curve
-        let currentY = 100; // Start in the middle
-        
-        for (let i = 0; i < numPoints; i++) {
-            const x = (i * 1000) / (numPoints - 1);
-            
-            // Create more dramatic trading-like movements
-            const sharpMove = Math.random() > 0.85 ? (Math.random() * 60 - 30) : 0;
-            const momentum = (currentY - 100) * -0.2; // Tendency to return to middle
-            const randomWalk = (Math.random() * 20) - 10;
-            
-            currentY += momentum + randomWalk + sharpMove;
-            currentY = Math.max(20, Math.min(180, currentY)); // Keep within bounds
-            
-            points += `${x},${currentY} `;
-        }
-        
-        return points.trim();
-    }
-    
-    sections.forEach(sectionId => {
-        const section = document.getElementById(sectionId);
-        if (!section) return;
-        
-        // Only add the line chart if it doesn't exist
-        if (!section.querySelector('.line-chart-bg')) {
-            // Choose a random color for each section
-            const colorIndex = Math.floor(Math.random() * colors.length);
-            
-            // Create SVG container
-            const chartBg = document.createElement('div');
-            chartBg.className = 'line-chart-bg';
-            section.style.position = 'relative';
-            
-            // Generate a unique gradient ID for each section
-            const gradientId = `grad-${sectionId}`;
-            
-            // Create SVG with initial polyline and gradient area
-            chartBg.innerHTML = `
-                <svg class="line-chart" viewBox="0 0 1000 200" preserveAspectRatio="none">
-                    <!-- Grid lines -->
-                    <line x1="0" y1="50" x2="1000" y2="50" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5" />
-                    <line x1="0" y1="100" x2="1000" y2="100" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5" />
-                    <line x1="0" y1="150" x2="1000" y2="150" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5" />
-                    
-                    <!-- Gradient definition -->
-                    <defs>
-                        <linearGradient id="${gradientId}" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stop-color="${colors[colorIndex].gradient[0]}" />
-                            <stop offset="100%" stop-color="${colors[colorIndex].gradient[1]}" />
-                        </linearGradient>
-                    </defs>
-                    
-                    <!-- Gradient area under the line -->
-                    <path class="chart-area" 
-                        d="" 
-                        fill="url(#${gradientId})" 
-                    />
-                    
-                    <!-- The line itself -->
-                    <polyline class="animated-line" 
-                        points="${generateTradingPoints()}" 
-                        fill="none" 
-                        stroke="${colors[colorIndex].line}" 
-                        stroke-width="3"
-                        stroke-linejoin="round"
-                    />
-                </svg>
-            `;
-            
-            section.appendChild(chartBg);
-            
-            // Get references to the elements
-            const svg = chartBg.querySelector('svg');
-            const polyline = svg.querySelector('.animated-line');
-            const path = svg.querySelector('.chart-area');
-            
-            // Create path data that goes down to bottom after the last point
-            function updateGradientPath() {
-                const points = polyline.getAttribute('points').trim().split(' ');
-                if (points.length < 2) return;
-                
-                let pathData = `M ${points[0]} `;
-                points.forEach(point => {
-                    pathData += `L ${point} `;
-                });
-                
-                // Extract last point x coordinate
-                const lastPoint = points[points.length - 1];
-                const lastX = lastPoint.split(',')[0];
-                
-                // Complete the path by going down and back to start
-                pathData += `L ${lastX},200 L 0,200 Z`;
-                path.setAttribute('d', pathData);
-            }
-            
-            // Initialize the area path
-            updateGradientPath();
-        }
-    });
-}
