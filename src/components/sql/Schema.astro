@@ -1,0 +1,24 @@
+---
+import { asset, type Lang } from '../../i18n/ui';
+import { st } from '../../scripts/sql/i18n';
+import { schema, tables } from '../../scripts/sql/schema';
+
+interface Props { lang: Lang; open?: boolean }
+const { lang, open = false } = Astro.props;
+const s = st(lang);
+---
+<details class="sql-schema" open={open}>
+  <summary>{s.schema}</summary>
+  <p class="muted">
+    {s['schema.desc']}{' '}
+    {tables.map((t, i) => <>{i > 0 && ' · '}<a href={asset(`apps/sql/${t}.csv`)} download>{t}.csv</a></>)}
+  </p>
+  <div class="sql-schema-grid">
+    {tables.map((t) => (
+      <div>
+        <h3>{t}</h3>
+        <ul>{schema[t].map(([c, ty]) => <li><code>{c}</code> <span class="muted">{ty}</span></li>)}</ul>
+      </div>
+    ))}
+  </div>
+</details>

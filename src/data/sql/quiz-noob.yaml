@@ -1,0 +1,73 @@
+# Quiz, level "Big noob". options: plain string (same in both languages) or { en, fr }. answer: 0-based index.
+- q: { en: "Which clause filters rows before any grouping?", fr: "Quelle clause filtre les lignes avant tout regroupement ?" }
+  options: ["HAVING", "WHERE", "ORDER BY", "LIMIT"]
+  answer: 1
+  why: { en: "`WHERE` filters individual rows; `HAVING` filters groups after `GROUP BY`.", fr: "`WHERE` filtre les lignes ; `HAVING` filtre les groupes après `GROUP BY`." }
+- q: { en: "How do you keep only players with no rank?", fr: "Comment garder uniquement les joueurs sans rang ?" }
+  options: ["WHERE rank_tier = NULL", "WHERE rank_tier == NULL", "WHERE rank_tier IS NULL", "WHERE rank_tier = ''"]
+  answer: 2
+  why: { en: "NULL means unknown: `= NULL` is never true. Use `IS NULL` / `IS NOT NULL`.", fr: "NULL signifie inconnu : `= NULL` n’est jamais vrai. On utilise `IS NULL` / `IS NOT NULL`." }
+- q: { en: "Which keyword sorts the result?", fr: "Quel mot-clé trie le résultat ?" }
+  options: ["ORDER BY", "SORT BY", "GROUP BY", "RANK BY"]
+  answer: 0
+  why: { en: "`ORDER BY col` sorts ascending; add `DESC` for descending.", fr: "`ORDER BY col` trie par ordre croissant ; ajoutez `DESC` pour décroissant." }
+- q: { en: "`players` has 30 rows and one NULL `rank_tier`. What does `COUNT(rank_tier)` return?", fr: "`players` a 30 lignes dont un `rank_tier` NULL. Que renvoie `COUNT(rank_tier)` ?" }
+  options: ["30", "29", "1", "NULL"]
+  answer: 1
+  why: { en: "`COUNT(col)` ignores NULLs; `COUNT(*)` counts every row (30).", fr: "`COUNT(col)` ignore les NULL ; `COUNT(*)` compte toutes les lignes (30)." }
+- q: { en: "What is the correct clause order?", fr: "Quel est le bon ordre des clauses ?" }
+  options:
+    - "SELECT, WHERE, FROM, GROUP BY, ORDER BY"
+    - "SELECT, FROM, GROUP BY, WHERE, ORDER BY"
+    - "FROM, SELECT, WHERE, ORDER BY, GROUP BY"
+    - "SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY, LIMIT"
+  answer: 3
+  why: { en: "Written order: SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY, LIMIT.", fr: "Ordre d’écriture : SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY, LIMIT." }
+- q: { en: "Which condition matches champion names starting with K?", fr: "Quelle condition trouve les champions dont le nom commence par K ?" }
+  options: ["name LIKE '%K'", "name LIKE 'K%'", "name = 'K*'", "name IN ('K')"]
+  answer: 1
+  why: { en: "In `LIKE`, `%` matches any sequence of characters and `_` exactly one.", fr: "Dans `LIKE`, `%` remplace n’importe quelle suite de caractères et `_` un seul." }
+- q: { en: "What does `SELECT DISTINCT region FROM players` return?", fr: "Que renvoie `SELECT DISTINCT region FROM players` ?" }
+  options:
+    - { en: "One row per player", fr: "Une ligne par joueur" }
+    - { en: "The number of regions", fr: "Le nombre de régions" }
+    - { en: "One row per different region", fr: "Une ligne par région différente" }
+    - { en: "An error: DISTINCT needs GROUP BY", fr: "Une erreur : DISTINCT exige GROUP BY" }
+  answer: 2
+  why: { en: "`DISTINCT` removes duplicate rows from the result.", fr: "`DISTINCT` supprime les lignes en double du résultat." }
+- q: { en: "An INNER JOIN between `participants` and `champions` keeps…", fr: "Un INNER JOIN entre `participants` et `champions` garde…" }
+  options:
+    - { en: "Only rows with a match in both tables", fr: "Seulement les lignes présentes dans les deux tables" }
+    - { en: "All champions, even never played", fr: "Tous les champions, même jamais joués" }
+    - { en: "All rows of both tables", fr: "Toutes les lignes des deux tables" }
+    - { en: "Only the first match found", fr: "Seulement la première correspondance" }
+  answer: 0
+  why: { en: "INNER JOIN keeps matching pairs only. A LEFT JOIN would also keep unmatched champions.", fr: "INNER JOIN ne garde que les paires correspondantes. Un LEFT JOIN garderait aussi les champions sans partie." }
+- q: { en: "In standard SQL, how do you write the text value Mid?", fr: "En SQL standard, comment écrire la valeur texte Mid ?" }
+  options: ["\"Mid\"", "'Mid'", "`Mid`", "Mid"]
+  answer: 1
+  why: { en: "Single quotes are strings; double quotes are identifiers (column or table names).", fr: "Les apostrophes délimitent du texte ; les guillemets doubles, des identifiants (colonnes, tables)." }
+- q: { en: "Does `cost BETWEEN 1100 AND 2200` include 1100 and 2200?", fr: "`cost BETWEEN 1100 AND 2200` inclut-il 1100 et 2200 ?" }
+  options:
+    - { en: "Both included", fr: "Les deux inclus" }
+    - { en: "Both excluded", fr: "Les deux exclus" }
+    - { en: "Only 1100", fr: "Seulement 1100" }
+    - { en: "Only 2200", fr: "Seulement 2200" }
+  answer: 0
+  why: { en: "BETWEEN is inclusive: `cost >= 1100 AND cost <= 2200`.", fr: "BETWEEN est inclusif : `cost >= 1100 AND cost <= 2200`." }
+- q: { en: "What does a primary key guarantee?", fr: "Que garantit une clé primaire ?" }
+  options:
+    - { en: "The table is sorted on it", fr: "La table est triée dessus" }
+    - { en: "Each row is unique and the key is never NULL", fr: "Chaque ligne est unique et la clé jamais NULL" }
+    - { en: "Queries are always faster", fr: "Les requêtes sont toujours plus rapides" }
+    - { en: "The column is a number", fr: "La colonne est un nombre" }
+  answer: 1
+  why: { en: "A primary key uniquely identifies each row: unique + NOT NULL.", fr: "Une clé primaire identifie chaque ligne : unique + NOT NULL." }
+- q: { en: "What does `AS` do in `SELECT kills AS k`?", fr: "Que fait `AS` dans `SELECT kills AS k` ?" }
+  options:
+    - { en: "Renames the column in the result", fr: "Renomme la colonne dans le résultat" }
+    - { en: "Renames the column in the table", fr: "Renomme la colonne dans la table" }
+    - { en: "Converts its type", fr: "Convertit son type" }
+    - { en: "Filters on it", fr: "Filtre dessus" }
+  answer: 0
+  why: { en: "`AS` sets an alias, for the result only. The table is unchanged.", fr: "`AS` définit un alias, pour le résultat seulement. La table ne change pas." }

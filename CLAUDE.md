@@ -1,5 +1,5 @@
 # Elliot Fesquet — personal site
-Professional portfolio **and** playground: 3 core pages (CV, projects, hobbies); more pages will be added. **Adding anything new: read `claude_add.md` first.**
+Professional portfolio **and** playground: 4 nav pages (CV, projects, apps, hobbies); more pages will be added. **Adding anything new: read `claude_add.md` first.**
 
 ## Stack
 Astro 7 (static output, Node 24), hand-written CSS, no framework, no client-side JS unless a page truly needs it.
@@ -11,7 +11,7 @@ Bilingual: English (default) and French. Every route lives under `/en/` or `/fr/
 - `src/styles/` — `tokens.css` (all tokens: light, dark, print scale) → `global.css` (site styles) → `print.css` (PDF layout); imported in that order by Base
 - `src/i18n/ui.ts` — languages, UI strings, `href(lang, path)` link helper
 - `src/layouts/Base.astro` (fonts, styles, nav, footer); `src/components/Nav.astro` (links + EN/FR), `Footer.astro` (contact CTA from `cv.yaml` → `cta`)
-- `src/pages/index.astro` — redirect; `404.astro` — bilingual 404; `[lang]/index.astro` — CV; `[lang]/hobbies.astro` — empty
+- `src/pages/index.astro` — redirect; `404.astro` — bilingual 404; `[lang]/index.astro` — CV; `[lang]/hobbies.astro` — empty; `[lang]/apps/` — Apps index + SQL Arena game (`apps/sql/`, see `claude_add.md` §3)
 - `scripts/cv-pdf.mjs` — after build, prints the CV page (`print.css` + print tokens) to `dist/elliot-fesquet-cv-{en,fr}.pdf` via installed Chrome. Keep each PDF to 1 A4 page.
 - `src/pages/[lang]/projects/index.astro` + `[slug].astro` — projects; collection schema in `src/content.config.ts`
 - `src/data/cv.yaml` — single source of truth for CV (en/fr per field); `src/data/cv.ts` loads + types it
@@ -28,7 +28,7 @@ Breakpoints: mobile-first; 40rem (tablet), 64rem (desktop: sticky section labels
 - No phone number or street address on the site.
 - Internal links always via `href()` — never a hard-coded `/...` path (base path breaks).
 - One file per page, no file over ~200 lines, targeted edits over rewrites. Every string in both `en` and `fr`.
-- Static only: no backend, no secrets, no runtime data fetch.
+- Static only: no backend, no secrets, no runtime data fetch. Approved exception: an app may fetch its own static files under `/cv/` (SQL Arena: DuckDB WASM + `public/apps/sql/*.csv`).
 - YAML: quote any value containing a comma inside `{ }` flow maps, or it is silently truncated.
 - New styles go in global.css under their own `/* Section */` comment, tokens only; new tokens only in tokens.css. Each CSS file < ~200 lines.
 

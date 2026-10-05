@@ -8,6 +8,7 @@ const path = Astro.url.pathname;
 const links = [
   { url: href(lang), label: labels['nav.home'] },
   { url: href(lang, 'projects'), label: labels['nav.projects'] },
+  { url: href(lang, 'apps'), label: labels['nav.apps'] },
   { url: href(lang, 'hobbies'), label: labels['nav.hobbies'] },
 ];
 const isCurrent = (url: string) => (url === href(lang) ? path === url : path.startsWith(url));

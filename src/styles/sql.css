@@ -1,0 +1,114 @@
+/* SQL Arena (apps/sql/*): imported only by those pages. Tokens only. */
+
+/* Header */
+.sql-head h1 { font-size: var(--step-2); line-height: 1; letter-spacing: -0.03em; margin-block: var(--space-3) var(--space-2); }
+.sql-back { font: var(--step--1) var(--font-mono); color: var(--color-muted); text-decoration: none; }
+.sql-lede { font-size: var(--step-1); line-height: 1.35; margin-block: var(--space-4) 0; }
+
+/* Inline code and code blocks */
+.sql-task p code, .sql-task li code, .quiz-q code, .sql-lede code {
+  font-size: 0.9em; padding-inline: 0.25em; background: color-mix(in srgb, var(--color-text) 7%, transparent);
+}
+.sql-task pre { font: var(--step--1) / 1.5 var(--font-mono); background: color-mix(in srgb, var(--color-text) 5%, transparent); padding: var(--space-3); overflow-x: auto; }
+.sql-task summary, .sql-schema summary {
+  cursor: pointer; font: 500 var(--step--1) var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-muted);
+}
+.sql-task summary:hover, .sql-schema summary:hover { color: var(--color-text); }
+
+/* Schema */
+.sql-schema { border-top: 1px solid var(--color-border); margin-top: var(--space-5); padding-top: var(--space-3); }
+.sql-schema > p { font-size: var(--step--1); }
+.sql-schema-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); gap: var(--space-4); margin-top: var(--space-3); }
+.sql-schema h3 { font: 600 var(--step-0) var(--font-mono); margin-bottom: var(--space-2); }
+.sql-schema ul { list-style: none; padding: 0; margin: 0; font-size: var(--step--1); }
+.sql-schema li { display: flex; justify-content: space-between; gap: var(--space-2); padding-block: var(--space-1); border-bottom: 1px solid var(--color-border); }
+
+/* Workbench: task list + task + console */
+.sql-bench { display: grid; gap: var(--space-4); margin-top: var(--space-4); }
+.sql-bench > * { min-width: 0; } /* let the chips, editor and table scroll instead of widening the page */
+.sql-progress { font: var(--step--1) var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 var(--space-2); }
+.sql-tasks ol { list-style: none; padding: 0; margin: 0; counter-reset: task; font-size: var(--step--1); line-height: 1.3; }
+.sql-tasks li { counter-increment: task; }
+.sql-tasks a { display: flex; gap: var(--space-2); color: var(--color-muted); text-decoration: none; }
+.sql-tasks a::before { content: counter(task, decimal-leading-zero); font-family: var(--font-mono); color: var(--color-accent-ink); }
+.sql-tasks a:hover, .sql-tasks a[aria-current="true"] { color: var(--color-text); }
+.sql-tasks a[aria-current="true"] { font-weight: 600; }
+.sql-tasks a.is-solved::after { content: "✓"; margin-left: auto; color: var(--color-ok); }
+
+.sql-kicker { font: 500 var(--step--1) var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-accent-ink); margin: 0 0 var(--space-2); }
+.sql-task { padding-bottom: var(--space-4); margin-bottom: var(--space-4); border-bottom: 1px solid var(--color-border); }
+.sql-task h2 { font-size: var(--step-1); }
+.sql-task details { margin-top: var(--space-2); }
+.sql-bench.is-js .sql-task:not(.is-current) { display: none; }
+.sql-bench.is-js .sql-task { border-bottom: 0; margin-bottom: 0; }
+
+.sql-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-3); }
+.sql-pager { display: flex; gap: var(--space-2); margin-left: auto; }
+.button { cursor: pointer; }
+.button:disabled { opacity: 0.45; cursor: progress; }
+.sql-keys { font: var(--step--1) var(--font-mono); margin: var(--space-2) 0 0; max-width: none; }
+.sql-status {
+  font: var(--step--1) / 1.5 var(--font-mono); white-space: pre-wrap; max-width: none;
+  border-left: 2px solid var(--color-border); padding-left: var(--space-3); margin-block: var(--space-3);
+}
+.sql-status:empty { display: none; }
+.sql-status[data-kind="ok"] { border-color: var(--color-ok); color: var(--color-ok); }
+.sql-status[data-kind="error"] { border-color: var(--color-accent); color: var(--color-accent-ink); }
+
+.sql-result { overflow: auto; max-height: 28rem; }
+.sql-result table { border-collapse: collapse; font: var(--step--1) var(--font-mono); min-width: 100%; }
+.sql-result th, .sql-result td { text-align: left; white-space: nowrap; padding: var(--space-1) var(--space-3); border-bottom: 1px solid var(--color-border); }
+.sql-result th { position: sticky; top: 0; background: var(--color-bg); color: var(--color-muted); font-weight: 500; }
+.sql-result .sql-num { text-align: right; }
+.sql-result .sql-null { color: var(--color-muted); font-style: italic; }
+
+/* Mobile/tablet: task list scrolls sideways as chips */
+@media (max-width: 63.99rem) {
+  .sql-tasks ol { display: flex; gap: var(--space-2); overflow-x: auto; padding-bottom: var(--space-2); }
+  .sql-tasks a { white-space: nowrap; border: 1px solid var(--color-border); border-radius: var(--radius); padding: var(--space-2) var(--space-3); }
+  .sql-tasks a[aria-current="true"] { border-color: var(--color-accent); }
+}
+/* Desktop: sticky task list on the left */
+@media (min-width: 64rem) {
+  .sql-bench { grid-template-columns: var(--label-col) minmax(0, 1fr); gap: var(--space-5); }
+  .sql-tasks { position: sticky; top: calc(var(--nav-h) + var(--space-4)); align-self: start; max-height: calc(100vh - var(--nav-h) - var(--space-5)); overflow-y: auto; }
+  .sql-tasks a { padding-block: var(--space-2); border-bottom: 1px solid var(--color-border); }
+}
+
+/* Quiz */
+.quiz-tabs { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-block: var(--space-4); }
+.quiz-tabs a {
+  font: 500 var(--step--1) / 1 var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; text-decoration: none;
+  border: 1px solid var(--color-border); border-radius: var(--radius); padding: var(--space-2) var(--space-3);
+}
+.quiz-tabs a[aria-current="true"] { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-on-accent); }
+.sql-quiz.is-js .quiz-level:not(.is-current) { display: none; }
+.quiz-level { margin-bottom: var(--space-5); }
+.quiz-level h2 { font-size: var(--step-1); }
+.quiz-score {
+  font: var(--step--1) var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; max-width: none;
+  padding-block: var(--space-2); border-bottom: 1px solid var(--color-border); background: var(--color-bg);
+}
+.quiz-level ol { list-style: none; padding: 0; counter-reset: q; display: grid; gap: var(--space-5); margin-block: var(--space-4); }
+.quiz-q { counter-increment: q; }
+.quiz-q fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.quiz-q legend { font-weight: 600; padding: 0; margin-bottom: var(--space-3); }
+.quiz-q legend::before { content: counter(q, decimal-leading-zero) "  "; font-family: var(--font-mono); color: var(--color-accent-ink); }
+.quiz-options { display: grid; gap: var(--space-2); }
+.quiz-options label {
+  display: flex; gap: var(--space-2); align-items: baseline; cursor: pointer; overflow-wrap: anywhere;
+  padding: var(--space-2) var(--space-3); border: 1px solid var(--color-border); transition: border-color 0.2s;
+}
+.quiz-options label:hover { border-color: var(--color-accent); }
+.quiz-options input { accent-color: var(--color-accent); }
+.quiz-options input:disabled, .quiz-q[data-done] label { cursor: default; }
+.quiz-options label[data-state="ok"] { border-color: var(--color-ok); box-shadow: inset 3px 0 0 var(--color-ok); }
+.quiz-options label[data-state="ko"] { border-color: var(--color-accent); box-shadow: inset 3px 0 0 var(--color-accent); }
+.quiz-why { font-size: var(--step--1); margin: var(--space-3) 0 0; }
+.quiz-q[data-done="ok"] .quiz-why strong { color: var(--color-ok); }
+.quiz-q[data-done="ko"] .quiz-why strong { color: var(--color-accent-ink); }
+
+@media (min-width: 40rem) {
+  .quiz-options { grid-template-columns: 1fr 1fr; }
+  .quiz-score { position: sticky; top: var(--nav-h); z-index: 1; }
+}

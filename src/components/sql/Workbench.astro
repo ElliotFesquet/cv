@@ -1,0 +1,51 @@
+---
+// Task list + SQL console, shared by the practice and challenges pages. Without JS, tasks read as a plain list.
+import type { Lang } from '../../i18n/ui';
+import { inline, tx, type Task } from '../../data/sql';
+import { st, type SqlKey } from '../../scripts/sql/i18n';
+import Schema from './Schema.astro';
+
+interface Props { lang: Lang; tasks: Task[] }
+const { lang, tasks } = Astro.props;
+const s = st(lang);
+const tag = (task: Task) => task.concept ?? s[`diff.${task.difficulty}` as SqlKey];
+---
+<div class="sql-bench">
+  <nav class="sql-tasks" aria-label={s.tasks}>
+    <p class="sql-progress"><span data-solved>0</span>/{tasks.length} {s.solved}</p>
+    <ol>
+      {tasks.map((task) => (
+        <li><a href={`#${task.id}`} data-task={task.id} data-difficulty={task.difficulty}>{tx(task.title, lang)}</a></li>
+      ))}
+    </ol>
+  </nav>
+  <div class="sql-main">
+    {tasks.map((task, i) => (
+      <article class="sql-task" id={task.id} data-id={task.id} data-solution={task.solution} data-ordered={String(!!task.ordered)}>
+        <p class="sql-kicker" data-difficulty={task.difficulty}>{String(i + 1).padStart(2, '0')} · {tag(task)}</p>
+        <h2>{tx(task.title, lang)}</h2>
+        <p set:html={inline(tx(task.prompt, lang))} />
+        {task.hint && <details><summary>{s.hint}</summary><p set:html={inline(tx(task.hint, lang))} /></details>}
+        <details><summary>{s.solution}</summary><pre><code>{task.solution.trim()}</code></pre></details>
+      </article>
+    ))}
+    <div class="sql-console" hidden>
+      <div class="sql-editor"></div>
+      <div class="sql-actions">
+        <button type="button" class="button" data-action="run" disabled>{s.run}</button>
+        <button type="button" class="button" data-action="check" disabled>{s.check}</button>
+        <button type="button" class="button button-ghost" data-action="expected" disabled>{s.expected}</button>
+        <button type="button" class="button button-ghost" data-action="reset" disabled>{s.reset}</button>
+        <span class="sql-pager">
+          <button type="button" class="button button-ghost" data-action="prev">{s.prev}</button>
+          <button type="button" class="button button-ghost" data-action="next">{s.next}</button>
+        </span>
+      </div>
+      <p class="sql-keys muted">{s.keys}</p>
+      <p class="sql-status" role="status" aria-live="polite"></p>
+      <div class="sql-result"></div>
+    </div>
+    <Schema lang={lang} />
+  </div>
+</div>
+<script>import '../../scripts/sql/workbench';</script>

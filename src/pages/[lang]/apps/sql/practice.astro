@@ -1,0 +1,17 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import Header from '../../../../components/sql/Header.astro';
+import Workbench from '../../../../components/sql/Workbench.astro';
+import { langPaths, type Lang } from '../../../../i18n/ui';
+import { st } from '../../../../scripts/sql/i18n';
+import { practice } from '../../../../data/sql';
+import '../../../../styles/sql.css';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const s = st(lang);
+---
+<Base lang={lang} title={`${s.practice} · ${s.title}`}>
+  <Header lang={lang} title={s.practice} desc={s['practice.desc']} />
+  <Workbench lang={lang} tasks={practice} />
+</Base>

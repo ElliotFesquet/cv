@@ -4,7 +4,8 @@ export const defaultLang: Lang = 'en';
 
 export const ui = {
   en: {
-    'nav.home': 'Profile', 'nav.projects': 'Projects', 'nav.hobbies': 'Hobbies',
+    'nav.home': 'Profile', 'nav.projects': 'Projects', 'nav.apps': 'Apps', 'nav.hobbies': 'Hobbies',
+    'apps.lede': 'Interactive tools that run entirely in your browser.',
     'cv.profile': 'Profile', 'cv.skills': 'Skills', 'cv.experience': 'Experience',
     'cv.education': 'Education', 'cv.activities': 'Activities & distinctions',
     'cv.workRights': 'Right to work', 'cv.download': 'Download CV (PDF)',
@@ -12,7 +13,8 @@ export const ui = {
     '404.title': 'Page not found', '404.back': 'Back to the homepage',
   },
   fr: {
-    'nav.home': 'Profil', 'nav.projects': 'Projets', 'nav.hobbies': 'Loisirs',
+    'nav.home': 'Profil', 'nav.projects': 'Projets', 'nav.apps': 'Apps', 'nav.hobbies': 'Loisirs',
+    'apps.lede': 'Des outils interactifs qui tournent entièrement dans votre navigateur.',
     'cv.profile': 'Profil', 'cv.skills': 'Compétences', 'cv.experience': 'Expérience',
     'cv.education': 'Formation', 'cv.activities': 'Activités & distinctions',
     'cv.workRights': 'Droit de travail', 'cv.download': 'Télécharger le CV (PDF)',

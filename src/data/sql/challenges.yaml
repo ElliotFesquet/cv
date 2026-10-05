@@ -1,0 +1,126 @@
+# Challenges: LeetCode-style problems. Same format as practice.yaml, plus difficulty (easy | medium | hard).
+- id: blue-side
+  difficulty: easy
+  title: { en: "Blue side advantage", fr: "L’avantage du côté bleu" }
+  prompt: { en: "Return the percentage of matches won by the blue team, rounded to 2 decimals (one row, one column).", fr: "Renvoyez le pourcentage de parties gagnées par l’équipe bleue, arrondi à 2 décimales (une ligne, une colonne)." }
+  hint: { en: "COUNT(*) FILTER (WHERE …) or AVG of a CASE.", fr: "COUNT(*) FILTER (WHERE …) ou AVG d’un CASE." }
+  solution: SELECT ROUND(100.0 * COUNT(*) FILTER (WHERE winning_team = 'blue') / COUNT(*), 2) AS blue_win_pct FROM matches;
+- id: busiest-day
+  difficulty: easy
+  title: { en: "Busiest day", fr: "Le jour le plus chargé" }
+  prompt: { en: "Return the date (`DATE`) with the most matches and its number of matches. On a tie, the earliest date.", fr: "Renvoyez la date (`DATE`) avec le plus de parties et son nombre de parties. En cas d’égalité, la plus ancienne." }
+  hint: { en: "CAST(played_at AS DATE), then GROUP BY / ORDER BY / LIMIT.", fr: "CAST(played_at AS DATE), puis GROUP BY / ORDER BY / LIMIT." }
+  solution: |
+    SELECT CAST(played_at AS DATE) AS day, COUNT(*) AS matches
+    FROM matches GROUP BY day ORDER BY matches DESC, day LIMIT 1;
+  ordered: true
+- id: gold-by-category
+  difficulty: easy
+  title: { en: "Where does the gold go?", fr: "Où part l’or ?" }
+  prompt: { en: "For each item `category`, return the total gold spent (sum of `cost` over every purchase), highest first.", fr: "Pour chaque `category` d’objet, renvoyez l’or total dépensé (somme des `cost` sur chaque achat), du plus élevé au plus bas." }
+  hint: { en: "participant_items JOIN items, then GROUP BY category.", fr: "participant_items JOIN items, puis GROUP BY category." }
+  solution: |
+    SELECT i.category, SUM(i.cost) AS gold
+    FROM participant_items pi JOIN items i USING (item_id)
+    GROUP BY i.category ORDER BY gold DESC;
+  ordered: true
+- id: never-bought
+  difficulty: easy
+  title: { en: "Dusty shelf", fr: "Au fond du rayon" }
+  prompt: { en: "Return the `name` of items that were never bought.", fr: "Renvoyez le `name` des objets jamais achetés." }
+  hint: { en: "NOT EXISTS or an anti-join.", fr: "NOT EXISTS ou une anti-jointure." }
+  solution: SELECT name FROM items i WHERE NOT EXISTS (SELECT 1 FROM participant_items pi WHERE pi.item_id = i.item_id);
+- id: champion-winrate
+  difficulty: medium
+  title: { en: "Champion tier list", fr: "Tier list des champions" }
+  prompt: { en: "For champions with at least 40 games, return `name`, games and win rate in % rounded to 2 decimals. Sort by win rate (highest first), then name.", fr: "Pour les champions avec au moins 40 parties, renvoyez `name`, le nombre de parties et le taux de victoire en % arrondi à 2 décimales. Triez par taux de victoire (décroissant), puis par nom." }
+  hint: { en: "AVG(CASE WHEN win THEN 1 ELSE 0 END) * 100, HAVING COUNT(*) >= 40.", fr: "AVG(CASE WHEN win THEN 1 ELSE 0 END) * 100, HAVING COUNT(*) >= 40." }
+  solution: |
+    SELECT c.name, COUNT(*) AS games,
+      ROUND(100.0 * COUNT(*) FILTER (WHERE p.win) / COUNT(*), 2) AS win_rate
+    FROM participants p JOIN champions c USING (champion_id)
+    GROUP BY c.name HAVING COUNT(*) >= 40
+    ORDER BY win_rate DESC, c.name;
+  ordered: true
+- id: kda-leaderboard
+  difficulty: medium
+  title: { en: "KDA leaderboard", fr: "Classement KDA" }
+  prompt: { en: "Return the top 5 players by overall KDA = (total kills + total assists) / total deaths, rounded to 2 decimals: `summoner_name`, kda. Ties by name.", fr: "Renvoyez le top 5 des joueurs par KDA global = (kills totaux + assists totaux) / morts totales, arrondi à 2 décimales : `summoner_name`, kda. Égalités par nom." }
+  hint: { en: "Aggregate first, then divide. NULLIF protects against 0 deaths.", fr: "Agrégez d’abord, puis divisez. NULLIF protège des 0 morts." }
+  solution: |
+    SELECT pl.summoner_name,
+      ROUND((SUM(p.kills) + SUM(p.assists)) / NULLIF(SUM(p.deaths), 0), 2) AS kda
+    FROM participants p JOIN players pl USING (player_id)
+    GROUP BY pl.summoner_name
+    ORDER BY kda DESC, pl.summoner_name LIMIT 5;
+  ordered: true
+- id: patch-trend
+  difficulty: medium
+  title: { en: "Patch trend", fr: "Tendance par patch" }
+  prompt: { en: "For each `patch` (in order), return the number of matches and the change vs the previous patch (NULL for the first).", fr: "Pour chaque `patch` (dans l’ordre), renvoyez le nombre de parties et l’écart avec le patch précédent (NULL pour le premier)." }
+  hint: { en: "COUNT(*) - LAG(COUNT(*)) OVER (ORDER BY patch)", fr: "COUNT(*) - LAG(COUNT(*)) OVER (ORDER BY patch)" }
+  solution: |
+    SELECT patch, COUNT(*) AS matches,
+      COUNT(*) - LAG(COUNT(*)) OVER (ORDER BY patch) AS change
+    FROM matches GROUP BY patch ORDER BY patch;
+  ordered: true
+- id: signature-pick
+  difficulty: medium
+  title: { en: "Signature pick", fr: "Champion fétiche" }
+  prompt: { en: "For each player, return `summoner_name`, their most played champion’s `name` and its games. On a tie, the champion name first in alphabetical order.", fr: "Pour chaque joueur, renvoyez `summoner_name`, le `name` de son champion le plus joué et son nombre de parties. En cas d’égalité, le premier nom par ordre alphabétique." }
+  hint: { en: "Count per (player, champion), then ROW_NUMBER() … QUALIFY rn = 1.", fr: "Comptez par (joueur, champion), puis ROW_NUMBER() … QUALIFY rn = 1." }
+  solution: |
+    SELECT pl.summoner_name, c.name, COUNT(*) AS games
+    FROM participants p
+    JOIN players pl USING (player_id)
+    JOIN champions c USING (champion_id)
+    GROUP BY pl.summoner_name, c.name
+    QUALIFY ROW_NUMBER() OVER (PARTITION BY pl.summoner_name ORDER BY COUNT(*) DESC, c.name) = 1;
+- id: duo
+  difficulty: hard
+  title: { en: "Best duo", fr: "Meilleur duo" }
+  prompt: { en: "Pairs of players who were on the same team at least 4 times. Return both `summoner_name` (the smaller player_id first), games together and win rate in % rounded to 2 decimals. Sort by win rate, then games (both highest first), then the two names.", fr: "Paires de joueurs dans la même équipe au moins 4 fois. Renvoyez les deux `summoner_name` (le plus petit player_id d’abord), les parties ensemble et le taux de victoire en % arrondi à 2 décimales. Triez par taux de victoire, puis parties (décroissants), puis les deux noms." }
+  hint: { en: "Self-join participants on match_id and team with a.player_id < b.player_id.", fr: "Auto-jointure de participants sur match_id et team avec a.player_id < b.player_id." }
+  solution: |
+    SELECT p1.summoner_name AS player_1, p2.summoner_name AS player_2, COUNT(*) AS games,
+      ROUND(100.0 * COUNT(*) FILTER (WHERE a.win) / COUNT(*), 2) AS win_rate
+    FROM participants a
+    JOIN participants b ON a.match_id = b.match_id AND a.team = b.team AND a.player_id < b.player_id
+    JOIN players p1 ON p1.player_id = a.player_id
+    JOIN players p2 ON p2.player_id = b.player_id
+    GROUP BY ALL HAVING COUNT(*) >= 4
+    ORDER BY win_rate DESC, games DESC, player_1, player_2;
+  ordered: true
+- id: core-item
+  difficulty: hard
+  title: { en: "Core item per class", fr: "Objet clé par classe" }
+  prompt: { en: "For each champion `class`, return the most bought non-Boots item `name` and how many times it was bought. On a tie, the item name first in alphabetical order.", fr: "Pour chaque `class` de champion, renvoyez le `name` de l’objet (hors Boots) le plus acheté et son nombre d’achats. En cas d’égalité, le premier nom par ordre alphabétique." }
+  hint: { en: "participant_items → participants (match_id, player_id) → champions; items for the category.", fr: "participant_items → participants (match_id, player_id) → champions ; items pour la catégorie." }
+  solution: |
+    SELECT c.class, i.name, COUNT(*) AS bought
+    FROM participant_items pi
+    JOIN participants p USING (match_id, player_id)
+    JOIN champions c ON c.champion_id = p.champion_id
+    JOIN items i ON i.item_id = pi.item_id
+    WHERE i.category <> 'Boots'
+    GROUP BY c.class, i.name
+    QUALIFY ROW_NUMBER() OVER (PARTITION BY c.class ORDER BY COUNT(*) DESC, i.name) = 1;
+- id: win-streak
+  difficulty: hard
+  title: { en: "Longest win streak", fr: "Plus longue série de victoires" }
+  prompt: { en: "Ordering each player’s games by `played_at`, then `match_id`, find their longest run of consecutive wins. Return the top 3: `summoner_name`, streak. Ties by name.", fr: "En triant les parties de chaque joueur par `played_at` puis `match_id`, trouvez leur plus longue série de victoires consécutives. Renvoyez le top 3 : `summoner_name`, série. Égalités par nom." }
+  hint: { en: "Gaps and islands: ROW_NUMBER() over all games minus ROW_NUMBER() over games with the same result.", fr: "Gaps and islands : ROW_NUMBER() sur toutes les parties moins ROW_NUMBER() sur les parties de même résultat." }
+  solution: |
+    WITH g AS (
+      SELECT p.player_id, p.win,
+        ROW_NUMBER() OVER (PARTITION BY p.player_id ORDER BY m.played_at, m.match_id)
+        - ROW_NUMBER() OVER (PARTITION BY p.player_id, p.win ORDER BY m.played_at, m.match_id) AS grp
+      FROM participants p JOIN matches m USING (match_id)
+    ), streaks AS (
+      SELECT player_id, COUNT(*) AS streak FROM g WHERE win GROUP BY player_id, grp
+    )
+    SELECT pl.summoner_name, MAX(s.streak) AS streak
+    FROM streaks s JOIN players pl USING (player_id)
+    GROUP BY pl.summoner_name
+    ORDER BY streak DESC, pl.summoner_name LIMIT 3;
+  ordered: true

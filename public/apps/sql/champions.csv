@@ -1,0 +1,27 @@
+champion_id,name,role,class,difficulty,release_year
+1,Garen,Top,Fighter,1,2010
+2,Darius,Top,Fighter,2,2012
+3,Malphite,Top,Tank,1,2009
+4,Teemo,Top,Marksman,2,2009
+5,Sett,Top,Fighter,1,2020
+6,Ambessa,Top,Fighter,3,2024
+7,Lee Sin,Jungle,Fighter,3,2011
+8,Vi,Jungle,Fighter,2,2012
+9,Amumu,Jungle,Tank,1,2009
+10,Kha'Zix,Jungle,Assassin,2,2012
+11,Viego,Jungle,Assassin,3,2021
+12,Annie,Mid,Mage,1,2009
+13,Ahri,Mid,Mage,2,2011
+14,Zed,Mid,Assassin,3,2012
+15,Yasuo,Mid,Fighter,3,2013
+16,Syndra,Mid,Mage,2,2012
+17,Ashe,ADC,Marksman,1,2009
+18,Jinx,ADC,Marksman,2,2013
+19,Kai'Sa,ADC,Marksman,2,2018
+20,Ezreal,ADC,Marksman,3,2010
+21,Caitlyn,ADC,Marksman,2,2011
+22,Thresh,Support,Tank,3,2013
+23,Leona,Support,Tank,1,2011
+24,Lulu,Support,Controller,2,2012
+25,Nami,Support,Controller,2,2012
+26,Lux,Support,Mage,1,2010

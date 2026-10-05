@@ -23,12 +23,12 @@ Prefer the first row that works. Rows A–D share the nav, styles and both langu
 | Write-up of a data project | **A** Markdown project | `src/content/projects/{en,fr}/` | `/cv/{lang}/projects/<slug>/` |
 | dbt docs / static report for a project | **B** Static artifact | `public/projects/<slug>/docs/` | `/cv/projects/<slug>/docs/` |
 | Static page (uses, notes, hobbies) | **C** Astro page | `src/pages/[lang]/<name>.astro` | `/cv/{lang}/<name>/` |
-| In-browser interactive tool (SQL game, viz) | **D** Astro page + scoped script | C + `src/scripts/<name>/` | `/cv/{lang}/lab/<name>/` |
+| In-browser interactive tool (SQL game, viz) | **D** Astro page + scoped script | C + `src/scripts/<name>/` | `/cv/{lang}/apps/<name>/` |
 | App with its own build/framework | **E** Separate repo | `ElliotFesquet/<name>` | `elliotfesquet.github.io/<name>/` |
 | Python app (Streamlit) | **F** External host, linked/embedded | Streamlit Community Cloud (or stlite) | external, linked from a C page |
 
-**Playground items go under one "Lab" / "Labo" page** (`/[lang]/lab/`, a content collection like `projects`)
-instead of new nav links. The mobile nav fits about 4 short labels. Create the Lab page the first time a playground item is added.
+**Playground items go under the "Apps" page** (`/[lang]/apps/`, nav link before Hobbies; add a row to its `apps` list)
+instead of new nav links. The mobile nav fits about 4 short labels.
 
 ## 2. Recipes (touch only these files)
 
@@ -40,15 +40,15 @@ full path `/cv/projects/<slug>/docs/`. This ships dbt's own JS (accepted excepti
 
 **C. Static page.**
 1. `src/pages/[lang]/<name>.astro`: `export const getStaticPaths = langPaths;`, wrap in `<Base lang title>`.
-2. `src/i18n/ui.ts`: add `nav.<name>` (or `lab.<name>`) to both `en` and `fr`.
-3. `src/components/Nav.astro`: add to `links` (only for top-level pages; Lab items don't go in the nav).
+2. `src/i18n/ui.ts`: add `nav.<name>` (or `apps.<name>`) to both `en` and `fr`.
+3. `src/components/Nav.astro`: add to `links` (only for top-level pages; Apps items don't go in the nav).
 4. Styles: reuse existing classes first; otherwise add a `/* <Name> */` section to `global.css`.
 
 **D. Interactive tool (e.g. the SQL game).** C, plus:
 - Logic lives in `src/scripts/<name>/*.ts`, imported from a `<script>` tag in that page only. Astro bundles it and loads it
   on that page alone. Never in `Base.astro`.
 - Heavy dependencies (WASM engines) are loaded with a dynamic `import()` inside the script, so they only download on use.
-  Put static data files (e.g. `.sqlite`, `.parquet`) in `public/lab/<name>/` and build their URL with `import.meta.env.BASE_URL`.
+  Put static data files (e.g. `.sqlite`, `.parquet`) in `public/apps/<name>/` and build their URL with `import.meta.env.BASE_URL`.
 - The page must still make sense without JS: a static intro, rules, and a `<noscript>` line.
 - Fetching the page's own static data files is an exception to "no runtime data fetch". Get Elliot's OK the first time,
   then record it in `CLAUDE.md`. Never call third-party APIs. Never use secrets.
@@ -60,24 +60,25 @@ full path `/cv/projects/<slug>/docs/`. This ships dbt's own JS (accepted excepti
 **E. Separate repo** (when D outgrows this site or needs another framework).
 New repo `ElliotFesquet/<name>`: Pages source "GitHub Actions" and base `/<name>/`. It's then served at
 `elliotfesquet.github.io/<name>/` with no DNS work. To match the look, copy `src/styles/tokens.css` and note the source
-commit in a comment. Link it from the Lab page or a project page here. Same origin as this site → see the localStorage note in D.
+commit in a comment. Link it from the Apps page or a project page here. Same origin as this site → see the localStorage note in D.
 
 **F. Streamlit.** GitHub Pages cannot run Python. Options, in order:
-1. **Streamlit Community Cloud** (free, sleeps when idle, so expect a cold start). Link it from a C/Lab page; optionally
+1. **Streamlit Community Cloud** (free, sleeps when idle, so expect a cold start). Link it from a C/Apps page; optionally
    embed it with `<iframe src="https://<app>.streamlit.app/?embed=true">`, with a static fallback text. App secrets go in
    its dashboard, never in a repo.
-2. **stlite** (Streamlit compiled to WASM): fully static, so it can live in `public/lab/<name>/`. But it downloads tens of MB
+2. **stlite** (Streamlit compiled to WASM): fully static, so it can live in `public/apps/<name>/`. But it downloads tens of MB
    and starts slowly. Use it only for small demos.
 
-## 3. SQL game — recommended shape (type D)
-- Engine: **sql.js** (SQLite in WASM, about 1 MB, simplest), or **DuckDB-WASM** (larger, analytics SQL with window functions
-  and `QUALIFY`). For an analytics engineer, DuckDB is the stronger showcase. Decide with Elliot.
-- Challenges as a content collection `src/content/sql/{en,fr}/<id>.md`. Frontmatter: `title`, `difficulty`, `tables`,
-  `solution` (SQL). The body is the prompt.
-- Grading in the browser: run both the user's query and the `solution`, and compare the sorted result sets.
-  No server needed.
-- Dataset: one small file in `public/lab/sql/`, or built in the browser from a `CREATE ... INSERT` script.
-- Route: `/[lang]/lab/sql/` (index) and `/[lang]/lab/sql/[id]/` (one challenge per page).
+## 3. SQL game "SQL Arena" (built, type D) — how to extend
+- Routes: `/[lang]/apps/sql/` hub, `quiz/`, `practice/`, `challenges/`. Engine: DuckDB-WASM (EH bundle, self-hosted, ~36 MB raw,
+  dynamic `import()` in `src/scripts/sql/db.ts`). Editor: CodeMirror 6 (`editor.ts`; vocabulary + autocomplete in `keywords.ts`).
+- Add a quiz question: `src/data/sql/quiz-{noob,intermediate,pro}.yaml` (option: plain string = SQL shown as code, or `{ en, fr }`).
+- Add an exercise/challenge: `src/data/sql/{practice,challenges}.yaml` (`id`, `title`, `prompt`, `hint`, `solution`, `ordered`,
+  `concept` or `difficulty`). Grading runs `solution` and compares result sets (names ignored, numbers at 2 decimals),
+  so state rounding and tie-breaks in the prompt. Verify every new solution in the browser before pushing.
+- Dataset: `node scripts/sql-dataset.mjs` (seeded) writes `public/apps/sql/*.csv`; column types in `src/scripts/sql/schema.ts`.
+  Changing the data changes expected results: re-check all solutions.
+- UI strings: `src/scripts/sql/i18n.ts`; styles: `src/styles/sql.css`; progress: localStorage `cv:sql:*`.
 
 ## 4. Definition of done (every integration)
 - [ ] `/en/` and `/fr/` versions exist; every string exists in both languages

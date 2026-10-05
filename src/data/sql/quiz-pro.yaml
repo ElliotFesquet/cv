@@ -1,0 +1,93 @@
+# Quiz, level "Pro". Format: see quiz-noob.yaml.
+- q: { en: "Kills are 10, 10, 8. What do RANK() and DENSE_RANK() return (descending)?", fr: "Kills : 10, 10, 8. Que renvoient RANK() et DENSE_RANK() (ordre décroissant) ?" }
+  options: ["1,2,3 / 1,2,3", "1,1,3 / 1,1,2", "1,1,2 / 1,1,3", "1,2,3 / 1,1,2"]
+  answer: 1
+  why: { en: "RANK leaves gaps after ties, DENSE_RANK does not. ROW_NUMBER would give 1,2,3.", fr: "RANK laisse des trous après les égalités, DENSE_RANK non. ROW_NUMBER donnerait 1,2,3." }
+- q: { en: "`SUM(x) OVER (ORDER BY day)` with duplicate days: what happens?", fr: "`SUM(x) OVER (ORDER BY day)` avec des jours en double : que se passe-t-il ?" }
+  options:
+    - { en: "Rows with the same day get the same running total", fr: "Les lignes du même jour ont le même cumul" }
+    - { en: "Each row gets a different total", fr: "Chaque ligne a un cumul différent" }
+    - { en: "An error", fr: "Une erreur" }
+    - { en: "The grand total on every row", fr: "Le total général sur chaque ligne" }
+  answer: 0
+  why: { en: "The default frame is RANGE ... CURRENT ROW, which includes peers. Use `ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW` for a per-row total.", fr: "Le cadre par défaut est RANGE ... CURRENT ROW, qui inclut les ex aequo. Utilisez `ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW` pour un cumul par ligne." }
+- q: { en: "What does QUALIFY do (DuckDB, Snowflake, BigQuery)?", fr: "Que fait QUALIFY (DuckDB, Snowflake, BigQuery) ?" }
+  options:
+    - { en: "Filters on window function results", fr: "Filtre sur le résultat des fonctions de fenêtre" }
+    - { en: "Validates data types", fr: "Valide les types" }
+    - { en: "Replaces HAVING", fr: "Remplace HAVING" }
+    - { en: "Creates a constraint", fr: "Crée une contrainte" }
+  answer: 0
+  why: { en: "QUALIFY is to window functions what HAVING is to aggregates: no subquery needed for top-N per group.", fr: "QUALIFY est aux fonctions de fenêtre ce que HAVING est aux agrégats : pas de sous-requête pour un top-N par groupe." }
+- q: { en: "`LAG(gold) OVER (PARTITION BY player_id ORDER BY played_at)` returns…", fr: "`LAG(gold) OVER (PARTITION BY player_id ORDER BY played_at)` renvoie…" }
+  options:
+    - { en: "The player’s gold in their previous game", fr: "L’or du joueur lors de sa partie précédente" }
+    - { en: "The player’s average gold", fr: "L’or moyen du joueur" }
+    - { en: "The gold of the previous player", fr: "L’or du joueur précédent" }
+    - { en: "The player’s gold in their next game", fr: "L’or du joueur lors de sa partie suivante" }
+  answer: 0
+  why: { en: "LAG looks back one row inside the partition (NULL on the first). LEAD looks forward.", fr: "LAG regarde une ligne en arrière dans la partition (NULL pour la première). LEAD regarde en avant." }
+- q: { en: "Classic trick to group consecutive wins (gaps and islands)?", fr: "Astuce classique pour regrouper des victoires consécutives (gaps and islands) ?" }
+  options:
+    - "GROUP BY win"
+    - "ROW_NUMBER() OVER (ORDER BY t) - ROW_NUMBER() OVER (PARTITION BY win ORDER BY t)"
+    - "SELF JOIN ON a.t = b.t + 1"
+    - "SUM(win) OVER ()"
+  answer: 1
+  why: { en: "The difference of two row numbers is constant inside a streak, so it can be used as a group key.", fr: "La différence de deux numéros de ligne est constante dans une série : elle sert de clé de groupe." }
+- q: { en: "You join `participants` to `participant_items`, then `SUM(kills)` per player. The result is…", fr: "Vous joignez `participants` à `participant_items`, puis `SUM(kills)` par joueur. Le résultat est…" }
+  options:
+    - { en: "Correct", fr: "Correct" }
+    - { en: "Inflated: each game is repeated once per item (fan-out)", fr: "Gonflé : chaque partie est répétée une fois par objet (fan-out)" }
+    - { en: "Too low", fr: "Trop bas" }
+    - { en: "An error", fr: "Une erreur" }
+  answer: 1
+  why: { en: "Joining to a one-to-many table multiplies rows. Aggregate before joining, or join at the right grain.", fr: "Joindre une table un-à-plusieurs multiplie les lignes. Agrégez avant de joindre, ou joignez au bon grain." }
+- q: { en: "Why are columnar engines (DuckDB, BigQuery, Snowflake) fast for analytics?", fr: "Pourquoi les moteurs colonnes (DuckDB, BigQuery, Snowflake) sont-ils rapides en analytique ?" }
+  options:
+    - { en: "They read only the needed columns, compressed, and process them in batches", fr: "Ils ne lisent que les colonnes utiles, compressées, et les traitent par lots" }
+    - { en: "They keep every row in memory", fr: "Ils gardent chaque ligne en mémoire" }
+    - { en: "They forbid JOINs", fr: "Ils interdisent les JOIN" }
+    - { en: "They index every column", fr: "Ils indexent chaque colonne" }
+  answer: 0
+  why: { en: "This is also why `SELECT *` is costly on wide warehouse tables.", fr: "C’est aussi pourquoi `SELECT *` coûte cher sur les tables larges d’un entrepôt." }
+- q: { en: "Which filter lets an engine use an index or skip blocks on `played_at`?", fr: "Quel filtre permet d’utiliser un index ou de sauter des blocs sur `played_at` ?" }
+  options:
+    - "WHERE YEAR(played_at) = 2026"
+    - "WHERE CAST(played_at AS VARCHAR) LIKE '2026%'"
+    - "WHERE played_at >= '2026-01-01' AND played_at < '2027-01-01'"
+    - "WHERE played_at + INTERVAL 1 DAY > '2026-01-02'"
+  answer: 2
+  why: { en: "Leave the column untouched (sargable): wrapping it in a function hides it from indexes and min/max zone maps.", fr: "Laissez la colonne intacte (sargable) : l’envelopper dans une fonction la cache aux index et aux zone maps min/max." }
+- q: { en: "`GROUP BY rank_tier` where some rank_tier values are NULL gives…", fr: "`GROUP BY rank_tier` avec des rank_tier NULL donne…" }
+  options:
+    - { en: "One group per NULL row", fr: "Un groupe par ligne NULL" }
+    - { en: "A single NULL group", fr: "Un seul groupe NULL" }
+    - { en: "NULL rows are dropped", fr: "Les lignes NULL sont ignorées" }
+    - { en: "An error", fr: "Une erreur" }
+  answer: 1
+  why: { en: "For grouping and DISTINCT, NULLs are treated as equal, so they form one group.", fr: "Pour le regroupement et DISTINCT, les NULL sont considérés égaux : un seul groupe." }
+- q: { en: "Which is equivalent to `COUNT(*) FILTER (WHERE win)`?", fr: "Quel est l’équivalent de `COUNT(*) FILTER (WHERE win)` ?" }
+  options:
+    - "SUM(CASE WHEN win THEN 1 ELSE 0 END)"
+    - "COUNT(win)"
+    - "COUNT(*) WHERE win"
+    - "MAX(win)"
+  answer: 0
+  why: { en: "FILTER is the standard, concise form of conditional aggregation. `COUNT(win)` also counts false values.", fr: "FILTER est la forme standard et concise de l’agrégation conditionnelle. `COUNT(win)` compte aussi les false." }
+- q: { en: "Players JOIN participants to list players who played Jinx returns duplicates. Best fix?", fr: "players JOIN participants pour lister les joueurs ayant joué Jinx renvoie des doublons. Meilleure correction ?" }
+  options:
+    - { en: "Add DISTINCT everywhere", fr: "Ajouter DISTINCT partout" }
+    - { en: "Use a semi-join: WHERE EXISTS (...)", fr: "Utiliser une semi-jointure : WHERE EXISTS (...)" }
+    - { en: "Use a CROSS JOIN", fr: "Utiliser un CROSS JOIN" }
+    - { en: "Add LIMIT 1", fr: "Ajouter LIMIT 1" }
+  answer: 1
+  why: { en: "EXISTS tests for presence without multiplying rows; DISTINCT hides the fan-out but does extra work.", fr: "EXISTS teste la présence sans multiplier les lignes ; DISTINCT masque le fan-out mais travaille plus." }
+- q: { en: "`AVG(gold) OVER (ORDER BY played_at ROWS BETWEEN 2 PRECEDING AND CURRENT ROW)` is…", fr: "`AVG(gold) OVER (ORDER BY played_at ROWS BETWEEN 2 PRECEDING AND CURRENT ROW)` est…" }
+  options:
+    - { en: "A 3-game moving average", fr: "Une moyenne mobile sur 3 parties" }
+    - { en: "A 2-game moving average", fr: "Une moyenne mobile sur 2 parties" }
+    - { en: "The overall average", fr: "La moyenne globale" }
+    - { en: "Invalid syntax", fr: "Une syntaxe invalide" }
+  answer: 0
+  why: { en: "2 preceding rows + the current row = 3 rows (fewer at the start).", fr: "2 lignes précédentes + la ligne courante = 3 lignes (moins au début)." }

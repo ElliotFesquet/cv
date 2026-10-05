@@ -7,6 +7,7 @@
   --color-accent: #ff4f1f;      /* fills, rules, selection */
   --color-accent-ink: #b5360f;  /* accent for small text (AA on bg) */
   --color-on-accent: #121211;
+  --color-ok: #1d7a3a;          /* correct answers (SQL game) */
 
   --font-sans: "Inter Tight Variable", system-ui, sans-serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, Consolas, monospace;
@@ -41,6 +42,7 @@
     --color-border: #2c2b28;
     --color-accent: #ff6a3d;
     --color-accent-ink: #ff7d55;
+    --color-ok: #4cc47a;
   }
 }
 

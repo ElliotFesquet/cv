@@ -1,0 +1,85 @@
+# Quiz, level "Intermediate". Format: see quiz-noob.yaml.
+- q: { en: "`champions LEFT JOIN participants` returns, for a never-played champion…", fr: "`champions LEFT JOIN participants` renvoie, pour un champion jamais joué…" }
+  options:
+    - { en: "Nothing: the row disappears", fr: "Rien : la ligne disparaît" }
+    - { en: "One row, with NULLs in the participants columns", fr: "Une ligne, avec des NULL dans les colonnes de participants" }
+    - { en: "An error", fr: "Une erreur" }
+    - { en: "One row per match", fr: "Une ligne par partie" }
+  answer: 1
+  why: { en: "LEFT JOIN keeps every left row; missing right columns are NULL.", fr: "LEFT JOIN garde toutes les lignes de gauche ; les colonnes de droite manquantes valent NULL." }
+- q: { en: "Why is `WHERE COUNT(*) > 40` invalid?", fr: "Pourquoi `WHERE COUNT(*) > 40` est-il invalide ?" }
+  options:
+    - { en: "COUNT needs a column name", fr: "COUNT exige un nom de colonne" }
+    - { en: "WHERE runs before aggregation: use HAVING", fr: "WHERE s’exécute avant l’agrégation : il faut HAVING" }
+    - { en: "40 must be quoted", fr: "40 doit être entre apostrophes" }
+    - { en: "It is valid", fr: "C’est valide" }
+  answer: 1
+  why: { en: "Aggregates are computed after WHERE. Filter groups with `HAVING COUNT(*) > 40`.", fr: "Les agrégats sont calculés après WHERE. On filtre les groupes avec `HAVING COUNT(*) > 40`." }
+- q: { en: "Which query finds champions that were never played?", fr: "Quelle requête trouve les champions jamais joués ?" }
+  options:
+    - "SELECT c.name FROM champions c JOIN participants p USING (champion_id) WHERE p.champion_id IS NULL"
+    - "SELECT c.name FROM champions c LEFT JOIN participants p USING (champion_id) WHERE p.match_id IS NULL"
+    - "SELECT c.name FROM champions c LEFT JOIN participants p USING (champion_id) WHERE p.match_id = 0"
+    - "SELECT name FROM champions WHERE COUNT(*) = 0"
+  answer: 1
+  why: { en: "Anti-join: LEFT JOIN, then keep rows where the right side is NULL. `NOT EXISTS` works too.", fr: "Anti-jointure : LEFT JOIN puis on garde les lignes où la partie droite est NULL. `NOT EXISTS` marche aussi." }
+- q: { en: "`x NOT IN (SELECT y FROM t)` where one `y` is NULL returns…", fr: "`x NOT IN (SELECT y FROM t)` avec un `y` NULL renvoie…" }
+  options:
+    - { en: "The expected rows", fr: "Les lignes attendues" }
+    - { en: "No rows at all", fr: "Aucune ligne" }
+    - { en: "Every row", fr: "Toutes les lignes" }
+    - { en: "An error", fr: "Une erreur" }
+  answer: 1
+  why: { en: "`x <> NULL` is unknown, so NOT IN is never true. Prefer `NOT EXISTS`.", fr: "`x <> NULL` est inconnu, donc NOT IN n’est jamais vrai. Préférez `NOT EXISTS`." }
+- q: { en: "Difference between UNION and UNION ALL?", fr: "Différence entre UNION et UNION ALL ?" }
+  options:
+    - { en: "UNION removes duplicates; UNION ALL keeps them (and is faster)", fr: "UNION supprime les doublons ; UNION ALL les garde (et est plus rapide)" }
+    - { en: "UNION ALL removes duplicates", fr: "UNION ALL supprime les doublons" }
+    - { en: "UNION joins columns side by side", fr: "UNION colle les colonnes côte à côte" }
+    - { en: "None", fr: "Aucune" }
+  answer: 0
+  why: { en: "Deduplicating costs a sort or hash; use UNION ALL unless you need it.", fr: "Dédoublonner coûte un tri ou un hash ; utilisez UNION ALL sauf besoin." }
+- q: { en: "What does `COALESCE(rank_tier, 'Unranked')` return?", fr: "Que renvoie `COALESCE(rank_tier, 'Unranked')` ?" }
+  options:
+    - { en: "Always 'Unranked'", fr: "Toujours 'Unranked'" }
+    - { en: "The first non-NULL value", fr: "La première valeur non NULL" }
+    - { en: "NULL if rank_tier is NULL", fr: "NULL si rank_tier est NULL" }
+    - { en: "The number of NULLs", fr: "Le nombre de NULL" }
+  answer: 1
+  why: { en: "COALESCE returns its first non-NULL argument.", fr: "COALESCE renvoie son premier argument non NULL." }
+- q: { en: "Safest KDA formula when deaths can be 0?", fr: "Formule de KDA la plus sûre quand deaths peut valoir 0 ?" }
+  options:
+    - "(kills + assists) / deaths"
+    - "(kills + assists) / NULLIF(deaths, 0)"
+    - "(kills + assists) / COALESCE(deaths, 0)"
+    - "(kills + assists) / MAX(deaths)"
+  answer: 1
+  why: { en: "`NULLIF(deaths, 0)` turns 0 into NULL, so the division gives NULL instead of failing.", fr: "`NULLIF(deaths, 0)` transforme 0 en NULL : la division donne NULL au lieu d’échouer." }
+- q: { en: "In standard SQL, why can’t WHERE use an alias defined in SELECT?", fr: "En SQL standard, pourquoi WHERE ne peut-il pas utiliser un alias du SELECT ?" }
+  options:
+    - { en: "Aliases are only for ORDER BY", fr: "Les alias ne servent qu’à ORDER BY" }
+    - { en: "WHERE is evaluated before SELECT", fr: "WHERE est évalué avant SELECT" }
+    - { en: "Aliases must be quoted", fr: "Les alias doivent être entre guillemets" }
+    - { en: "It is always allowed", fr: "C’est toujours permis" }
+  answer: 1
+  why: { en: "Logical order: FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY. (DuckDB is lenient and allows it.)", fr: "Ordre logique : FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY. (DuckDB est tolérant et l’autorise.)" }
+- q: { en: "What does a CTE (`WITH x AS (...)`) give you?", fr: "Qu’apporte une CTE (`WITH x AS (...)`) ?" }
+  options:
+    - { en: "A permanent table", fr: "Une table permanente" }
+    - { en: "A named subquery for this statement, for readability and reuse", fr: "Une sous-requête nommée pour cette requête, lisible et réutilisable" }
+    - { en: "An index", fr: "Un index" }
+    - { en: "A transaction", fr: "Une transaction" }
+  answer: 1
+  why: { en: "A CTE exists only for the statement. It splits logic into readable steps.", fr: "Une CTE n’existe que le temps de la requête. Elle découpe la logique en étapes lisibles." }
+- q: { en: "How many different players appear in `participants`?", fr: "Combien de joueurs différents apparaissent dans `participants` ?" }
+  options: ["COUNT(player_id)", "COUNT(DISTINCT player_id)", "SUM(player_id)", "MAX(player_id)"]
+  answer: 1
+  why: { en: "`COUNT(DISTINCT col)` counts unique non-NULL values.", fr: "`COUNT(DISTINCT col)` compte les valeurs uniques non NULL." }
+- q: { en: "`CASE WHEN cost >= 3000 THEN 'premium' END` for an item costing 900 gives…", fr: "`CASE WHEN cost >= 3000 THEN 'premium' END` pour un objet à 900 donne…" }
+  options: ["'premium'", "''", "NULL", { en: "An error", fr: "Une erreur" }]
+  answer: 2
+  why: { en: "Without ELSE, a CASE with no matching branch returns NULL.", fr: "Sans ELSE, un CASE sans branche vraie renvoie NULL." }
+- q: { en: "A LEFT JOIN followed by `WHERE right_table.col = 'x'` behaves like…", fr: "Un LEFT JOIN suivi de `WHERE table_droite.col = 'x'` se comporte comme…" }
+  options: ["FULL JOIN", "INNER JOIN", "CROSS JOIN", "LEFT JOIN"]
+  answer: 1
+  why: { en: "Unmatched rows have NULL there, and the WHERE drops them. Put the condition in the ON clause instead.", fr: "Les lignes sans correspondance y ont NULL et le WHERE les retire. Mettez la condition dans le ON." }

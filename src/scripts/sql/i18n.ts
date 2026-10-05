@@ -1,0 +1,58 @@
+// UI strings for the SQL game (pages + client scripts). Content lives in src/data/sql/*.yaml.
+import type { Lang } from '../../i18n/ui';
+
+export const sqlUi = {
+  en: {
+    'title': 'SQL Arena',
+    'lede': 'Learn and sharpen SQL on a small League-style dataset, right in your browser. Powered by DuckDB, nothing is sent anywhere.',
+    'noscript': 'The game needs JavaScript: it runs a SQL engine in your browser.',
+    'back': '← SQL Arena',
+    'quiz': 'Quiz', 'quiz.desc': 'Theory questions in three levels.',
+    'practice': 'Practice', 'practice.desc': 'Guided exercises, one concept at a time.',
+    'challenges': 'Challenges', 'challenges.desc': 'LeetCode-style problems, graded against the expected result.',
+    'level.noob': 'Big noob', 'level.intermediate': 'Intermediate', 'level.pro': 'Pro',
+    'diff.easy': 'Easy', 'diff.medium': 'Medium', 'diff.hard': 'Hard',
+    'score': 'Score', 'best': 'Best', 'retry': 'Retry', 'correct': 'Correct!', 'wrong': 'Not quite.',
+    'schema': 'Dataset schema', 'schema.desc': 'Six tables from 120 fictional matches (summer 2026). Download:',
+    'tasks': 'Exercises', 'solved': 'solved', 'prev': '← Previous', 'next': 'Next →',
+    'hint': 'Hint', 'solution': 'Show solution',
+    'run': 'Run', 'check': 'Submit', 'expected': 'Expected output', 'reset': 'Reset data',
+    'keys': 'Tab accepts a suggestion · Ctrl/⌘ + Enter runs · Esc then Tab leaves the editor',
+    'loading': 'Loading the SQL engine…', 'ready': 'Ready. Write a query and run it.',
+    'rows': 'rows', 'truncated': 'showing the first', 'ms': 'ms', 'noRows': 'Query OK, no rows returned.',
+    'ok': 'Accepted! Your result matches the expected output.',
+    'ko.cols': 'Wrong answer: expected {e} columns, got {g}.',
+    'ko.rows': 'Wrong answer: expected {e} rows, got {g}.',
+    'ko.values': 'Wrong answer: same shape, but some values differ.',
+    'ko.order': 'Right rows, wrong order. Check your ORDER BY.',
+    'resetDone': 'Tables reloaded from the original data.',
+  },
+  fr: {
+    'title': 'SQL Arena',
+    'lede': 'Apprendre et progresser en SQL sur un petit jeu de données façon League, directement dans le navigateur. Moteur DuckDB, rien n’est envoyé nulle part.',
+    'noscript': 'Le jeu a besoin de JavaScript : il exécute un moteur SQL dans votre navigateur.',
+    'back': '← SQL Arena',
+    'quiz': 'Quiz', 'quiz.desc': 'Questions de théorie sur trois niveaux.',
+    'practice': 'Pratique', 'practice.desc': 'Exercices guidés, une notion à la fois.',
+    'challenges': 'Défis', 'challenges.desc': 'Problèmes façon LeetCode, corrigés en comparant au résultat attendu.',
+    'level.noob': 'Grand débutant', 'level.intermediate': 'Intermédiaire', 'level.pro': 'Pro',
+    'diff.easy': 'Facile', 'diff.medium': 'Moyen', 'diff.hard': 'Difficile',
+    'score': 'Score', 'best': 'Record', 'retry': 'Recommencer', 'correct': 'Bonne réponse !', 'wrong': 'Raté.',
+    'schema': 'Schéma des données', 'schema.desc': 'Six tables issues de 120 parties fictives (été 2026). Télécharger :',
+    'tasks': 'Exercices', 'solved': 'résolus', 'prev': '← Précédent', 'next': 'Suivant →',
+    'hint': 'Indice', 'solution': 'Voir la solution',
+    'run': 'Exécuter', 'check': 'Valider', 'expected': 'Résultat attendu', 'reset': 'Réinitialiser',
+    'keys': 'Tab accepte une suggestion · Ctrl/⌘ + Entrée exécute · Échap puis Tab pour sortir de l’éditeur',
+    'loading': 'Chargement du moteur SQL…', 'ready': 'Prêt. Écrivez une requête et exécutez-la.',
+    'rows': 'lignes', 'truncated': 'affichage des', 'ms': 'ms', 'noRows': 'Requête OK, aucune ligne renvoyée.',
+    'ok': 'Validé ! Votre résultat correspond au résultat attendu.',
+    'ko.cols': 'Mauvaise réponse : {e} colonnes attendues, {g} obtenues.',
+    'ko.rows': 'Mauvaise réponse : {e} lignes attendues, {g} obtenues.',
+    'ko.values': 'Mauvaise réponse : bonne forme, mais certaines valeurs diffèrent.',
+    'ko.order': 'Bonnes lignes, mauvais ordre. Vérifiez votre ORDER BY.',
+    'resetDone': 'Tables rechargées depuis les données d’origine.',
+  },
+} as const;
+
+export type SqlKey = keyof (typeof sqlUi)['en'];
+export const st = (lang: Lang) => sqlUi[lang];

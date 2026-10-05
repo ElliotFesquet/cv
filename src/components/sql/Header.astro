@@ -1,0 +1,14 @@
+---
+import { href, type Lang } from '../../i18n/ui';
+import { st } from '../../scripts/sql/i18n';
+
+interface Props { lang: Lang; title: string; desc: string }
+const { lang, title, desc } = Astro.props;
+const s = st(lang);
+---
+<header class="sql-head">
+  <a class="sql-back" href={href(lang, 'apps/sql')}>{s.back}</a>
+  <h1>{title}</h1>
+  <p class="muted">{desc}</p>
+  <noscript><p class="sql-status" data-kind="error">{s.noscript}</p></noscript>
+</header>

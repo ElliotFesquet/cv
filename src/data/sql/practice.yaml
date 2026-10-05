@@ -1,0 +1,129 @@
+# Practice: guided exercises, in learning order. ordered: true = row order is graded too.
+# Grading compares result sets (column names ignored, numbers rounded to 2 decimals).
+- id: select-all
+  concept: SELECT *
+  title: { en: "Meet the champions", fr: "Les champions" }
+  prompt: { en: "Return every column and every row of the `champions` table.", fr: "Renvoyez toutes les colonnes et toutes les lignes de la table `champions`." }
+  hint: { en: "`*` means all columns.", fr: "`*` signifie toutes les colonnes." }
+  solution: SELECT * FROM champions;
+- id: select-columns
+  concept: SELECT
+  title: { en: "Shop prices", fr: "Prix de la boutique" }
+  prompt: { en: "Return the `name` and `cost` of every item.", fr: "Renvoyez le `name` et le `cost` de chaque objet." }
+  hint: { en: "List the columns after SELECT, separated by commas.", fr: "Listez les colonnes après SELECT, séparées par des virgules." }
+  solution: SELECT name, cost FROM items;
+- id: where
+  concept: WHERE
+  title: { en: "Mid laners", fr: "Les mid laners" }
+  prompt: { en: "Return the `name` of champions whose `role` is `'Mid'`.", fr: "Renvoyez le `name` des champions dont le `role` vaut `'Mid'`." }
+  hint: { en: "Text values go between single quotes.", fr: "Le texte se met entre apostrophes." }
+  solution: SELECT name FROM champions WHERE role = 'Mid';
+- id: where-and
+  concept: AND / OR
+  title: { en: "Expensive damage", fr: "Dégâts coûteux" }
+  prompt: { en: "Return `name` and `cost` of `'Damage'` items that cost more than 3000.", fr: "Renvoyez `name` et `cost` des objets `'Damage'` qui coûtent plus de 3000." }
+  hint: { en: "Combine two conditions with AND.", fr: "Combinez deux conditions avec AND." }
+  solution: SELECT name, cost FROM items WHERE category = 'Damage' AND cost > 3000;
+- id: order-limit
+  concept: ORDER BY / LIMIT
+  title: { en: "Top 5 most expensive", fr: "Top 5 des plus chers" }
+  prompt: { en: "Return `name` and `cost` of the 5 most expensive items, most expensive first. Break ties by `name` (A→Z).", fr: "Renvoyez `name` et `cost` des 5 objets les plus chers, du plus cher au moins cher. Départagez par `name` (A→Z)." }
+  hint: { en: "`ORDER BY cost DESC, name LIMIT 5`", fr: "`ORDER BY cost DESC, name LIMIT 5`" }
+  solution: SELECT name, cost FROM items ORDER BY cost DESC, name LIMIT 5;
+  ordered: true
+- id: distinct
+  concept: DISTINCT
+  title: { en: "Where are the players?", fr: "D’où viennent les joueurs ?" }
+  prompt: { en: "Return each `region` of `players` once.", fr: "Renvoyez chaque `region` de `players` une seule fois." }
+  hint: { en: "SELECT DISTINCT …", fr: "SELECT DISTINCT …" }
+  solution: SELECT DISTINCT region FROM players;
+- id: is-null
+  concept: IS NULL
+  title: { en: "Unranked", fr: "Sans rang" }
+  prompt: { en: "Return the `summoner_name` of players with no `rank_tier`.", fr: "Renvoyez le `summoner_name` des joueurs sans `rank_tier`." }
+  hint: { en: "`= NULL` never matches.", fr: "`= NULL` ne correspond jamais." }
+  solution: SELECT summoner_name FROM players WHERE rank_tier IS NULL;
+- id: like
+  concept: LIKE
+  title: { en: "The K squad", fr: "L’équipe K" }
+  prompt: { en: "Return the `name` of champions whose name starts with K.", fr: "Renvoyez le `name` des champions dont le nom commence par K." }
+  hint: { en: "`%` matches any characters.", fr: "`%` remplace n’importe quels caractères." }
+  solution: SELECT name FROM champions WHERE name LIKE 'K%';
+- id: count
+  concept: COUNT
+  title: { en: "How many games?", fr: "Combien de parties ?" }
+  prompt: { en: "Return the number of rows in `matches`.", fr: "Renvoyez le nombre de lignes de `matches`." }
+  hint: { en: "COUNT(*)", fr: "COUNT(*)" }
+  solution: SELECT COUNT(*) FROM matches;
+- id: group-by
+  concept: GROUP BY
+  title: { en: "Champions per role", fr: "Champions par rôle" }
+  prompt: { en: "Return each `role` with its number of champions.", fr: "Renvoyez chaque `role` avec son nombre de champions." }
+  hint: { en: "Every non-aggregated column must be in GROUP BY.", fr: "Toute colonne non agrégée doit être dans le GROUP BY." }
+  solution: SELECT role, COUNT(*) AS champions FROM champions GROUP BY role;
+- id: avg
+  concept: AVG / ROUND
+  title: { en: "Game length", fr: "Durée des parties" }
+  prompt: { en: "For each `queue`, return the average game duration in minutes, rounded to 1 decimal.", fr: "Pour chaque `queue`, renvoyez la durée moyenne des parties en minutes, arrondie à 1 décimale." }
+  hint: { en: "`duration_s` is in seconds: divide by 60, then ROUND(x, 1).", fr: "`duration_s` est en secondes : divisez par 60, puis ROUND(x, 1)." }
+  solution: SELECT queue, ROUND(AVG(duration_s) / 60, 1) AS avg_minutes FROM matches GROUP BY queue;
+- id: having
+  concept: HAVING
+  title: { en: "Grinders", fr: "Les acharnés" }
+  prompt: { en: "Return `player_id` and number of games for players with at least 45 games in `participants`.", fr: "Renvoyez `player_id` et le nombre de parties des joueurs ayant au moins 45 parties dans `participants`." }
+  hint: { en: "Filter groups with HAVING, not WHERE.", fr: "Filtrez les groupes avec HAVING, pas WHERE." }
+  solution: SELECT player_id, COUNT(*) AS games FROM participants GROUP BY player_id HAVING COUNT(*) >= 45;
+- id: join
+  concept: JOIN
+  title: { en: "Match 1 scoreboard", fr: "Tableau de la partie 1" }
+  prompt: { en: "For match 1, return each player’s `summoner_name`, their champion’s `name` and their `kills`.", fr: "Pour la partie 1, renvoyez le `summoner_name` de chaque joueur, le `name` de son champion et ses `kills`." }
+  hint: { en: "participants → players (player_id) and → champions (champion_id).", fr: "participants → players (player_id) et → champions (champion_id)." }
+  solution: |
+    SELECT pl.summoner_name, c.name, p.kills
+    FROM participants p
+    JOIN players pl ON pl.player_id = p.player_id
+    JOIN champions c ON c.champion_id = p.champion_id
+    WHERE p.match_id = 1;
+- id: left-join
+  concept: LEFT JOIN
+  title: { en: "Nobody picks me", fr: "Personne ne me choisit" }
+  prompt: { en: "Return the `name` of champions that never appear in `participants`.", fr: "Renvoyez le `name` des champions absents de `participants`." }
+  hint: { en: "LEFT JOIN, then keep rows where the right side IS NULL.", fr: "LEFT JOIN, puis gardez les lignes où la partie droite IS NULL." }
+  solution: |
+    SELECT c.name
+    FROM champions c
+    LEFT JOIN participants p ON p.champion_id = c.champion_id
+    WHERE p.match_id IS NULL;
+- id: case
+  concept: CASE
+  title: { en: "Price tags", fr: "Étiquettes de prix" }
+  prompt: { en: "Return each item’s `name` and a label: `'cheap'` under 2500, `'mid'` under 3200, otherwise `'premium'`.", fr: "Renvoyez le `name` de chaque objet et une étiquette : `'cheap'` sous 2500, `'mid'` sous 3200, sinon `'premium'`." }
+  hint: { en: "CASE WHEN … THEN … WHEN … ELSE … END. Branches are tested in order.", fr: "CASE WHEN … THEN … WHEN … ELSE … END. Les branches sont testées dans l’ordre." }
+  solution: |
+    SELECT name,
+      CASE WHEN cost < 2500 THEN 'cheap' WHEN cost < 3200 THEN 'mid' ELSE 'premium' END AS label
+    FROM items;
+- id: subquery
+  concept: Subquery
+  title: { en: "Above average", fr: "Au-dessus de la moyenne" }
+  prompt: { en: "Return `name` and `cost` of items that cost more than the average item cost.", fr: "Renvoyez `name` et `cost` des objets plus chers que le coût moyen des objets." }
+  hint: { en: "WHERE cost > (SELECT AVG(cost) FROM items)", fr: "WHERE cost > (SELECT AVG(cost) FROM items)" }
+  solution: SELECT name, cost FROM items WHERE cost > (SELECT AVG(cost) FROM items);
+- id: cte
+  concept: WITH (CTE)
+  title: { en: "Popular picks", fr: "Choix populaires" }
+  prompt: { en: "With a CTE that counts games per `champion_id`, return the `name` and games of champions played more than 50 times.", fr: "Avec une CTE qui compte les parties par `champion_id`, renvoyez le `name` et le nombre de parties des champions joués plus de 50 fois." }
+  hint: { en: "WITH games AS (SELECT champion_id, COUNT(*) AS n FROM participants GROUP BY champion_id) SELECT …", fr: "WITH games AS (SELECT champion_id, COUNT(*) AS n FROM participants GROUP BY champion_id) SELECT …" }
+  solution: |
+    WITH games AS (
+      SELECT champion_id, COUNT(*) AS n FROM participants GROUP BY champion_id
+    )
+    SELECT c.name, g.n
+    FROM games g JOIN champions c USING (champion_id)
+    WHERE g.n > 50;
+- id: window-rank
+  concept: RANK() OVER
+  title: { en: "Priciest per category", fr: "Le plus cher par catégorie" }
+  prompt: { en: "Return `name`, `category`, `cost` and the item’s rank by cost within its category (1 = most expensive, ties share a rank).", fr: "Renvoyez `name`, `category`, `cost` et le rang de l’objet par coût dans sa catégorie (1 = le plus cher, ex aequo au même rang)." }
+  hint: { en: "RANK() OVER (PARTITION BY category ORDER BY cost DESC)", fr: "RANK() OVER (PARTITION BY category ORDER BY cost DESC)" }
+  solution: SELECT name, category, cost, RANK() OVER (PARTITION BY category ORDER BY cost DESC) AS rnk FROM items;

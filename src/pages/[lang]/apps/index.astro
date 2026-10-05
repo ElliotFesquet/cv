@@ -1,0 +1,22 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { href, langPaths, t, type Lang } from '../../../i18n/ui';
+import { st } from '../../../scripts/sql/i18n';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const ui = t(lang);
+const apps = [{ path: 'apps/sql', title: st(lang).title, desc: st(lang).lede }];
+---
+<Base lang={lang} title={ui['nav.apps']}>
+  <h1>{ui['nav.apps']}</h1>
+  <p class="muted">{ui['apps.lede']}</p>
+  <ul class="project-list">
+    {apps.map((a) => (
+      <li>
+        <a href={href(lang, a.path)}>{a.title}</a>
+        <p class="muted">{a.desc}</p>
+      </li>
+    ))}
+  </ul>
+</Base>

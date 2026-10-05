@@ -1,0 +1,46 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import Header from '../../../../components/sql/Header.astro';
+import { langPaths, type Lang } from '../../../../i18n/ui';
+import { st, type SqlKey } from '../../../../scripts/sql/i18n';
+import { inline, levels, quiz, tx } from '../../../../data/sql';
+import '../../../../styles/sql.css';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const s = st(lang);
+const label = (l: string) => s[`level.${l}` as SqlKey];
+---
+<Base lang={lang} title={`${s.quiz} · ${s.title}`}>
+  <Header lang={lang} title={s.quiz} desc={s['quiz.desc']} />
+  <div class="sql-quiz">
+    <nav class="quiz-tabs" aria-label={s.quiz}>
+      {levels.map((l) => <a href={`#${l}`} data-level-tab={l}>{label(l)}</a>)}
+    </nav>
+    {levels.map((l) => (
+      <section class="quiz-level" id={l}>
+        <h2>{label(l)}</h2>
+        <p class="quiz-score">
+          {s.score} <strong data-score>0</strong>/{quiz[l].length} · {s.best} <span data-best>–</span>
+        </p>
+        <ol>
+          {quiz[l].map((q, i) => (
+            <li class="quiz-q" data-answer={q.answer}>
+              <fieldset>
+                <legend set:html={inline(tx(q.q, lang))} />
+                <div class="quiz-options">
+                  {q.options.map((o, j) => (
+                    <label><input type="radio" name={`${l}-${i}`} value={j} /> {typeof o === 'string' ? <code>{o}</code> : <span set:html={inline(tx(o, lang))} />}</label>
+                  ))}
+                </div>
+              </fieldset>
+              <p class="quiz-why" hidden><strong></strong> <span set:html={inline(tx(q.why, lang))} /></p>
+            </li>
+          ))}
+        </ol>
+        <button type="button" class="button" data-retry>{s.retry}</button>
+      </section>
+    ))}
+  </div>
+</Base>
+<script>import '../../../../scripts/sql/quiz';</script>

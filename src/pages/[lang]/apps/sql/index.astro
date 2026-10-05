@@ -1,0 +1,32 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import Schema from '../../../../components/sql/Schema.astro';
+import { href, langPaths, type Lang } from '../../../../i18n/ui';
+import { st } from '../../../../scripts/sql/i18n';
+import { challenges, practice, quiz } from '../../../../data/sql';
+import '../../../../styles/sql.css';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const s = st(lang);
+const questions = Object.values(quiz).flat().length;
+const modes = [
+  { path: 'quiz', title: s.quiz, desc: s['quiz.desc'], count: questions },
+  { path: 'practice', title: s.practice, desc: s['practice.desc'], count: practice.length },
+  { path: 'challenges', title: s.challenges, desc: s['challenges.desc'], count: challenges.length },
+];
+---
+<Base lang={lang} title={s.title}>
+  <h1>{s.title}</h1>
+  <p class="sql-lede">{s.lede}</p>
+  <noscript><p class="sql-status" data-kind="error">{s.noscript}</p></noscript>
+  <ul class="project-list">
+    {modes.map((m) => (
+      <li>
+        <a href={href(lang, `apps/sql/${m.path}`)}>{m.title}</a>
+        <p class="muted">{m.desc} · {m.count}</p>
+      </li>
+    ))}
+  </ul>
+  <Schema lang={lang} open />
+</Base>

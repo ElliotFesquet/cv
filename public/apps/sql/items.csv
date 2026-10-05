@@ -1,0 +1,26 @@
+item_id,name,category,cost
+1,Berserker's Greaves,Boots,1100
+2,Sorcerer's Shoes,Boots,1100
+3,Plated Steelcaps,Boots,1200
+4,Mercury's Treads,Boots,1250
+5,Ionian Boots of Lucidity,Boots,900
+6,Infinity Edge,Damage,3400
+7,Kraken Slayer,Damage,3100
+8,Black Cleaver,Damage,3000
+9,Trinity Force,Damage,3333
+10,Youmuu's Ghostblade,Damage,2800
+11,Bloodthirster,Damage,3400
+12,Lord Dominik's Regards,Damage,3000
+13,Rabadon's Deathcap,Magic,3600
+14,Luden's Companion,Magic,2900
+15,Zhonya's Hourglass,Magic,3250
+16,Void Staff,Magic,3000
+17,Mejai's Soulstealer,Magic,1500
+18,Sunfire Aegis,Defense,2700
+19,Thornmail,Defense,2450
+20,Randuin's Omen,Defense,2700
+21,Guardian Angel,Defense,3200
+22,Sterak's Gage,Defense,3200
+23,Moonstone Renewer,Support,2200
+24,Redemption,Support,2300
+25,Locket of the Iron Solaris,Support,2200
