@@ -1,0 +1,107 @@
+---
+import '@fontsource/anton';
+import Base from '../../../../layouts/Base.astro';
+import Header from '../../../../components/coaching/Header.astro';
+import { asset, href, langPaths, type Lang } from '../../../../i18n/ui';
+import { ct } from '../../../../scripts/coaching/i18n';
+import { accounts, price, services } from '../../../../data/coaching';
+import '../../../../styles/coaching.css';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const s = ct(lang);
+const img = (file: string) => asset(`hobbies/coaching/${file}`);
+const order = (id: string) => `${href(lang, 'hobbies/coaching/order')}?service=${id}`;
+const unit = { review: s['per.game'], live: s['per.hour'], rankup: s['per.div'] };
+const stats = [['Grandmaster', s['stat.rank']], ['90%+', s['stat.wr']], ['Kalista', s['stat.role']], ['EUW', s['stat.server']]];
+const steps = [1, 2, 3] as const;
+const lines = [['gp.1', 'gp.1.b'], ['gp.2', 'gp.2.b'], ['gp.3'], ['gp.4'], ['gp.5'], ['gp.6']] as const;
+---
+<Base lang={lang} title={s.title}>
+  <div class="coach">
+    <Header lang={lang} />
+
+    <section class="coach-hero">
+      <p class="coach-eyebrow">{s.eyebrow}</p>
+      <h1 class="coach-h1"><span>{s['h1.a']}</span> <span class="is-red">{s['h1.b']}</span></h1>
+      <p class="coach-lede">{s.lede}</p>
+      <div class="coach-actions">
+        <a class="coach-btn" href={href(lang, 'hobbies/coaching/order')}>{s.cta}</a>
+        <a class="coach-btn is-ghost" href="#accounts">{s['cta.2']}</a>
+      </div>
+      <ul class="coach-stats">
+        {stats.map(([v, l]) => <li><strong>{v}</strong><span>{l}</span></li>)}
+      </ul>
+    </section>
+
+    <section class="coach-sec" id="services">
+      <p class="coach-label"><span>01</span>{s['sec.services']}</p>
+      <h2>{s['services.h']}</h2>
+      <ul class="coach-services">
+        {services.map((sv) => (
+          <li class="coach-card">
+            <div class="coach-hex"><img src={img(sv.img)} alt="" width="480" height="432" loading="lazy" /></div>
+            <h3>{s[sv.id]}</h3>
+            <p class="coach-card-desc">{s[`${sv.id}.desc`]}</p>
+            <p class="coach-price">
+              <strong>{sv.price === null ? s.quote : price(lang, sv.price)}</strong>
+              <span>{unit[sv.id]}</span>
+            </p>
+            <a class="coach-btn" href={order(sv.id)}>{sv.price === null ? s.request : s.choose}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="coach-sec" id="rankup">
+      <p class="coach-label"><span>02</span>{s['sec.method']}</p>
+      <h2>{s['method.h']}</h2>
+      <ol class="coach-steps">
+        {steps.map((n) => (
+          <li><span class="coach-step-n">0{n}</span><h3>{s[`step.${n}`]}</h3><p>{s[`step.${n}.d`]}</p></li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="coach-sec" id="gameplay">
+      <p class="coach-label"><span>03</span>{s['sec.gameplay']}</p>
+      <div class="coach-gameplay">
+        <div>
+          <h2 class="coach-neon">{s['gameplay.h']}</h2>
+          <ul class="coach-lines">
+            {lines.map(([a, b]) => <li>{s[a]} {b && <mark>{s[b]}</mark>}</li>)}
+            <li>{s['gp.7']} <small>{s['gp.7.s']}</small></li>
+          </ul>
+        </div>
+        <figure class="coach-gm">
+          <img src={img('grandmaster.webp')} alt={s['gm.alt']} width="640" height="759" loading="lazy" />
+          <figcaption><strong>90%+</strong>{s['stat.wr']}</figcaption>
+        </figure>
+      </div>
+    </section>
+
+
+    <section class="coach-sec" id="accounts">
+      <p class="coach-label"><span>04</span>{s['sec.accounts']}</p>
+      <h2>{s['accounts.h']}</h2>
+      <ul class="coach-accounts">
+        {accounts.map((a) => (
+          <li>
+            <a href={a.url} rel="noopener" target="_blank">
+              <span class="coach-tag">EUW · OP.GG</span>
+              <strong>{a.riotId}</strong>
+              <span class="coach-link">{s.opgg} ↗</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="coach-final">
+      <h2 class="coach-neon">{s['final.h']}</h2>
+      <p>{s['final.p']}</p>
+      <a class="coach-btn" href={href(lang, 'hobbies/coaching/order')}>{s.cta}</a>
+      <p class="coach-demo">{s.demo}</p>
+    </section>
+  </div>
+</Base>

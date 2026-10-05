@@ -1,0 +1,104 @@
+---
+import '@fontsource/anton';
+import Base from '../../../../layouts/Base.astro';
+import Header from '../../../../components/coaching/Header.astro';
+import { langPaths, type Lang } from '../../../../i18n/ui';
+import { ct } from '../../../../scripts/coaching/i18n';
+import { price, ranks, services, slots } from '../../../../data/coaching';
+import '../../../../styles/coaching.css';
+import '../../../../styles/coaching-order.css';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const s = ct(lang);
+const roles = ['ADC', 'ADC Mid'];
+const tabs = [s['tab.1'], s['tab.2'], s['tab.3'], s['tab.4']];
+const data = { lang, s, services: services.map((sv) => ({ id: sv.id, price: sv.price, name: s[sv.id] })) };
+---
+<Base lang={lang} title={`${s['nav.order']} · ${s.title}`}>
+  <div class="coach">
+    <Header lang={lang} order />
+    <section class="coach-hero is-compact">
+      <p class="coach-eyebrow">{s.eyebrow}</p>
+      <h1 class="coach-neon co-title">{s['order.h']}</h1>
+      <p class="coach-lede">{s['order.lede']}</p>
+    </section>
+    <noscript><p class="co-alert">{s.noscript}</p></noscript>
+
+    <form class="co-form" data-checkout novalidate>
+      <ol class="co-tabs">
+        {tabs.map((t, i) => <li data-tab={i + 1}><span>0{i + 1}</span><b data-tab-label>{t}</b></li>)}
+      </ol>
+      <div class="co-grid">
+        <div>
+          <fieldset data-step="1">
+            <legend>{s['tab.1']}</legend>
+            <div class="co-options">
+              {services.map((sv, i) => (
+                <label class="co-option">
+                  <input type="radio" name="service" value={sv.id} checked={i === 0} />
+                  <span class="co-option-name">{s[sv.id]}</span>
+                  <span class="co-option-desc">{s[`${sv.id}.desc`]}</span>
+                  <strong>{sv.price === null ? s.quote : price(lang, sv.price)}</strong>
+                </label>
+              ))}
+            </div>
+            <label class="co-field" data-only="paid">{s.qty}<input type="number" name="qty" min="1" max="10" value="1" inputmode="numeric" /></label>
+            <div class="co-nav"><button class="coach-btn" type="button" data-next>{s.next}</button></div>
+          </fieldset>
+
+          <fieldset data-step="2" hidden>
+            <legend>{s['tab.2']}</legend>
+            <div class="co-fields">
+              <label class="co-field">{s.riot}<input name="riot" placeholder={s['riot.ph']} autocomplete="off" required data-check="riot" /><small data-err /></label>
+              <label class="co-field">{s.email}<input name="email" type="email" autocomplete="email" required /><small data-err /></label>
+              <label class="co-field">{s.rank}<select name="rank" required><option value="">—</option>{ranks.slice(0, -1).map((r, i) => <option value={i}>{r}</option>)}</select><small data-err /></label>
+              <label class="co-field" data-only="quote">{s.target}<select name="target" data-check="target"><option value="">—</option>{ranks.slice(1).map((r, i) => <option value={i + 1}>{r}</option>)}</select><small data-err /></label>
+              <label class="co-field">{s.role}<select name="role" required><option value="">—</option>{roles.map((r) => <option>{r}</option>)}</select><small data-err /></label>
+              <label class="co-field"><span data-only="paid">{s.date}</span><span data-only="quote">{s['date.q']}</span><input name="date" type="date" required data-check="date" /><small data-err /></label>
+              <label class="co-field">{s.slot}<select name="slot" required><option value="">—</option>{slots.map((t) => <option>{t}</option>)}</select><small data-err /></label>
+              <label class="co-field is-wide">{s.notes} <em>({s.optional})</em><textarea name="notes" rows="3" /></label>
+            </div>
+            <div class="co-nav"><button class="coach-btn is-ghost is-back" type="button" data-prev>{s.prev}</button><button class="coach-btn" type="button" data-next>{s.next}</button></div>
+          </fieldset>
+
+          <fieldset data-step="3" hidden>
+            <legend data-tab-label>{s['tab.3']}</legend>
+            <div data-only="paid">
+              <p class="co-alert">{s['pay.demo']} <button type="button" class="co-linkbtn" data-fill>{s['pay.fill']}</button></p>
+              <div class="co-fields">
+                <label class="co-field is-wide">{s['card.name']}<input name="cname" autocomplete="off" required /><small data-err /></label>
+                <label class="co-field is-wide">{s['card.number']}<input name="cnum" inputmode="numeric" autocomplete="off" placeholder="4242 4242 4242 4242" maxlength="23" required data-check="card" /><small data-err /></label>
+                <label class="co-field">{s['card.exp']}<input name="cexp" inputmode="numeric" autocomplete="off" placeholder="12/28" maxlength="5" required data-check="exp" /><small data-err /></label>
+                <label class="co-field">{s['card.cvc']}<input name="ccvc" inputmode="numeric" autocomplete="off" placeholder="123" maxlength="4" required data-check="cvc" /><small data-err /></label>
+              </div>
+            </div>
+            <p class="co-alert" data-only="quote">{s['quote.info']}</p>
+            <div class="co-nav"><button class="coach-btn is-ghost is-back" type="button" data-prev>{s.prev}</button><button class="coach-btn" type="submit" data-submit>{s.pay}</button></div>
+          </fieldset>
+
+          <section data-step="4" class="co-done" hidden tabindex="-1">
+            <h2 class="coach-neon">{s['done.h']}</h2>
+            <p data-done-msg></p>
+            <p class="co-when" data-done-when></p>
+            <p class="co-ref">{s['done.ref']} <strong data-ref></strong></p>
+            <p class="coach-demo">{s['done.note']}</p>
+            <button class="coach-btn" type="button" data-again>{s['done.again']}</button>
+            <details class="co-history" data-history hidden><summary>{s.history}</summary><ul /><button type="button" class="co-linkbtn" data-clear>{s.clear}</button></details>
+          </section>
+        </div>
+
+        <aside class="co-summary" aria-live="polite">
+          <p class="coach-label">{s.summary}</p>
+          <p class="co-sum-name" data-sum-name />
+          <p class="co-sum-line" data-sum-line />
+          <p class="co-sum-line" data-sum-when />
+          <p class="co-sum-total"><span>{s.total}</span><strong data-sum-total /></p>
+          <p class="coach-demo">{s.demo}</p>
+        </aside>
+      </div>
+    </form>
+  </div>
+</Base>
+<script is:inline type="application/json" id="co-data" set:html={JSON.stringify(data)} />
+<script>import '../../../../scripts/coaching/order';</script>

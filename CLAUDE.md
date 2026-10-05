@@ -11,7 +11,7 @@ Bilingual: English (default) and French. Every route lives under `/en/` or `/fr/
 - `src/styles/` — `tokens.css` (all tokens: light, dark, print scale) → `global.css` (site styles) → `print.css` (PDF layout); imported in that order by Base
 - `src/i18n/ui.ts` — languages, UI strings, `href(lang, path)` link helper
 - `src/layouts/Base.astro` (fonts, styles, nav, footer); `src/components/Nav.astro` (links + EN/FR), `Footer.astro` (contact CTA from `cv.yaml` → `cta`)
-- `src/pages/index.astro` — redirect; `404.astro` — bilingual 404; `[lang]/index.astro` — CV; `[lang]/hobbies.astro` — empty; `[lang]/apps/` — Apps index + SQL Arena game (`apps/sql/`, see `claude_add.md` §3)
+- `src/pages/index.astro` — redirect; `404.astro` — bilingual 404; `[lang]/index.astro` — CV; `[lang]/hobbies.astro` — Hobbies index; `[lang]/hobbies/coaching/` — Kalista Mid coaching site + demo checkout (prices/accounts `src/data/coaching.ts`, strings `src/scripts/coaching/i18n.ts`, styles `coaching*.css`, `--coach-*` tokens, slide crops `public/hobbies/coaching/`, demo orders in localStorage `cv:coaching:orders`, no card data stored); `[lang]/apps/` — Apps index + SQL Arena game (`apps/sql/`, see `claude_add.md` §3)
 - `scripts/cv-pdf.mjs` — after build, prints the CV page (`print.css` + print tokens) to `dist/elliot-fesquet-cv-{en,fr}.pdf` via installed Chrome. Keep each PDF to 1 A4 page.
 - `src/pages/[lang]/projects/index.astro` + `[slug].astro` — projects; collection schema in `src/content.config.ts`
 - `src/data/cv.yaml` — single source of truth for CV (en/fr per field); `src/data/cv.ts` loads + types it

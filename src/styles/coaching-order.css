@@ -1,0 +1,89 @@
+/* Coaching demo checkout (hobbies/coaching/order). Builds on coaching.css. Tokens only. */
+
+.coach-hero.is-compact { padding-block: var(--space-5) var(--space-4); }
+.co-title { font-size: var(--step-3); font-weight: 400; line-height: 0.9; margin: var(--space-3) 0; }
+.co-form { scroll-margin-top: var(--nav-h); }
+
+/* Step tabs (ZeBeyond "01 / ePOP Concept") */
+.co-tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-1); list-style: none; padding: 0; margin: 0 0 var(--space-4); }
+.co-tabs li {
+  display: flex; gap: var(--space-2); align-items: baseline; min-width: 0; padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border); border-radius: var(--coach-radius); color: var(--color-muted);
+  font: var(--step--1) var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em;
+}
+.co-tabs b { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: none; }
+.co-tabs [aria-current] { color: var(--color-text); border-color: var(--color-accent); background: var(--coach-surface-2); box-shadow: var(--coach-glow-box); }
+.co-tabs [aria-current] span, .co-tabs [data-done] span { color: var(--color-accent); }
+@media (min-width: 40rem) { .co-tabs b { display: inline; } }
+
+/* Layout: steps + sticky summary */
+.co-grid { display: grid; gap: var(--space-4); align-items: start; }
+.co-grid > * { min-width: 0; }
+@media (min-width: 64rem) {
+  .co-grid { grid-template-columns: minmax(0, 1fr) 20rem; }
+  .co-summary { position: sticky; top: calc(var(--nav-h) + var(--space-3)); }
+}
+.co-form fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.co-form legend { font: var(--step-1) var(--font-display); text-transform: uppercase; letter-spacing: 0.03em; padding: 0; margin-bottom: var(--space-3); }
+
+/* Service options: selectable cards */
+.co-options { display: grid; gap: var(--space-2); margin-bottom: var(--space-4); }
+.co-option {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: var(--space-1) var(--space-3); align-items: center; cursor: pointer;
+  padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); border-radius: var(--coach-radius);
+  background: var(--coach-surface); transition: border-color 0.25s, box-shadow 0.25s;
+}
+.co-option:hover { border-color: var(--color-muted); }
+.co-option:has(:checked) { border-color: var(--color-accent); box-shadow: var(--coach-glow-box); }
+.co-option input { accent-color: var(--color-accent); grid-row: span 2; }
+.co-option-name { font: var(--step-1) var(--font-display); text-transform: uppercase; letter-spacing: 0.02em; }
+.co-option strong { grid-row: span 2; grid-column: 3; font: var(--step-1) var(--font-display); color: var(--color-accent); text-align: right; }
+.co-option-desc { grid-column: 2; font-size: var(--step--1); color: var(--color-muted); }
+
+/* Fields */
+.co-fields { display: grid; gap: var(--space-3); }
+@media (min-width: 40rem) { .co-fields { grid-template-columns: 1fr 1fr; } .co-field.is-wide { grid-column: 1 / -1; } }
+.co-field { display: grid; gap: var(--space-1); font: 500 var(--step--1) var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-muted); }
+.co-field em { font-style: normal; text-transform: none; }
+.co-field:has(input[name=qty]) { max-width: 10rem; margin-bottom: var(--space-4); }
+.co-field :is(input, select, textarea) {
+  font: var(--step-0) var(--font-sans); text-transform: none; letter-spacing: 0; color: var(--color-text);
+  background: var(--coach-surface); border: 1px solid var(--color-border); border-radius: var(--coach-radius);
+  padding: var(--space-2) var(--space-3); min-height: 2.75em; width: 100%; box-sizing: border-box;
+}
+.co-field select option { background: var(--coach-surface); color: var(--color-text); }
+.co-field :is(input, select, textarea):focus-visible { outline: none; border-color: var(--color-accent); box-shadow: var(--coach-glow-box); }
+.co-field [aria-invalid] { border-color: var(--color-accent); }
+.co-field small { min-height: 1lh; color: var(--color-accent-ink); text-transform: none; letter-spacing: 0; }
+.co-nav { display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: space-between; margin-top: var(--space-4); }
+.co-nav button:only-child { margin-left: auto; }
+
+/* Notices */
+.co-alert {
+  max-width: none; padding: var(--space-3); margin: 0 0 var(--space-4);
+  border: 1px dashed var(--color-accent); border-radius: var(--coach-radius); background: var(--coach-surface-2);
+}
+.co-linkbtn { font: inherit; color: var(--color-accent-ink); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 0.2em; }
+
+/* Summary card */
+.co-summary { padding: var(--space-4); border: 1px solid var(--color-border); border-radius: var(--coach-radius); background: var(--coach-surface); }
+.co-summary p { margin: 0 0 var(--space-2); }
+.co-sum-name { font: var(--step-1) var(--font-display); text-transform: uppercase; }
+.co-sum-line { color: var(--color-muted); font-size: var(--step--1); }
+.co-sum-total { display: flex; justify-content: space-between; align-items: baseline; padding-top: var(--space-3); border-top: 1px solid var(--color-border); }
+.co-sum-total strong { font: var(--step-2) var(--font-display); color: var(--color-accent); text-shadow: var(--coach-glow); }
+
+/* Confirmation ("THANK YOU!" slide) */
+.co-done { display: grid; justify-items: center; text-align: center; gap: var(--space-3); padding-block: var(--space-5); outline: none; }
+.co-done h2 { font-size: var(--step-3); font-weight: 400; color: var(--color-text); margin: 0; }
+.co-done p { margin: 0; }
+.co-when { font: var(--step--1) var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-muted); }
+.co-field input[type=date] { color-scheme: dark; }
+.co-ref strong { font: var(--step-1) var(--font-mono); color: var(--color-accent); display: block; }
+.co-history { text-align: left; width: min(100%, 32rem); font-size: var(--step--1); }
+.co-history summary { cursor: pointer; color: var(--color-muted); }
+.co-history ul { padding-left: var(--space-4); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .co-form [data-step]:not([hidden]) { animation: rise 0.5s var(--ease) both; }
+}

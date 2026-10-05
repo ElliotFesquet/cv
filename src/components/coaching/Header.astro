@@ -1,0 +1,23 @@
+---
+// Coaching sub-header: brand, pill nav (anchors on the landing page), red "Order" button. ZeBeyond-style.
+import { href, type Lang } from '../../i18n/ui';
+import { ct } from '../../scripts/coaching/i18n';
+
+interface Props { lang: Lang; order?: boolean }
+const { lang, order = false } = Astro.props;
+const s = ct(lang);
+const home = href(lang, 'hobbies/coaching');
+const links = [['services', s['nav.services']], ['rankup', s['nav.method']], ['gameplay', s['nav.gameplay']], ['accounts', s['nav.accounts']]];
+---
+<header class="coach-head">
+  <a class="coach-brand" href={home}>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10a5 5 0 0 1 4.9 6l-.8 3.6a2.3 2.3 0 0 1-4 1L15 15.5H9l-2.1 2.1a2.3 2.3 0 0 1-4-1L2.1 13A5 5 0 0 1 7 7Zm0 3v1.5H5.5v1H7V14h1v-1.5h1.5v-1H8V10Zm9 .5a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8Zm2 2a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8Z" /></svg>
+    <span>{s.title}</span>
+  </a>
+  <nav class="coach-pill" aria-label={s.title}>
+    {links.map(([id, label]) => <a href={`${home}#${id}`}>{label}</a>)}
+  </nav>
+  {order
+    ? <a class="coach-btn is-small is-ghost is-back" href={home}>{s.back}</a>
+    : <a class="coach-btn is-small" href={href(lang, 'hobbies/coaching/order')}>{s['nav.order']}</a>}
+</header>

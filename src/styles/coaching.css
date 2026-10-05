@@ -1,0 +1,149 @@
+/* Coaching (hobbies/coaching/*): dark red-neon screen inspired by the "Coaching ;D" slides + ZeBeyond layout. Tokens only. */
+
+/* Screen: remaps site tokens locally (like .arena), grid + red shards + glow behind */
+.coach {
+  --color-bg: var(--coach-bg); --color-text: var(--coach-ink); --color-muted: var(--coach-dim);
+  --color-border: var(--coach-line); --color-accent: var(--coach-red); --color-accent-ink: var(--coach-red-ink);
+  --color-on-accent: var(--coach-on-red); --color-ok: var(--coach-ok);
+  position: relative; isolation: isolate; overflow: clip;
+  margin: calc(var(--space-6) * -1) calc(var(--gutter) * -1);
+  padding: var(--space-4) var(--gutter) var(--space-6);
+  background:
+    radial-gradient(ellipse 70% 40% at 75% 0%, var(--coach-red-deep), transparent 70%),
+    linear-gradient(var(--coach-grid) 1px, transparent 1px) 0 0 / var(--coach-cell) var(--coach-cell),
+    linear-gradient(90deg, var(--coach-grid) 1px, transparent 1px) 0 0 / var(--coach-cell) var(--coach-cell),
+    var(--color-bg);
+  color: var(--color-text);
+}
+.coach::before { /* slide-style red shards, fading out downwards */
+  content: ""; position: absolute; inset: 0 0 auto; height: 120vh; z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(160deg, transparent 30%, var(--coach-shard) 30% 42%, transparent 42%),
+    linear-gradient(20deg, transparent 55%, var(--coach-shard) 55% 63%, transparent 63%),
+    linear-gradient(115deg, var(--coach-shard) 0 18%, transparent 18%);
+  mask-image: linear-gradient(black, transparent);
+}
+.coach ::selection { background: var(--color-accent); color: var(--color-on-accent); }
+.coach [hidden] { display: none !important; }
+.coach a:not([class]) { text-decoration-color: var(--color-accent); }
+
+/* Header: brand · pill nav · button */
+.coach-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); justify-content: space-between; }
+.coach-brand {
+  display: flex; align-items: center; gap: var(--space-2); text-decoration: none;
+  font: var(--step-0) var(--font-display); text-transform: uppercase; letter-spacing: 0.04em;
+}
+.coach-brand svg { width: 1.6em; fill: var(--color-accent); filter: drop-shadow(var(--coach-glow-box)); }
+.coach-pill {
+  display: none; border: 1px solid var(--color-border); border-radius: var(--coach-radius);
+  background: color-mix(in srgb, var(--coach-surface) 80%, transparent); backdrop-filter: blur(8px);
+}
+.coach-pill a {
+  padding: var(--space-2) var(--space-3); text-decoration: none; color: var(--color-muted);
+  font: 500 var(--step--1) var(--font-sans); border-left: 1px solid var(--color-border);
+}
+.coach-pill a:first-child { border-left: 0; }
+.coach-pill a:hover { color: var(--color-text); }
+@media (min-width: 52rem) { .coach-pill { display: flex; } }
+
+/* Buttons: slide "NEXT SLIDE" style, label + red arrow block */
+.coach-btn {
+  display: inline-flex; align-items: stretch; gap: 0; width: fit-content; text-decoration: none; cursor: pointer;
+  font: var(--step-0) / 2.6 var(--font-display); text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text);
+  padding-left: var(--space-3); border: 1px solid var(--color-accent); background: var(--coach-bg);
+  transition: box-shadow 0.3s, transform 0.3s var(--ease);
+}
+.coach-btn::after {
+  content: "→"; display: grid; place-items: center; margin-left: var(--space-3); padding-inline: var(--space-3);
+  background: var(--color-accent); color: var(--color-on-accent); font-family: var(--font-sans);
+}
+.coach-btn:hover { color: var(--color-text); box-shadow: var(--coach-glow-box); transform: translateY(-2px); }
+.coach-btn.is-ghost { border-color: var(--color-border); }
+.coach-btn.is-ghost::after { background: var(--coach-surface-2); color: var(--color-text); }
+.coach-btn.is-small { font-size: var(--step--1); }
+.coach-btn[disabled] { opacity: 0.5; cursor: wait; }
+.coach-btn.is-back { padding-right: var(--space-3); }
+.coach-btn.is-back::after { content: none; }
+
+/* Hero */
+.coach-hero { padding-block: var(--space-6) var(--space-5); }
+.coach-eyebrow, .coach-label, .coach-tag {
+  font: 500 var(--step--1) var(--font-mono); text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-muted);
+}
+.coach-h1 {
+  font: var(--step-4) / 0.85 var(--font-display); text-transform: uppercase; letter-spacing: 0; margin: var(--space-3) 0 var(--space-4);
+  text-shadow: var(--coach-glow);
+}
+.coach-h1 .is-red, .coach-neon { color: var(--color-accent); }
+.coach-neon { font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.01em; text-shadow: var(--coach-glow); }
+.coach-h1 span:first-child { background: linear-gradient(var(--coach-ink) 55%, var(--coach-dim)); background-clip: text; color: transparent; }
+.coach-lede { font-size: var(--step-1); line-height: 1.35; max-width: 42ch; margin: 0 0 var(--space-4); }
+.coach-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+.coach-stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: var(--space-2);
+  list-style: none; padding: 0; margin: var(--space-5) 0 0;
+}
+.coach-stats li, .coach-steps li, .coach-card, .coach-accounts a {
+  border: 1px solid var(--color-border); border-radius: var(--coach-radius);
+  background: color-mix(in srgb, var(--coach-surface) 85%, transparent);
+}
+.coach-stats li { display: grid; gap: var(--space-1); padding: var(--space-3); }
+.coach-stats strong { font: var(--step-1) var(--font-display); text-transform: uppercase; color: var(--color-accent); }
+.coach-stats span { font-size: var(--step--1); color: var(--color-muted); }
+
+/* Sections: numbered label (ZeBeyond "03 KEY CAPABILITIES") */
+.coach-sec { padding-block: var(--space-5); border-top: 1px solid var(--color-border); scroll-margin-top: var(--nav-h); }
+.coach-label { display: flex; align-items: center; gap: var(--space-2); margin: 0 0 var(--space-2); }
+.coach-label span { padding: 0 var(--space-1); background: var(--color-accent); color: var(--color-on-accent); }
+.coach-sec h2 { font-weight: 500; letter-spacing: -0.02em; margin-bottom: var(--space-4); }
+.coach-sec h2.coach-neon { font-size: var(--step-2); font-weight: 400; }
+
+/* Services: hexagon visuals from the slides */
+.coach-services, .coach-steps, .coach-accounts {
+  display: grid; gap: var(--space-3); list-style: none; padding: 0; margin: 0;
+}
+@media (min-width: 52rem) { .coach-services, .coach-steps { grid-template-columns: repeat(3, 1fr); } }
+.coach-card { display: grid; justify-items: center; text-align: center; gap: var(--space-2); padding: var(--space-4); }
+.coach-card h3 { font: var(--step-1) var(--font-display); text-transform: uppercase; color: var(--color-accent); text-shadow: var(--coach-glow); margin: var(--space-2) 0 0; }
+.coach-card-desc { color: var(--color-muted); margin: 0; flex: 1; }
+.coach-hex { width: min(14rem, 70%); aspect-ratio: 10 / 9; padding: 3px; background: linear-gradient(135deg, var(--coach-red), var(--coach-ink)); clip-path: var(--coach-hex); }
+.coach-hex img { width: 100%; height: 100%; object-fit: cover; scale: 1.12; clip-path: var(--coach-hex); }
+.coach-price { display: grid; margin: var(--space-2) 0; }
+.coach-price strong { font: var(--step-2) var(--font-display); }
+.coach-price span { font-size: var(--step--1); color: var(--color-muted); }
+
+/* Rank-up steps */
+.coach-steps li { padding: var(--space-4); position: relative; }
+.coach-steps h3 { margin: var(--space-2) 0; }
+.coach-steps p { color: var(--color-muted); margin: 0; }
+.coach-step-n { font: var(--step-2) var(--font-display); color: var(--color-accent); text-shadow: var(--coach-glow); }
+
+/* Gameplay: slide 3 */
+.coach-gameplay { display: grid; gap: var(--space-5); align-items: center; }
+@media (min-width: 52rem) { .coach-gameplay { grid-template-columns: 1.2fr 1fr; } }
+.coach-lines { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-2); text-transform: uppercase; font-size: var(--step--1); letter-spacing: 0.04em; }
+.coach-lines mark { background: none; color: var(--color-accent); font-weight: 700; }
+.coach-lines small { text-transform: none; color: var(--color-muted); }
+.coach-gm { margin: 0; display: grid; gap: var(--space-3); justify-items: center; }
+.coach-gm img { width: min(100%, 22rem); height: auto; border: 2px solid var(--color-accent); box-shadow: var(--coach-glow-box); }
+.coach-gm figcaption { display: grid; text-align: center; font: var(--step-1) var(--font-display); text-transform: uppercase; }
+.coach-gm figcaption strong { font-size: var(--step-2); color: var(--color-accent); text-shadow: var(--coach-glow); }
+
+/* Accounts */
+.coach-accounts { grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+.coach-accounts a { display: grid; gap: var(--space-2); padding: var(--space-4); text-decoration: none; transition: border-color 0.3s, box-shadow 0.3s; }
+.coach-accounts a:hover { border-color: var(--color-accent); box-shadow: var(--coach-glow-box); color: var(--color-text); }
+.coach-accounts strong { font-size: var(--step-1); overflow-wrap: anywhere; }
+.coach-link { color: var(--color-accent-ink); font-size: var(--step--1); }
+
+/* Final call ("THANK YOU!" slide) */
+.coach-final { display: grid; justify-items: center; text-align: center; gap: var(--space-3); padding-block: var(--space-6) 0; border-top: 1px solid var(--color-border); }
+.coach-final h2 { font-size: var(--step-3); font-weight: 400; color: var(--color-text); margin: 0; }
+.coach-final p { margin: 0; }
+.coach-demo { font: var(--step--1) var(--font-mono); color: var(--color-muted); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .coach-hero > * { animation: rise 0.8s var(--ease) both; }
+  .coach-hero > :nth-child(2) { animation-delay: 0.1s; }
+  .coach-hero > :nth-child(n + 3) { animation-delay: 0.2s; }
+}

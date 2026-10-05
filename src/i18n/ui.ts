@@ -6,6 +6,7 @@ export const ui = {
   en: {
     'nav.home': 'Profile', 'nav.projects': 'Projects', 'nav.apps': 'Apps', 'nav.hobbies': 'Hobbies',
     'apps.lede': 'Interactive tools that run entirely in your browser.',
+    'hobbies.lede': 'What I do when I am not modelling data.',
     'cv.profile': 'Profile', 'cv.skills': 'Skills', 'cv.experience': 'Experience',
     'cv.education': 'Education', 'cv.activities': 'Activities & distinctions',
     'cv.workRights': 'Right to work', 'cv.download': 'Download CV (PDF)',
@@ -15,6 +16,7 @@ export const ui = {
   fr: {
     'nav.home': 'Profil', 'nav.projects': 'Projets', 'nav.apps': 'Apps', 'nav.hobbies': 'Loisirs',
     'apps.lede': 'Des outils interactifs qui tournent entièrement dans votre navigateur.',
+    'hobbies.lede': 'Ce que je fais quand je ne modélise pas de données.',
     'cv.profile': 'Profil', 'cv.skills': 'Compétences', 'cv.experience': 'Expérience',
     'cv.education': 'Formation', 'cv.activities': 'Activités & distinctions',
     'cv.workRights': 'Droit de travail', 'cv.download': 'Télécharger le CV (PDF)',
