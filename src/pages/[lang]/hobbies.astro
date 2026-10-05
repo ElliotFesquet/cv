@@ -1,0 +1,11 @@
+---
+import Base from '../../layouts/Base.astro';
+import { langPaths, t, type Lang } from '../../i18n/ui';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const title = t(lang)['nav.hobbies'];
+---
+<Base lang={lang} title={title}>
+  <h1>{title}</h1>
+</Base>

@@ -1,0 +1,14 @@
+---
+import { defaultLang, href } from '../i18n/ui';
+const target = href(defaultLang);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={target} />
+    <title>Elliot Fesquet</title>
+  </head>
+  <body><a href={target}>Elliot Fesquet</a></body>
+</html>

@@ -1,0 +1,22 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import type { Lang } from '../i18n/ui';
+
+interface Props { lang: Lang; title: string }
+const { lang, title } = Astro.props;
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} · Elliot Fesquet</title>
+  </head>
+  <body>
+    <Nav lang={lang} />
+    <main class="container">
+      <slot />
+    </main>
+  </body>
+</html>

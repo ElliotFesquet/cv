@@ -1,0 +1,24 @@
+---
+import { href, languages, t, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const labels = t(lang);
+const path = Astro.url.pathname;
+const links = [
+  { url: href(lang), label: labels['nav.home'] },
+  { url: href(lang, 'projects'), label: labels['nav.projects'] },
+  { url: href(lang, 'hobbies'), label: labels['nav.hobbies'] },
+];
+const isCurrent = (url: string) => (url === href(lang) ? path === url : path.startsWith(url));
+const other = (Object.keys(languages) as Lang[]).find((l) => l !== lang)!;
+const switchUrl = path.replace(`/${lang}/`, `/${other}/`);
+---
+<nav class="site-nav" aria-label="Main">
+  <div class="container">
+    {links.map((l) => (
+      <a href={l.url} aria-current={isCurrent(l.url) ? 'page' : undefined}>{l.label}</a>
+    ))}
+    <a class="lang" href={switchUrl} hreflang={other} lang={other}>{languages[other]}</a>
+  </div>
+</nav>
