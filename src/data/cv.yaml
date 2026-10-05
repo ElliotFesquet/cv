@@ -125,3 +125,16 @@ activities:
   - label: { en: Coaching / tutoring, fr: Coaching / tutorat }
     en: League of Legends, maths and English
     fr: League of Legends, maths et anglais
+
+# Contact call-to-action (site footer). Not part of the PDF.
+cta:
+  title:
+    en: Open to my first Analytics Engineer role
+    fr: Ouvert à mon premier poste d'Analytics Engineer
+  text:
+    en: >-
+      I'm looking for my first official Analytics Engineer position. Startups are my first choice,
+      but I'm happy to join a company of any size.
+    fr: >-
+      Je recherche mon premier poste officiel d'Analytics Engineer, idéalement en startup, mais je suis
+      ouvert aux entreprises de toutes tailles.

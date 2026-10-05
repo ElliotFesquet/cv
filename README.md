@@ -21,14 +21,17 @@ Personal site of Elliot Fesquet, Analytics Engineer: professional portfolio and 
 
 ## Run locally
 
-Requires Node 24+.
+Requires Node 24+ and Google Chrome (used to print the CV PDFs).
 
 ```sh
 npm install
-npm run dev      # http://localhost:4321/cv/
-npm run build    # static site in dist/
-npm run preview  # serve dist/
+npm run dev         # http://localhost:4321/cv/
+npm run build       # static site + CV PDFs (dist/elliot-fesquet-cv-{en,fr}.pdf)
+npm run build:site  # static site only, no Chrome needed
+npm run preview     # serve dist/
 ```
+
+The PDFs are the CV page printed with its `@media print` styles, so they always match `cv.yaml`.
 
 ## Editing content
 

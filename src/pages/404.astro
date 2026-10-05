@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import { href, t } from '../i18n/ui';
+
+// GitHub Pages serves dist/404.html for any missing URL under /cv/. Bilingual, English first.
+const en = t('en');
+const fr = t('fr');
+---
+<Base lang="en" title={en['404.title']}>
+  <p class="error-code">404</p>
+  <h1>{en['404.title']}</h1>
+  <p class="muted" lang="fr">{fr['404.title']}</p>
+  <ul class="error-links">
+    <li><a href={href('en')}>{en['404.back']}</a></li>
+    <li lang="fr"><a href={href('fr')}>{fr['404.back']}</a></li>
+  </ul>
+</Base>

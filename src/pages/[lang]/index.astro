@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { langPaths, t, type Lang } from '../../i18n/ui';
+import { cvPdf, langPaths, t, type Lang } from '../../i18n/ui';
 import { cv, formatMonth } from '../../data/cv';
 
 export const getStaticPaths = langPaths;
@@ -17,6 +17,7 @@ const l = t(lang);
       <li><a href={cv.linkedin}>LinkedIn</a></li>
     </ul>
     <p class="muted"><strong>{l['cv.workRights']}:</strong> {cv.work_rights[lang]}</p>
+    <a class="button cv-download" href={cvPdf(lang)} download>{l['cv.download']} ↓</a>
   </header>
 
   <section class="cv-section">

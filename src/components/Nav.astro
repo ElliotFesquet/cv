@@ -12,7 +12,8 @@ const links = [
 ];
 const isCurrent = (url: string) => (url === href(lang) ? path === url : path.startsWith(url));
 const other = (Object.keys(languages) as Lang[]).find((l) => l !== lang)!;
-const switchUrl = path.replace(`/${lang}/`, `/${other}/`);
+// Pages outside /<lang>/ (e.g. 404) fall back to the other language's home.
+const switchUrl = path.includes(`/${lang}/`) ? path.replace(`/${lang}/`, `/${other}/`) : href(other);
 ---
 <nav class="site-nav" aria-label="Main">
   <div class="container">

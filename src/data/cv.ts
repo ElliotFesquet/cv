@@ -20,6 +20,7 @@ export interface CV {
   }[];
   education: { school: string; degree: Text; start: number; end: number; detail?: Text }[];
   activities: (Text & { label: Text })[];
+  cta: { title: Text; text: Text };
 }
 
 export const cv = load(raw) as CV;

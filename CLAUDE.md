@@ -1,5 +1,4 @@
 # Elliot Fesquet — personal site
-
 Professional portfolio **and** playground: 3 core pages (CV, projects, hobbies); more pages will be added.
 
 ## Stack
@@ -11,8 +10,9 @@ Bilingual: English (default) and French. Every route lives under `/en/` or `/fr/
 - `astro.config.mjs` — site, base, trailingSlash: 'always'
 - `src/styles/global.css` — the only stylesheet; design tokens at the top
 - `src/i18n/ui.ts` — languages, UI strings, `href(lang, path)` link helper
-- `src/layouts/Base.astro` (fonts, stylesheet, nav), `src/components/Nav.astro` (links + EN/FR switch)
-- `src/pages/index.astro` — redirect; `src/pages/[lang]/index.astro` — CV; `[lang]/hobbies.astro` — empty placeholder
+- `src/layouts/Base.astro` (fonts, stylesheet, nav, footer); `src/components/Nav.astro` (links + EN/FR), `Footer.astro` (contact CTA from `cv.yaml` → `cta`)
+- `src/pages/index.astro` — redirect; `404.astro` — bilingual 404; `[lang]/index.astro` — CV; `[lang]/hobbies.astro` — empty
+- `scripts/cv-pdf.mjs` — after build, prints the CV page (`@media print` in global.css) to `dist/elliot-fesquet-cv-{en,fr}.pdf` via installed Chrome. Keep each PDF to 1 A4 page.
 - `src/pages/[lang]/projects/index.astro` + `[slug].astro` — projects; collection schema in `src/content.config.ts`
 - `src/data/cv.yaml` — single source of truth for CV (en/fr per field); `src/data/cv.ts` loads + types it
 - `src/content/projects/{en,fr}/<slug>.md` — one markdown file per project per language
@@ -45,5 +45,5 @@ Breakpoints: mobile-first; 40rem (tablet), 64rem (desktop: sticky section labels
 5. `npm run build` locally, then push.
 
 ## Commands
-- `npm run dev` (http://localhost:4321/cv/) · `npm run build` (static build into `dist/`)
+- `npm run dev` (http://localhost:4321/cv/; PDFs 404 here) · `npm run build` (site + PDFs) · `npm run build:site` (site only)
 - Deploy: push to `master`; the workflow (ubuntu-24.04) builds and publishes. Check the run succeeded.
