@@ -111,7 +111,7 @@ education:
       en: "Master's in Data Engineering. Project: mobility data platform on AWS (S3 Bronze/Silver/Gold zones, governance and security)."
       fr: "Master en Data Engineering. Projet : plateforme de données de mobilité sur AWS (zones S3 Bronze/Silver/Gold, gouvernance et sécurité)."
   - school: EFREI Paris
-    degree: { en: Integrated preparatory class (mathematics, physics), fr: Classe Préparatoire Intégrée (mathématiques, physique) }
+    degree: { en: "Integrated preparatory class (mathematics, physics)", fr: "Classe Préparatoire Intégrée (mathématiques, physique)" }
     start: 2020
     end: 2021
 

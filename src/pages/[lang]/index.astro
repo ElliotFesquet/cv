@@ -38,11 +38,11 @@ const l = t(lang);
     {cv.experience.map((job) => (
       <article class="cv-entry">
         <div class="cv-entry-head">
-          <h3>{job.company} <span class="cv-role">— {job.role[lang]}</span></h3>
+          <h3>{job.company} <span class="cv-role">{job.role[lang]}</span></h3>
           <p class="muted">
             <time datetime={job.start}>{formatMonth(job.start, lang)}</time> –{' '}
             <time datetime={job.end}>{formatMonth(job.end, lang)}</time>
-            · {job.location[lang]} ({job.type[lang]})
+            {" · "}{job.location[lang]} ({job.type[lang]})
           </p>
         </div>
         <ul>
@@ -57,7 +57,7 @@ const l = t(lang);
     {cv.education.map((e) => (
       <article class="cv-entry">
         <div class="cv-entry-head">
-          <h3>{e.school} <span class="cv-role">— {e.degree[lang]}</span></h3>
+          <h3>{e.school} <span class="cv-role">{e.degree[lang]}</span></h3>
           <p class="muted">{e.start} – {e.end}</p>
         </div>
         {e.detail && <p>{e.detail[lang]}</p>}

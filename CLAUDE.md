@@ -18,8 +18,9 @@ Bilingual: English (default) and French. Every route lives under `/en/` or `/fr/
 - `src/content/projects/{en,fr}/<slug>.md` — one markdown file per project per language
 
 ## Design tokens (global.css `:root`, dark values under prefers-color-scheme)
-`--color-{bg,surface,text,muted,accent,border}`, `--font-{sans,mono}`,
-`--step-{-1..3}` type scale, `--space-{1..6}`, `--measure`, `--radius`.
+`--color-{bg,text,muted,border,accent,accent-ink,on-accent}` (accent-ink for small text), `--font-{sans,mono}` (Inter Tight + JetBrains Mono, self-hosted via @fontsource),
+`--step-{-1..3}` fluid type scale, `--space-{1..6}`, `--gutter`, `--page-max`, `--measure`, `--label-col`, `--nav-h`, `--radius`, `--ease`.
+Breakpoints: mobile-first; 40rem (tablet), 64rem (desktop: sticky section labels). Motion is CSS-only and off under reduced-motion.
 Never hard-code a colour, size or spacing outside `:root`.
 
 ## Conventions

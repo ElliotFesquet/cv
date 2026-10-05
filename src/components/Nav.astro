@@ -16,9 +16,10 @@ const switchUrl = path.replace(`/${lang}/`, `/${other}/`);
 ---
 <nav class="site-nav" aria-label="Main">
   <div class="container">
+    <a class="brand" href={href(lang)}>Elliot Fesquet</a>
     {links.map((l) => (
       <a href={l.url} aria-current={isCurrent(l.url) ? 'page' : undefined}>{l.label}</a>
     ))}
-    <a class="lang" href={switchUrl} hreflang={other} lang={other}>{languages[other]}</a>
+    <a class="lang" href={switchUrl} hreflang={other} lang={other} aria-label={languages[other]}>{other.toUpperCase()}</a>
   </div>
 </nav>

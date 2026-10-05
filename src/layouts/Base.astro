@@ -1,4 +1,6 @@
 ---
+import '@fontsource-variable/inter-tight';
+import '@fontsource-variable/jetbrains-mono';
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import type { Lang } from '../i18n/ui';
@@ -11,6 +13,7 @@ const { lang, title } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
     <title>{title} · Elliot Fesquet</title>
   </head>
   <body>
