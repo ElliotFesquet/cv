@@ -1,35 +1,41 @@
 # Elliot Fesquet — personal site
 
+Professional portfolio **and** playground: 3 core pages (CV, projects, hobbies); more pages will be added.
+
 ## Stack
-Astro (static output), hand-written CSS, no framework, no client-side JS unless a page truly needs it.
-Hosted on GitHub Pages as a **project page**: https://elliotfesquet.github.io/cv/ (`base: '/cv'`).
+Astro 7 (static output, Node 24), hand-written CSS, no framework, no client-side JS unless a page truly needs it.
+GitHub Pages **project page**: https://elliotfesquet.github.io/cv/ (`base: '/cv'`). Pages source = GitHub Actions.
 Bilingual: English (default) and French. Every route lives under `/en/` or `/fr/`; `/` redirects to `/en/`.
 
 ## File layout
 - `astro.config.mjs` — site, base, trailingSlash: 'always'
 - `src/styles/global.css` — the only stylesheet; design tokens at the top
 - `src/i18n/ui.ts` — languages, UI strings, `href(lang, path)` link helper
-- `src/layouts/Base.astro`, `src/components/Nav.astro`
-- `src/pages/index.astro` — redirect to default language
-- `src/pages/[lang]/index.astro` — CV / profile
-- `src/pages/[lang]/projects/` — projects index (+ `[slug].astro`)
-- `src/pages/[lang]/hobbies.astro` — placeholder, keep empty
-- `src/data/cv.yaml` — single source of truth for CV content (en/fr per field)
+- `src/layouts/Base.astro` (fonts, stylesheet, nav), `src/components/Nav.astro` (links + EN/FR switch)
+- `src/pages/index.astro` — redirect; `src/pages/[lang]/index.astro` — CV; `[lang]/hobbies.astro` — empty placeholder
+- `src/pages/[lang]/projects/index.astro` + `[slug].astro` — projects; collection schema in `src/content.config.ts`
+- `src/data/cv.yaml` — single source of truth for CV (en/fr per field); `src/data/cv.ts` loads + types it
 - `src/content/projects/{en,fr}/<slug>.md` — one markdown file per project per language
+- `public/` — copied as-is under `/cv/` (dbt docs, static files); `.github/workflows/deploy.yml` — build + deploy
 
 ## Design tokens (global.css `:root`, dark values under prefers-color-scheme)
 `--color-{bg,text,muted,border,accent,accent-ink,on-accent}` (accent-ink for small text), `--font-{sans,mono}` (Inter Tight + JetBrains Mono, self-hosted via @fontsource),
 `--step-{-1..3}` fluid type scale, `--space-{1..6}`, `--gutter`, `--page-max`, `--measure`, `--label-col`, `--nav-h`, `--radius`, `--ease`.
-Breakpoints: mobile-first; 40rem (tablet), 64rem (desktop: sticky section labels). Motion is CSS-only and off under reduced-motion.
-Never hard-code a colour, size or spacing outside `:root`.
+Breakpoints: mobile-first; 40rem (tablet), 64rem (desktop: sticky section labels). Motion is CSS-only and off under reduced-motion. Never hard-code a colour, size or spacing outside `:root`.
 
 ## Conventions
 - Never invent content about Elliot. Source: `cv_an_eng_ef.pdf` (Analytics Engineer CV). Missing fact → `TODO` + ask.
 - No phone number or street address on the site.
 - Internal links always via `href()` — never a hard-coded `/...` path (base path breaks).
-- One file per page, no file over ~200 lines, targeted edits over rewrites.
-- Every user-facing string exists in both `en` and `fr`.
+- One file per page, no file over ~200 lines, targeted edits over rewrites. Every string in both `en` and `fr`.
 - Static only: no backend, no secrets, no runtime data fetch.
+- YAML: quote any value containing a comma inside `{ }` flow maps, or it is silently truncated.
+- New styles go in global.css under their own `/* Section */` comment, using tokens only; reuse existing classes first.
+
+## Add a top-level page
+1. `src/pages/[lang]/<name>.astro` with `export const getStaticPaths = langPaths;` wrapped in `<Base>`.
+2. Add `nav.<name>` to both `en` and `fr` in `ui.ts`, and the link to `links` in `Nav.astro`.
+3. Playground pages needing JS: keep the `<script>` inside that page only, never in Base.
 
 ## Add a project page
 1. Create `src/content/projects/en/<slug>.md` and `src/content/projects/fr/<slug>.md` (same slug).
@@ -39,6 +45,5 @@ Never hard-code a colour, size or spacing outside `:root`.
 5. `npm run build` locally, then push.
 
 ## Commands
-- `npm run dev` — local server at http://localhost:4321/cv/
-- `npm run build` — static build into `dist/`
-- Deploy: push to `master`; `.github/workflows/deploy.yml` builds and publishes to Pages.
+- `npm run dev` (http://localhost:4321/cv/) · `npm run build` (static build into `dist/`)
+- Deploy: push to `master`; the workflow (ubuntu-24.04) builds and publishes. Check the run succeeded.
