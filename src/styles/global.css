@@ -116,3 +116,22 @@ main { padding: var(--space-5) 0 var(--space-6); }
 @media (max-width: 36rem) {
   .cv-skills div { grid-template-columns: 1fr; gap: 0; }
 }
+
+/* Projects */
+.project-list { list-style: none; padding: 0; margin: 0; }
+.project-list li { padding-block: var(--space-3); border-bottom: 1px solid var(--color-border); }
+.project-list p { margin: var(--space-1) 0 0; }
+.project h2 { font-size: var(--step-1); margin-top: var(--space-5); }
+.project-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  list-style: none;
+  padding: 0;
+}
+.project-stack li {
+  font: var(--step--1) var(--font-mono);
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  padding: var(--space-1) var(--space-2);
+}

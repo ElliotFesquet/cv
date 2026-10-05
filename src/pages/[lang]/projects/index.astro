@@ -1,11 +1,23 @@
 ---
+import { getCollection } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
-import { langPaths, t, type Lang } from '../../../i18n/ui';
+import { href, langPaths, t, type Lang } from '../../../i18n/ui';
 
 export const getStaticPaths = langPaths;
 const lang = Astro.params.lang as Lang;
 const title = t(lang)['nav.projects'];
+const projects = (await getCollection('projects', (p) => p.id.startsWith(`${lang}/`)))
+  .sort((a, b) => (b.data.date?.getTime() ?? 0) - (a.data.date?.getTime() ?? 0));
+const slug = (id: string) => id.split('/')[1];
 ---
 <Base lang={lang} title={title}>
   <h1>{title}</h1>
+  <ul class="project-list">
+    {projects.map((p) => (
+      <li>
+        <a href={href(lang, `projects/${slug(p.id)}`)}>{p.data.title}</a>
+        {p.data.summary && <p class="muted">{p.data.summary}</p>}
+      </li>
+    ))}
+  </ul>
 </Base>

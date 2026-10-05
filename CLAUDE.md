@@ -32,9 +32,10 @@ Never hard-code a colour, size or spacing outside `:root`.
 
 ## Add a project page
 1. Create `src/content/projects/en/<slug>.md` and `src/content/projects/fr/<slug>.md` (same slug).
-2. Frontmatter: `title`, `summary`, `date`, `stack` (list).
+2. Frontmatter: `title` (required), optional `summary`, `date`, `stack` (list). Schema: `src/content.config.ts`.
 3. Body sections: Problem → Data sources → Data model → Decisions and tradeoffs → What I'd do differently.
-4. `npm run build` locally, then push.
+4. dbt docs (optional): `dbt docs generate --static` in the dbt repo, review for exposed names/SQL, copy `target/static_index.html` to `public/projects/<slug>/docs/index.html` (served at `/cv/projects/<slug>/docs/`).
+5. `npm run build` locally, then push.
 
 ## Commands
 - `npm run dev` — local server at http://localhost:4321/cv/
