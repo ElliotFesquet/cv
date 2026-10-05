@@ -1,0 +1,54 @@
+/* Design tokens: the only place colours, type, spacing are defined (incl. dark + print overrides). */
+:root {
+  --color-bg: #f3f1ec;
+  --color-text: #121211;
+  --color-muted: #66635c;
+  --color-border: #d4d0c7;
+  --color-accent: #ff4f1f;      /* fills, rules, selection */
+  --color-accent-ink: #b5360f;  /* accent for small text (AA on bg) */
+  --color-on-accent: #121211;
+
+  --font-sans: "Inter Tight Variable", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, Consolas, monospace;
+
+  --step--1: 0.8125rem;
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --step-1: clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem);
+  --step-2: clamp(1.75rem, 1.35rem + 1.7vw, 2.9rem);
+  --step-3: clamp(3.4rem, 0.8rem + 11vw, 11rem);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: clamp(2rem, 1.4rem + 2.5vw, 3.5rem);
+  --space-6: clamp(3rem, 2rem + 4vw, 6rem);
+
+  --gutter: clamp(1rem, 4vw, 3rem);
+  --page-max: 88rem;
+  --measure: 66ch;
+  --label-col: 15rem;
+  --nav-h: 3.25rem;
+  --radius: 999px;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #0f0f0e;
+    --color-text: #edebe6;
+    --color-muted: #94918a;
+    --color-border: #2c2b28;
+    --color-accent: #ff6a3d;
+    --color-accent-ink: #ff7d55;
+  }
+}
+
+/* Print / PDF (scripts/cv-pdf.mjs): compact A4 scale */
+@media print {
+  :root {
+    --color-bg: #fff; --color-text: #111; --color-muted: #555; --color-border: #d6d6d6; --color-accent-ink: #b5360f;
+    --step--1: 7.5pt; --step-0: 9pt; --step-1: 10.5pt; --step-2: 13pt; --step-3: 24pt;
+    --space-3: 6pt; --space-4: 8pt; --space-5: 7pt; --space-6: 10pt; --gutter: 0; --label-col: 28mm;
+  }
+}

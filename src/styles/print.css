@@ -1,0 +1,23 @@
+/* Print / PDF layout: CV only, label column kept, no chrome */
+@media print {
+  @page { size: A4; margin: 10mm 12mm; }
+  .site-nav, .site-footer, .cv-download { display: none; }
+  *, *::before, *::after { animation: none !important; }
+  body { line-height: 1.35; }
+  main { padding: 0; }
+  a { text-decoration: none; }
+  .cv-header { gap: 3pt; padding-bottom: 6pt; }
+  .cv-header h1 { max-width: none; line-height: 1; }
+  .cv-contact { display: flex; gap: 14pt; margin-top: 2pt; }
+  .cv-contact li { border: 0; padding: 0; }
+  .cv-section { grid-template-columns: var(--label-col) minmax(0, 1fr); row-gap: 0; }
+  .cv-section > h2 { grid-row: 1 / span 12; }
+  .cv-section > :not(h2) { grid-column: 2; }
+  .cv-header + .cv-section p { font-size: var(--step-0); line-height: 1.4; letter-spacing: 0; }
+  .cv-skills div { grid-template-columns: 30mm 1fr; gap: 6pt; padding-block: 1.5pt; }
+  .cv-entry { padding-block: 3pt; break-inside: avoid; }
+  .cv-entry-head { margin-bottom: 2pt; }
+  .cv-role { display: inline; margin: 0 0 0 4pt; }
+  .cv-entry ul { gap: 1pt; }
+  .cv-entry li { padding-left: 10pt; max-width: none; }
+}

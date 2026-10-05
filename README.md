@@ -15,7 +15,7 @@ Personal site of Elliot Fesquet, Analytics Engineer: professional portfolio and 
 ## Stack
 
 - [Astro](https://astro.build) with static output, deployed to GitHub Pages by GitHub Actions
-- Hand-written CSS in a single stylesheet, with design tokens in `:root` and light/dark themes
+- Hand-written CSS: `tokens.css` (design tokens, light/dark/print), `global.css` (site), `print.css` (PDF layout)
 - Self-hosted fonts: Inter Tight and JetBrains Mono
 - No client-side JavaScript; animations are CSS-only and respect reduced-motion
 
