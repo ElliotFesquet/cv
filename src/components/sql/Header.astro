@@ -6,9 +6,13 @@ interface Props { lang: Lang; title: string; desc: string }
 const { lang, title, desc } = Astro.props;
 const s = st(lang);
 ---
-<header class="sql-head">
-  <a class="sql-back" href={href(lang, 'apps/sql')}>{s.back}</a>
-  <h1>{title}</h1>
-  <p class="muted">{desc}</p>
+<header class="sql-head arena">
+  <div class="arena-bar">
+    <a class="sql-back" href={href(lang, 'apps/sql')}>{s.back}</a>
+    <span><span class="arena-blink">●</span> {s.engine}</span>
+  </div>
+  <h1 class="arena-title" data-type>{title}</h1>
+  <p class="arena-lede" data-type data-type-delay="300">{desc}</p>
   <noscript><p class="sql-status" data-kind="error">{s.noscript}</p></noscript>
 </header>
+<script>import '../../scripts/sql/fx';</script>

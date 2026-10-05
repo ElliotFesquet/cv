@@ -79,6 +79,10 @@ commit in a comment. Link it from the Apps page or a project page here. Same ori
 - Dataset: `node scripts/sql-dataset.mjs` (seeded) writes `public/apps/sql/*.csv`; column types in `src/scripts/sql/schema.ts`.
   Changing the data changes expected results: re-check all solutions.
 - UI strings: `src/scripts/sql/i18n.ts`; styles: `src/styles/sql.css`; progress: localStorage `cv:sql:*`.
+- Game look: `.arena` dark screen (`sql-arena.css`, `--arena-*` tokens) remaps the colour tokens locally. Effects in `fx.ts`:
+  `data-type` = letter-by-letter reveal (inside `data-fx-current`: replays when the block gets `.is-current`),
+  `data-scramble` = glyph scramble on hover, `data-menu` = ↑/↓ menu. Quiz = level menu → one question at a time.
+  Practice/challenges = one task at a time in order, "Next" unlocks once solved, resumes at the first unsolved task.
 
 ## 4. Definition of done (every integration)
 - [ ] `/en/` and `/fr/` versions exist; every string exists in both languages

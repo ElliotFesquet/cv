@@ -1,30 +1,35 @@
 ---
-// Task list + SQL console, shared by the practice and challenges pages. Without JS, tasks read as a plain list.
-import type { Lang } from '../../i18n/ui';
+// Practice / challenges: one task at a time, in order (like the quiz). Without JS, tasks read as a plain list.
+import { href, type Lang } from '../../i18n/ui';
 import { inline, tx, type Task } from '../../data/sql';
 import { st, type SqlKey } from '../../scripts/sql/i18n';
 import Schema from './Schema.astro';
 
-interface Props { lang: Lang; tasks: Task[] }
-const { lang, tasks } = Astro.props;
+interface Props { lang: Lang; tasks: Task[]; unit: string }
+const { lang, tasks, unit } = Astro.props;
 const s = st(lang);
 const tag = (task: Task) => task.concept ?? s[`diff.${task.difficulty}` as SqlKey];
 ---
-<div class="sql-bench">
+<div class="sql-bench arena">
   <nav class="sql-tasks" aria-label={s.tasks}>
-    <p class="sql-progress"><span data-solved>0</span>/{tasks.length} {s.solved}</p>
     <ol>
       {tasks.map((task) => (
-        <li><a href={`#${task.id}`} data-task={task.id} data-difficulty={task.difficulty}>{tx(task.title, lang)}</a></li>
+        <li><a href={`#${task.id}`}>{tx(task.title, lang)}</a></li>
       ))}
     </ol>
   </nav>
   <div class="sql-main">
+    <div class="quiz-hud">
+      <p class="quiz-score">
+        {unit} <strong data-step>1</strong>/{tasks.length} · <strong data-solved>0</strong>/{tasks.length} {s.solved}
+      </p>
+      <div class="quiz-bar" aria-hidden="true"><span></span></div>
+    </div>
     {tasks.map((task, i) => (
-      <article class="sql-task" id={task.id} data-id={task.id} data-solution={task.solution} data-ordered={String(!!task.ordered)}>
+      <article class="sql-task" id={task.id} data-id={task.id} data-solution={task.solution} data-ordered={String(!!task.ordered)} data-fx-current>
         <p class="sql-kicker" data-difficulty={task.difficulty}>{String(i + 1).padStart(2, '0')} · {tag(task)}</p>
-        <h2>{tx(task.title, lang)}</h2>
-        <p set:html={inline(tx(task.prompt, lang))} />
+        <h2 data-type>{tx(task.title, lang)}</h2>
+        <p data-type set:html={inline(tx(task.prompt, lang))} />
         {task.hint && <details><summary>{s.hint}</summary><p set:html={inline(tx(task.hint, lang))} /></details>}
         <details><summary>{s.solution}</summary><pre><code>{task.solution.trim()}</code></pre></details>
       </article>
@@ -36,14 +41,20 @@ const tag = (task: Task) => task.concept ?? s[`diff.${task.difficulty}` as SqlKe
         <button type="button" class="button" data-action="check" disabled>{s.check}</button>
         <button type="button" class="button button-ghost" data-action="expected" disabled>{s.expected}</button>
         <button type="button" class="button button-ghost" data-action="reset" disabled>{s.reset}</button>
-        <span class="sql-pager">
-          <button type="button" class="button button-ghost" data-action="prev">{s.prev}</button>
-          <button type="button" class="button button-ghost" data-action="next">{s.next}</button>
-        </span>
+        <button type="button" class="button sql-next" data-action="next" hidden>{s['next.q']} →</button>
       </div>
       <p class="sql-keys muted">{s.keys}</p>
       <p class="sql-status" role="status" aria-live="polite"></p>
       <div class="sql-result"></div>
+    </div>
+    <div class="quiz-end" hidden>
+      <p class="sql-kicker">{s.done}</p>
+      <p class="quiz-end-score"><strong>{tasks.length}</strong>/{tasks.length}</p>
+      <p class="quiz-end-msg">{s['done.msg']}</p>
+      <div class="sql-actions">
+        <a class="button" href={href(lang, 'apps/sql')}>{s.back}</a>
+        <button type="button" class="button button-ghost" data-restart>{s.restart}</button>
+      </div>
     </div>
     <Schema lang={lang} />
   </div>

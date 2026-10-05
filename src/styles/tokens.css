@@ -32,6 +32,17 @@
   --nav-h: 3.25rem;
   --radius: 999px;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* SQL Arena "game screen": always dark, in both colour schemes */
+  --arena-bg: #0c0c0b;
+  --arena-ink: #edebe6;
+  --arena-dim: #8f8c84;
+  --arena-line: #2a2926;
+  --arena-accent: #ff6a3d;
+  --arena-ok: #4cc47a;
+  --arena-hover: rgb(255 106 61 / 0.09);
+  --arena-scan: rgb(255 255 255 / 0.03);
+  --arena-vignette: rgb(0 0 0 / 0.55);
 }
 
 @media (prefers-color-scheme: dark) {

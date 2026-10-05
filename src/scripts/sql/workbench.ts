@@ -1,4 +1,5 @@
-// Practice / challenges page: task navigation, editor, run, submit, progress (localStorage).
+// Practice / challenges page: tasks one at a time in order (next unlocks once solved), editor, run, submit,
+// progress (localStorage). Resumes at the first unsolved task.
 import type { EditorView } from '@codemirror/view';
 import { createEditor, setDoc } from './editor';
 import { grade, renderTable } from './grade';
@@ -18,8 +19,8 @@ const store = {
 const solved = new Set<string>(JSON.parse(store.get('solved') ?? '[]'));
 
 const tasks = [...bench.querySelectorAll<HTMLElement>('.sql-task')];
-const links = [...bench.querySelectorAll<HTMLAnchorElement>('[data-task]')];
 const status = $('.sql-status'), output = $('.sql-result');
+const next = $<HTMLButtonElement>('[data-action="next"]');
 const expectedCache = new Map<string, Result>();
 let current = tasks[0];
 let view: EditorView;
@@ -30,19 +31,33 @@ function say(text: string, kind: '' | 'ok' | 'error' = '') {
   status.dataset.kind = kind;
 }
 
+// HUD: task number, solved count, progress bar (filled up to the current task, or past it once solved).
 function paintProgress() {
-  links.forEach((a) => a.classList.toggle('is-solved', solved.has(a.dataset.task!)));
+  const i = tasks.indexOf(current), done = solved.has(current.dataset.id!);
   $('[data-solved]').textContent = String(tasks.filter((x) => solved.has(x.dataset.id!)).length);
+  $('[data-step]').textContent = String(i + 1);
+  bench.style.setProperty('--p', String((i + Number(done)) / tasks.length));
+  next.textContent = `${i === tasks.length - 1 ? t('finish') : t('next.q')} →`;
+  next.hidden = !done;
 }
 
-function select(id: string | undefined) {
-  current = tasks.find((x) => x.dataset.id === id) ?? tasks[0];
+function select(i: number) {
+  current = tasks[i];
+  delete bench.dataset.done;
   tasks.forEach((x) => x.classList.toggle('is-current', x === current));
-  links.forEach((a) => a.setAttribute('aria-current', String(a.dataset.task === current.dataset.id)));
   setDoc(view, store.get(`draft:${current.dataset.id}`) ?? '');
   output.replaceChildren();
-  if (db) say(t('ready'));
-  history.replaceState(null, '', `#${current.dataset.id}`);
+  say(db ? t('ready') : t('loading'));
+  paintProgress();
+  if (bench.getBoundingClientRect().top < 0) bench.scrollIntoView();
+}
+
+function finish() {
+  bench.dataset.done = '';
+  tasks.forEach((x) => x.classList.remove('is-current'));
+  bench.style.setProperty('--p', '1');
+  bench.querySelector<HTMLElement>('.quiz-end')!.hidden = false;
+  bench.querySelector<HTMLElement>('[data-restart]')!.focus({ preventScroll: true });
 }
 
 function show(r: Result) {
@@ -69,24 +84,35 @@ const actions: Record<string, () => Promise<void>> = {
     const got = await db!.run(doc());
     show(got);
     const res = grade(await expected(), got, current.dataset.ordered === 'true');
-    if (res.verdict === 'ok') { solved.add(current.dataset.id!); store.set('solved', JSON.stringify([...solved])); paintProgress(); }
     say(t(res.verdict, res), res.verdict === 'ok' ? 'ok' : 'error');
+    if (res.verdict === 'ok') {
+      solved.add(current.dataset.id!);
+      store.set('solved', JSON.stringify([...solved]));
+      paintProgress();
+      next.focus({ preventScroll: true });
+    }
   }),
   expected: () => guarded(async () => say(`${t('expected')}: ${show(await expected())}`)),
   reset: () => guarded(async () => { await db!.resetDb(); expectedCache.clear(); say(t('resetDone')); }),
-  prev: async () => select(tasks[Math.max(0, tasks.indexOf(current) - 1)].dataset.id),
-  next: async () => select(tasks[Math.min(tasks.length - 1, tasks.indexOf(current) + 1)].dataset.id),
+  next: async () => {
+    const i = tasks.indexOf(current);
+    if (i < tasks.length - 1) { select(i + 1); view.focus(); } else finish();
+  },
 };
 
 view = createEditor($('.sql-editor'), '', () => actions.run(), (s) => store.set(`draft:${current.dataset.id}`, s));
 bench.classList.add('is-js');
 $('.sql-console').hidden = false;
-links.forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); select(a.dataset.task); view.focus(); }));
 bench.querySelectorAll<HTMLButtonElement>('[data-action]').forEach((b) =>
   b.addEventListener('click', () => actions[b.dataset.action!]()));
-select(location.hash.slice(1));
-paintProgress();
-say(t('loading'));
+bench.querySelector('[data-restart]')!.addEventListener('click', () => {
+  tasks.forEach((x) => solved.delete(x.dataset.id!));
+  store.set('solved', JSON.stringify([...solved]));
+  bench.querySelector<HTMLElement>('.quiz-end')!.hidden = true;
+  select(0);
+});
+const resume = tasks.findIndex((x) => !solved.has(x.dataset.id!));
+if (resume < 0) { select(tasks.length - 1); finish(); } else select(resume);
 
 import('./db').then(async (mod) => {
   await mod.openDb();

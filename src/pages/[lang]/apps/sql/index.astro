@@ -11,22 +11,33 @@ const lang = Astro.params.lang as Lang;
 const s = st(lang);
 const questions = Object.values(quiz).flat().length;
 const modes = [
-  { path: 'quiz', title: s.quiz, desc: s['quiz.desc'], count: questions },
-  { path: 'practice', title: s.practice, desc: s['practice.desc'], count: practice.length },
-  { path: 'challenges', title: s.challenges, desc: s['challenges.desc'], count: challenges.length },
+  { path: 'quiz', title: s.quiz, desc: s['quiz.desc'], count: questions, unit: s.questions },
+  { path: 'practice', title: s.practice, desc: s['practice.desc'], count: practice.length, unit: s.exercises },
+  { path: 'challenges', title: s.challenges, desc: s['challenges.desc'], count: challenges.length, unit: s.problems },
 ];
 ---
 <Base lang={lang} title={s.title}>
-  <h1>{s.title}</h1>
-  <p class="sql-lede">{s.lede}</p>
-  <noscript><p class="sql-status" data-kind="error">{s.noscript}</p></noscript>
-  <ul class="project-list">
-    {modes.map((m) => (
-      <li>
-        <a href={href(lang, `apps/sql/${m.path}`)}>{m.title}</a>
-        <p class="muted">{m.desc} · {m.count}</p>
-      </li>
-    ))}
-  </ul>
+  <section class="arena">
+    <div class="arena-bar"><span>{s.press}</span><span><span class="arena-blink">●</span> {s.engine}</span></div>
+    <h1 class="arena-title" data-type>{s.title}</h1>
+    <p class="arena-lede" data-type data-type-delay="350">{s.lede}</p>
+    <noscript><p class="sql-status" data-kind="error">{s.noscript}</p></noscript>
+    <nav class="arena-menu" data-menu aria-label={s.title}>
+      <ol>
+        {modes.map((m, i) => (
+          <li>
+            <a href={href(lang, `apps/sql/${m.path}`)}>
+              <span class="arena-idx">{String(i + 1).padStart(2, '0')}</span>
+              <span class="arena-label" data-scramble>{m.title}</span>
+              <span class="arena-meta">{m.count} {m.unit}</span>
+              <span class="arena-desc">{m.desc}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+    <p class="arena-help">{s['menu.help']}</p>
+  </section>
   <Schema lang={lang} open />
 </Base>
+<script>import '../../../../scripts/sql/fx';</script>

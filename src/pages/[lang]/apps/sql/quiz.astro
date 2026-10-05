@@ -13,21 +13,36 @@ const label = (l: string) => s[`level.${l}` as SqlKey];
 ---
 <Base lang={lang} title={`${s.quiz} · ${s.title}`}>
   <Header lang={lang} title={s.quiz} desc={s['quiz.desc']} />
-  <div class="sql-quiz">
-    <nav class="quiz-tabs" aria-label={s.quiz}>
-      {levels.map((l) => <a href={`#${l}`} data-level-tab={l}>{label(l)}</a>)}
+  <div class="sql-quiz arena">
+    <nav class="quiz-tabs arena-menu" data-menu aria-label={s.quiz}>
+      <ol>
+        {levels.map((l, i) => (
+          <li>
+            <a href={`#${l}`} data-level-tab={l}>
+              <span class="arena-idx">{String(i + 1).padStart(2, '0')}</span>
+              <span class="arena-label" data-scramble>{label(l)}</span>
+              <span class="arena-meta">{quiz[l].length} {s.questions} · {s.best} <span data-best-tab>–</span></span>
+            </a>
+          </li>
+        ))}
+      </ol>
     </nav>
     {levels.map((l) => (
       <section class="quiz-level" id={l}>
-        <h2>{label(l)}</h2>
-        <p class="quiz-score">
-          {s.score} <strong data-score>0</strong>/{quiz[l].length} · {s.best} <span data-best>–</span>
-        </p>
+        <div class="quiz-hud">
+          <a class="quiz-back" href="#" data-levels>{s.levels}</a>
+          <h2>{label(l)}</h2>
+          <p class="quiz-score">
+            <span class="quiz-step">{s.question} <strong data-step>1</strong>/{quiz[l].length} · </span>
+            {s.score} <strong data-score>0</strong> · {s.best} <span data-best>–</span>
+          </p>
+          <div class="quiz-bar" aria-hidden="true"><span></span></div>
+        </div>
         <ol>
           {quiz[l].map((q, i) => (
             <li class="quiz-q" data-answer={q.answer}>
               <fieldset>
-                <legend set:html={inline(tx(q.q, lang))} />
+                <legend data-n={String(i + 1).padStart(2, '0')} set:html={inline(tx(q.q, lang))} />
                 <div class="quiz-options">
                   {q.options.map((o, j) => (
                     <label><input type="radio" name={`${l}-${i}`} value={j} /> {typeof o === 'string' ? <code>{o}</code> : <span set:html={inline(tx(o, lang))} />}</label>
@@ -38,7 +53,19 @@ const label = (l: string) => s[`level.${l}` as SqlKey];
             </li>
           ))}
         </ol>
-        <button type="button" class="button" data-retry>{s.retry}</button>
+        <div class="quiz-nav">
+          <button type="button" class="button" data-next hidden>{s['next.q']} →</button>
+          <p class="arena-help">{s['quiz.help']}</p>
+        </div>
+        <div class="quiz-end" hidden>
+          <p class="sql-kicker">{s.end}</p>
+          <p class="quiz-end-score"><strong data-final>0</strong>/{quiz[l].length}</p>
+          <p class="quiz-end-msg" data-msg></p>
+          <div class="sql-actions">
+            <button type="button" class="button" data-retry>{s.retry}</button>
+            <a class="button button-ghost" href="#" data-levels>{s.levels}</a>
+          </div>
+        </div>
       </section>
     ))}
   </div>

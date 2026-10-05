@@ -13,5 +13,5 @@ const s = st(lang);
 ---
 <Base lang={lang} title={`${s.challenges} · ${s.title}`}>
   <Header lang={lang} title={s.challenges} desc={s['challenges.desc']} />
-  <Workbench lang={lang} tasks={challenges} />
+  <Workbench lang={lang} tasks={challenges} unit={s.problem} />
 </Base>
