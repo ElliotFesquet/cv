@@ -3,8 +3,18 @@ export type Lang = keyof typeof languages;
 export const defaultLang: Lang = 'en';
 
 export const ui = {
-  en: { 'nav.home': 'Profile', 'nav.projects': 'Projects', 'nav.hobbies': 'Hobbies' },
-  fr: { 'nav.home': 'Profil', 'nav.projects': 'Projets', 'nav.hobbies': 'Loisirs' },
+  en: {
+    'nav.home': 'Profile', 'nav.projects': 'Projects', 'nav.hobbies': 'Hobbies',
+    'cv.profile': 'Profile', 'cv.skills': 'Skills', 'cv.experience': 'Experience',
+    'cv.education': 'Education', 'cv.activities': 'Activities & distinctions',
+    'cv.workRights': 'Right to work',
+  },
+  fr: {
+    'nav.home': 'Profil', 'nav.projects': 'Projets', 'nav.hobbies': 'Loisirs',
+    'cv.profile': 'Profil', 'cv.skills': 'Compétences', 'cv.experience': 'Expérience',
+    'cv.education': 'Formation', 'cv.activities': 'Activités & distinctions',
+    'cv.workRights': 'Droit de travail',
+  },
 } as const;
 
 export const t = (lang: Lang) => ui[lang];

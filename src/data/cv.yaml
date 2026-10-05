@@ -1,0 +1,127 @@
+# Single source of truth for the CV. Source: cv_an_eng_ef.pdf.
+# Every user-facing string has en + fr. Dates are YYYY-MM; month names are rendered per language.
+
+name: Elliot Fesquet
+headline: { en: Analytics Engineer, fr: Analytics Engineer }
+location: { en: Paris / London, fr: Paris / Londres }
+email: elliot.fesquet@gmail.com
+linkedin: https://www.linkedin.com/in/elliot-fesquet
+work_rights:
+  en: United Kingdom (permanent resident status) & EU citizen
+  fr: Royaume-Uni (statut de résident permanent) & citoyen de l'UE
+
+profile:
+  en: >-
+    Data & AI engineer (EFREI, 2026), bilingual French/English, with 3 years of apprenticeship and
+    internship experience between raw data and business decisions. Turns business data into tested,
+    documented, reusable SQL models, then into reliable metrics for Growth and leadership teams.
+  fr: >-
+    Ingénieur Data & IA (EFREI, 2026) bilingue (français/anglais), 3 ans d'expérience en alternance et
+    en stage entre la donnée brute et la décision métier. Transforme des données métier en modèles SQL
+    testés, documentés et réutilisables, puis en indicateurs fiables pour les équipes Growth et direction.
+
+skills:
+  - label: { en: Transformation, fr: Transformation }
+    items:
+      en: Production SQL (window functions, complex joins, optimisation), Python (Polars, Pandas)
+      fr: SQL en production (fonctions de fenêtrage, jointures complexes, optimisation), Python (Polars, Pandas)
+  - label: { en: Modelling, fr: Modélisation }
+    items:
+      en: Dimensional modelling (star/snowflake), business rules and metric definitions, Bronze/Silver/Gold architecture
+      fr: Modélisation dimensionnelle (étoile/flocon), définition de règles métier et d'indicateurs, architecture Bronze/Silver/Gold
+  - label: { en: Warehouse & Cloud, fr: Warehouse & Cloud }
+    items:
+      en: Snowflake, AWS (S3, IAM), Azure, Git
+      fr: Snowflake, AWS (S3, IAM), Azure, Git
+  - label: { en: Quality & BI, fr: Qualité & BI }
+    items:
+      en: Data quality tests and schema drift detection, model documentation, Tableau / Tableau Server, Power BI, Streamlit
+      fr: Tests de qualité et détection de dérive de schéma, documentation de modèles, Tableau / Tableau Server, Power BI, Streamlit
+  - label: { en: Languages, fr: Langues }
+    items:
+      en: French (native), English (C2, fluent), Spanish (B1)
+      fr: Français (maternel), anglais (C2, courant), espagnol (B1)
+
+experience:
+  - company: Deloitte
+    role: { en: "Data Analyst, Growth team", fr: "Data Analyst, équipe Growth" }
+    start: 2024-09
+    end: 2026-09
+    location: { en: "Paris, France", fr: "Paris, France" }
+    type: { en: Apprenticeship, fr: Alternance }
+    bullets:
+      - title: { en: Models & business rules, fr: Modèles & règles métier }
+        en: Defined and implemented the business rules and Growth adoption and marketing metrics (event tracking), serving as the single source for the team's dashboards.
+        fr: Définition et implémentation des règles métier et des indicateurs d'adoption et de marketing Growth (event tracking), servant de source unique aux tableaux de bord de l'équipe.
+      - title: { en: Quality tests, fr: Tests de qualité }
+        en: Automated validation checks detecting schema drift on client environments, stopping integrity issues before the reporting layer.
+        fr: Contrôles de validation automatisés détectant les dérives de schéma sur les environnements clients, bloquant les problèmes d'intégrité avant la couche de reporting.
+      - title: { en: Transformation, fr: Transformation }
+        en: Python (Polars/Pandas) and Tableau Prep pipelines cleaning and structuring client data, removing 5 hours per week of manual processing.
+        fr: Pipelines Python (Polars/Pandas) et Tableau Prep de nettoyage et de structuration des données clients, supprimant 5 heures par semaine de traitement manuel.
+      - title: { en: Reusability, fr: Réutilisabilité }
+        en: Refactored analytical scripts into versioned, documented workflows, halving delivery time for recurring requests.
+        fr: Refonte de scripts analytiques en workflows versionnés et documentés, divisant par deux le délai de livraison des demandes récurrentes.
+      - title: { en: Documentation, fr: Documentation }
+        en: Wrote the technical documentation for two Tableau dashboards (architecture, sources, business rules, maintenance points) and the handover file for the next apprentice.
+        fr: Rédaction de la documentation technique de deux tableaux de bord Tableau (architecture, sources, règles métier, points de maintenance) et du dossier de passation à l'alternant suivant.
+      - title: { en: Consumption, fr: Consommation }
+        en: Tableau Server and Streamlit applications used daily to track Deloitte France's key metrics and accounts.
+        fr: Applications Tableau Server et Streamlit utilisées quotidiennement pour suivre les indicateurs et comptes clés de Deloitte France.
+  - company: Kickmaker
+    role: { en: Data Analyst, fr: Data Analyst }
+    start: 2023-09
+    end: 2024-08
+    location: { en: "Paris, France", fr: "Paris, France" }
+    type: { en: Apprenticeship, fr: Alternance }
+    bullets:
+      - title: { en: HR data model, fr: Modèle de données RH }
+        en: End-to-end design of the data model and Power BI dashboards for cross-functional metrics, used daily by the HR Director.
+        fr: Conception de bout en bout du modèle et des tableaux de bord Power BI d'indicateurs transverses, utilisés quotidiennement par la Directrice RH.
+      - title: { en: Automation, fr: Automatisation }
+        en: Automated weekly flow (Python, Power Automate, VBA) delivering the sales pipeline analysis to the executive committee.
+        fr: Flux hebdomadaire automatisé (Python, Power Automate, VBA) livrant l'analyse du pipe commercial au comité de direction.
+  - company: Ohm Energie
+    role: { en: Data Analyst, fr: Data Analyst }
+    start: 2023-05
+    end: 2023-08
+    location: { en: "Paris, France", fr: "Paris, France" }
+    type: { en: Internship, fr: Stage }
+    bullets:
+      - title: { en: Ingestion, fr: Ingestion }
+        en: Python web-scraping pipelines collecting and structuring competitor prices daily.
+        fr: Pipelines de web-scraping en Python collectant et structurant quotidiennement les prix des concurrents.
+  - company: OilX
+    role: { en: Data Analyst, fr: Data Analyst }
+    start: 2022-05
+    end: 2022-08
+    location: { en: "London, United Kingdom", fr: "Londres, Royaume-Uni" }
+    type: { en: Internship, fr: Stage }
+    bullets:
+      - title: { en: Data integrity, fr: Intégrité des données }
+        en: Validated large-scale market telemetry data for the global oil sector, feeding weekly market intelligence reports.
+        fr: Validation de données de télémétrie de marché à grande échelle pour le secteur pétrolier mondial, alimentant des rapports hebdomadaires d'intelligence de marché.
+
+education:
+  - school: EFREI Paris
+    degree: { en: "Engineering degree: Data & AI", fr: "Diplôme d'Ingénieur : Data & IA" }
+    start: 2021
+    end: 2026
+    detail:
+      en: "Master's in Data Engineering. Project: mobility data platform on AWS (S3 Bronze/Silver/Gold zones, governance and security)."
+      fr: "Master en Data Engineering. Projet : plateforme de données de mobilité sur AWS (zones S3 Bronze/Silver/Gold, gouvernance et sécurité)."
+  - school: EFREI Paris
+    degree: { en: Integrated preparatory class (mathematics, physics), fr: Classe Préparatoire Intégrée (mathématiques, physique) }
+    start: 2020
+    end: 2021
+
+activities:
+  - label: { en: Gaming, fr: Gaming }
+    en: League of Legends, ranked top 0.01% (EUW)
+    fr: League of Legends, classé top 0,01 % (EUW)
+  - label: { en: Sport, fr: Sport }
+    en: Skiing, running, cycling, football
+    fr: Ski, course à pied, cyclisme, football
+  - label: { en: Coaching / tutoring, fr: Coaching / tutorat }
+    en: League of Legends, maths and English
+    fr: League of Legends, maths et anglais
