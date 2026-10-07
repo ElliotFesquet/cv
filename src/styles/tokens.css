@@ -31,6 +31,7 @@
   --label-col: 15rem;
   --nav-h: 3.25rem;
   --radius: 999px;
+  --node: 0.5625rem;            /* CV timeline node diameter */
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 
   /* SQL Arena "game screen": always dark, in both colour schemes */

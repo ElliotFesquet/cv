@@ -29,7 +29,8 @@ const highlight = HighlightStyle.define([
   { tag: [tags.typeName, tags.standard(tags.name)], color: 'var(--color-muted)' },
 ]);
 
-export function createEditor(parent: HTMLElement, doc: string, onRun: () => void, onChange: (s: string) => void) {
+export function createEditor(parent: HTMLElement, doc: string, onRun: () => void, onChange: (s: string) => void,
+  onSubmit?: () => void) {
   return new EditorView({
     doc,
     parent,
@@ -37,6 +38,7 @@ export function createEditor(parent: HTMLElement, doc: string, onRun: () => void
       Prec.highest(keymap.of([
         { key: 'Tab', run: acceptCompletion },
         { key: 'Mod-Enter', run: () => (onRun(), true) },
+        ...(onSubmit ? [{ key: 'Mod-Shift-Enter', run: () => (onSubmit(), true) }] : []),
       ])),
       basicSetup,
       keymap.of([indentWithTab]),

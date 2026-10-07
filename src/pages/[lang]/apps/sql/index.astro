@@ -4,6 +4,7 @@ import Schema from '../../../../components/sql/Schema.astro';
 import { href, langPaths, type Lang } from '../../../../i18n/ui';
 import { st } from '../../../../scripts/sql/i18n';
 import { challenges, practice, quiz } from '../../../../data/sql';
+import { tiers } from '../../../../scripts/sql/bots';
 import '../../../../styles/sql.css';
 
 export const getStaticPaths = langPaths;
@@ -14,6 +15,7 @@ const modes = [
   { path: 'quiz', title: s.quiz, desc: s['quiz.desc'], count: questions, unit: s.questions },
   { path: 'practice', title: s.practice, desc: s['practice.desc'], count: practice.length, unit: s.exercises },
   { path: 'challenges', title: s.challenges, desc: s['challenges.desc'], count: challenges.length, unit: s.problems },
+  { path: 'versus', title: s.versus, desc: s['versus.desc'], count: tiers.length, unit: s.opponents },
 ];
 ---
 <Base lang={lang} title={s.title}>

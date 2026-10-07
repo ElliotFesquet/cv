@@ -20,12 +20,12 @@ const l = t(lang);
     <a class="button cv-download" href={cvPdf(lang)} download>{l['cv.download']} ↓</a>
   </header>
 
-  <section class="cv-section">
+  <section class="cv-section ruled cv-profile">
     <h2>{l['cv.profile']}</h2>
     <p>{cv.profile[lang]}</p>
   </section>
 
-  <section class="cv-section">
+  <section class="cv-section ruled">
     <h2>{l['cv.skills']}</h2>
     <dl class="cv-skills">
       {cv.skills.map((s) => (
@@ -34,39 +34,39 @@ const l = t(lang);
     </dl>
   </section>
 
-  <section class="cv-section">
+  <section class="cv-section ruled">
     <h2>{l['cv.experience']}</h2>
     {cv.experience.map((job) => (
       <article class="cv-entry">
-        <div class="cv-entry-head">
+        <p class="cv-when">
+          <time datetime={job.start}>{formatMonth(job.start, lang)}</time> –{' '}
+          <time datetime={job.end}>{formatMonth(job.end, lang)}</time>
+        </p>
+        <div class="cv-what">
           <h3>{job.company} <span class="cv-role">{job.role[lang]}</span></h3>
-          <p class="muted">
-            <time datetime={job.start}>{formatMonth(job.start, lang)}</time> –{' '}
-            <time datetime={job.end}>{formatMonth(job.end, lang)}</time>
-            {" · "}{job.location[lang]} ({job.type[lang]})
-          </p>
+          <p class="muted">{job.location[lang]} ({job.type[lang]})</p>
+          <ul>
+            {job.bullets.map((b) => <li><strong>{b.title[lang]}:</strong> {b[lang]}</li>)}
+          </ul>
         </div>
-        <ul>
-          {job.bullets.map((b) => <li><strong>{b.title[lang]}:</strong> {b[lang]}</li>)}
-        </ul>
       </article>
     ))}
   </section>
 
-  <section class="cv-section">
+  <section class="cv-section ruled">
     <h2>{l['cv.education']}</h2>
     {cv.education.map((e) => (
       <article class="cv-entry">
-        <div class="cv-entry-head">
+        <p class="cv-when">{e.start} – {e.end}</p>
+        <div class="cv-what">
           <h3>{e.school} <span class="cv-role">{e.degree[lang]}</span></h3>
-          <p class="muted">{e.start} – {e.end}</p>
+          {e.detail && <p>{e.detail[lang]}</p>}
         </div>
-        {e.detail && <p>{e.detail[lang]}</p>}
       </article>
     ))}
   </section>
 
-  <section class="cv-section">
+  <section class="cv-section ruled">
     <h2>{l['cv.activities']}</h2>
     <dl class="cv-skills">
       {cv.activities.map((a) => (

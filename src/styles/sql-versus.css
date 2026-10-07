@@ -1,0 +1,110 @@
+/* SQL Arena · Versus (scripts/sql/versus.ts). Imported only by apps/sql/versus. Tokens only.
+   Animation hooks (state attributes and --clock / --bot) are listed at the top of versus.ts. */
+
+/* Screens: setup → play → end. Without JS only the setup (rules + opponents) shows. */
+.sql-versus { scroll-margin-top: var(--nav-h); }
+.vs-match { scroll-margin-top: calc(var(--nav-h) + var(--space-3)); }
+.sql-versus:not([data-screen="setup"]) .vs-setup,
+.sql-versus:not([data-screen="play"]) .vs-match,
+.sql-versus:not([data-screen="end"]) .vs-end { display: none; }
+
+/* One input per round kind; the question stays hidden during the 3-2-1 */
+.sql-versus:not([data-kind="quiz"]) .vs-options,
+.sql-versus:not([data-kind="theory"]) .vs-theory,
+.sql-versus:not([data-kind="problem"]) :is(.vs-console, [data-title]),
+.vs-hint[hidden] { display: none; }
+.sql-versus[data-phase="countdown"] .vs-round { visibility: hidden; }
+.sql-versus:not([data-phase="countdown"]) .vs-splash { display: none; }
+
+/* Setup */
+.vs-rules { list-style: none; padding: 0; margin: 0 0 var(--space-5); display: grid; gap: var(--space-2); }
+.vs-rules li { padding-left: var(--space-4); position: relative; }
+.vs-rules li::before { content: "▸"; position: absolute; left: 0; color: var(--color-accent); }
+
+/* HUD: you · clock · opponent, then the round clock bar and the opponent's progress */
+.vs-hud {
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: var(--space-2) var(--space-4);
+  padding-top: var(--space-3);
+}
+.vs-dots { grid-column: 2 / -1; justify-self: end; display: flex; gap: var(--space-1); list-style: none; padding: 0; margin: 0; }
+.vs-dots li { width: var(--space-2); height: var(--space-1); background: var(--color-border); }
+.vs-dots li[data-kind="theory"] { width: calc(var(--space-2) * 2); }
+.vs-dots li[data-kind="problem"] { width: calc(var(--space-2) * 3); }
+.vs-dots li[data-current] { outline: 1px solid var(--color-accent); outline-offset: 1px; }
+.vs-dots li[data-state="you"] { background: var(--color-ok); }
+.vs-dots li[data-state="bot"] { background: var(--color-accent); }
+.vs-dots li[data-state="none"] { background: var(--color-muted); }
+
+.vs-side { display: grid; gap: var(--space-1); font: var(--step--1) var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-muted); }
+.vs-side strong { font: 650 var(--step-3) / 0.9 var(--font-sans); letter-spacing: -0.05em; color: var(--color-text); }
+.vs-opp { text-align: right; }
+.vs-opp strong { color: var(--color-accent); }
+.vs-clock { align-self: center; font: 600 var(--step-2) var(--font-mono); font-variant-numeric: tabular-nums; margin: 0; max-width: none; }
+.vs-opp-status { text-align: right; } /* sits under the opponent, the bar fills from their side */
+.vs-botbar span { margin-left: auto; }
+.sql-versus[data-urgent] .vs-clock { color: var(--color-accent); }
+
+.vs-clockbar, .vs-opp-status { grid-column: 1 / -1; }
+.vs-clockbar, .vs-botbar { background: var(--color-border); }
+.vs-clockbar { height: 2px; }
+.vs-botbar { height: var(--space-1); }
+.vs-clockbar span, .vs-botbar span { display: block; height: 100%; transition: width 0.1s linear; }
+.vs-clockbar span { width: calc(var(--clock, 1) * 100%); background: var(--color-text); }
+.sql-versus[data-urgent] .vs-clockbar span { background: var(--color-accent); }
+.vs-botbar span { width: calc(var(--bot, 0) * 100%); background: var(--color-accent); }
+.vs-opp-status p { font: var(--step--1) var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-muted); margin: var(--space-2) 0 0; max-width: none; }
+.vs-opp-status:is([data-phase="wrong"], [data-phase="out"]) p { color: var(--color-ok); }
+.vs-opp-status[data-phase="submit"] p, .vs-opp-status[data-phase="done"] p { color: var(--color-accent); }
+
+/* 3-2-1 */
+.vs-splash {
+  font: 650 var(--step-3) / 1 var(--font-sans); letter-spacing: -0.05em; text-transform: uppercase; text-align: center;
+  color: var(--color-accent); margin: 0; padding-block: var(--space-6); max-width: none;
+}
+
+/* Round */
+.vs-round { padding-top: var(--space-5); }
+.vs-round h2 { font-size: var(--step-1); }
+.vs-q { font-size: var(--step-1); line-height: 1.3; letter-spacing: -0.01em; max-width: none; }
+.vs-round :is(p, li) code { font-size: 0.9em; padding-inline: 0.25em; background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+.vs-round pre { font: var(--step--1) / 1.5 var(--font-mono); background: color-mix(in srgb, var(--color-text) 5%, transparent); padding: var(--space-3); overflow-x: auto; }
+.vs-hint summary { cursor: pointer; font: 500 var(--step--1) var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-muted); }
+
+.vs-options button {
+  counter-increment: opt; display: flex; gap: var(--space-3); align-items: baseline; text-align: left;
+  font: inherit; color: inherit; background: none; cursor: pointer; overflow-wrap: anywhere;
+  padding: var(--space-3); border: 1px solid var(--color-border); transition: border-color 0.2s, background-color 0.2s, opacity 0.2s;
+}
+.vs-options button::before { content: counter(opt); font: var(--step--1) var(--font-mono); color: var(--color-muted); }
+.vs-options button:hover:not(:disabled) { border-color: var(--color-accent); background: var(--arena-hover); }
+.vs-options button:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.vs-options button:disabled { cursor: default; }
+.sql-versus[data-outcome] .vs-options button:not([data-state]) { opacity: 0.45; }
+.vs-options button[data-state="ok"] { border-color: var(--color-ok); box-shadow: inset 3px 0 0 var(--color-ok); }
+.vs-options button[data-state="ko"] { border-color: var(--color-accent); box-shadow: inset 3px 0 0 var(--color-accent); }
+
+.vs-theory { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.vs-theory input {
+  flex: 1 1 16rem; min-width: 0; font: var(--step-1) var(--font-mono); text-transform: uppercase;
+  color: var(--color-text); background: transparent; border: 1px solid var(--color-border); padding: var(--space-2) var(--space-3);
+}
+.vs-theory input:focus { outline: 2px solid var(--color-accent); outline-offset: -1px; }
+.vs-theory .sql-status { flex-basis: 100%; }
+
+/* Verdict and end screen */
+.vs-verdict { margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--color-border); }
+.vs-verdict-msg { font-size: var(--step-1); font-weight: 600; margin: 0 0 var(--space-3); }
+.sql-versus[data-outcome="you"] .vs-verdict-msg { color: var(--color-ok); }
+.sql-versus[data-outcome="bot"] .vs-verdict-msg { color: var(--color-accent); }
+.vs-reveal { margin-bottom: var(--space-4); }
+.vs-end-title { font: 650 var(--step-3) / 0.9 var(--font-sans); letter-spacing: -0.05em; text-transform: uppercase; margin: var(--space-3) 0; }
+.sql-versus[data-result="won"] .vs-end-title { color: var(--color-ok); }
+.sql-versus[data-result="lost"] .vs-end-title { color: var(--color-accent); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .vs-splash.is-tick { animation: vs-tick 0.7s var(--ease) both; }
+  .sql-versus[data-urgent] .vs-clock { animation: fx-blink 1s steps(1) infinite; }
+  .sql-versus[data-phase="live"] .vs-round > * { animation: rise 0.5s var(--ease) both; }
+  .vs-options button[data-state="ko"] { animation: quiz-shake 0.4s var(--ease); }
+}
+@keyframes vs-tick { from { opacity: 0; transform: scale(1.6); } }

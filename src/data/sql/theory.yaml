@@ -1,0 +1,99 @@
+# Theory questions for Versus mode: a short typed answer. level: easy | medium | hard (one level per bot).
+# accept: every accepted answer. Grading ignores case, accents, spaces and punctuation ("left join" == "LEFT-JOIN").
+# The first accepted answer is the one shown after the round.
+- level: easy
+  q: { en: "Which function returns its first non-NULL argument, whatever the number of arguments?", fr: "Quelle fonction renvoie son premier argument non NULL, quel que soit le nombre d’arguments ?" }
+  accept: [COALESCE]
+  why: { en: "`COALESCE(a, b, c)` returns the first of a, b, c that is not NULL.", fr: "`COALESCE(a, b, c)` renvoie le premier de a, b, c qui n’est pas NULL." }
+- level: easy
+  q: { en: "Which keyword, right after SELECT, removes duplicate rows?", fr: "Quel mot-clé, juste après SELECT, supprime les lignes en double ?" }
+  accept: [DISTINCT]
+  why: { en: "`SELECT DISTINCT a, b` keeps one row per different (a, b).", fr: "`SELECT DISTINCT a, b` garde une ligne par couple (a, b) différent." }
+- level: easy
+  q: { en: "Which clause filters groups after the aggregation?", fr: "Quelle clause filtre les groupes après l’agrégation ?" }
+  accept: [HAVING]
+  why: { en: "`WHERE` filters rows before grouping; `HAVING` filters groups after.", fr: "`WHERE` filtre les lignes avant le regroupement ; `HAVING` filtre les groupes après." }
+- level: easy
+  q: { en: "Complete: `WHERE rank_tier ___` keeps the rows where rank_tier is missing.", fr: "Complétez : `WHERE rank_tier ___` garde les lignes où rank_tier est manquant." }
+  accept: [IS NULL]
+  why: { en: "`= NULL` is never true. Use `IS NULL`.", fr: "`= NULL` n’est jamais vrai. On utilise `IS NULL`." }
+- level: easy
+  q: { en: "What does `SELECT NULL = NULL` return?", fr: "Que renvoie `SELECT NULL = NULL` ?" }
+  accept: [NULL]
+  why: { en: "Comparing with NULL gives NULL (unknown), not true.", fr: "Comparer avec NULL donne NULL (inconnu), pas vrai." }
+- level: easy
+  q: { en: "Which join keeps every row of the first table, even without a match?", fr: "Quelle jointure garde toutes les lignes de la première table, même sans correspondance ?" }
+  accept: [LEFT JOIN, LEFT, LEFT OUTER JOIN]
+  why: { en: "`LEFT JOIN` keeps all left rows and fills the right columns with NULL when nothing matches.", fr: "`LEFT JOIN` garde toutes les lignes de gauche et met NULL à droite quand rien ne correspond." }
+- level: easy
+  q: { en: "Which operator stacks the rows of two queries and keeps duplicates?", fr: "Quel opérateur empile les lignes de deux requêtes en gardant les doublons ?" }
+  accept: [UNION ALL]
+  why: { en: "`UNION` removes duplicates (extra cost); `UNION ALL` keeps them.", fr: "`UNION` supprime les doublons (coût en plus) ; `UNION ALL` les garde." }
+- level: easy
+  q: { en: "In `LIKE`, which wildcard matches exactly one character?", fr: "Dans `LIKE`, quel joker remplace exactement un caractère ?" }
+  accept: ["_"]
+  why: { en: "`_` matches one character, `%` any sequence (even empty).", fr: "`_` remplace un caractère, `%` n’importe quelle suite (même vide)." }
+- level: medium
+  q: { en: "Which ranking function gives 1, 2, 2, 3 on a tie for second place?", fr: "Quelle fonction de classement donne 1, 2, 2, 3 en cas d’égalité à la deuxième place ?" }
+  accept: [DENSE_RANK]
+  why: { en: "`DENSE_RANK` leaves no gaps; `RANK` gives 1, 2, 2, 4.", fr: "`DENSE_RANK` ne laisse pas de trou ; `RANK` donne 1, 2, 2, 4." }
+- level: medium
+  q: { en: "Which ranking function gives 1, 2, 2, 4 on a tie for second place?", fr: "Quelle fonction de classement donne 1, 2, 2, 4 en cas d’égalité à la deuxième place ?" }
+  accept: [RANK]
+  why: { en: "`RANK` skips positions after a tie; `ROW_NUMBER` never ties.", fr: "`RANK` saute des places après une égalité ; `ROW_NUMBER` n’a jamais d’égalité." }
+- level: medium
+  q: { en: "Which window function reads a value from the previous row?", fr: "Quelle fonction de fenêtre lit une valeur de la ligne précédente ?" }
+  accept: [LAG]
+  why: { en: "`LAG(col) OVER (ORDER BY …)` reads the previous row; `LEAD` the next one.", fr: "`LAG(col) OVER (ORDER BY …)` lit la ligne précédente ; `LEAD` la suivante." }
+- level: medium
+  q: { en: "Table `t` is empty. What does `SELECT SUM(x) FROM t` return?", fr: "La table `t` est vide. Que renvoie `SELECT SUM(x) FROM t` ?" }
+  accept: [NULL]
+  why: { en: "Aggregates over no rows return NULL, except `COUNT`, which returns 0.", fr: "Les agrégats sur zéro ligne renvoient NULL, sauf `COUNT`, qui renvoie 0." }
+- level: medium
+  q: { en: "Which keyword starts a common table expression (CTE)?", fr: "Quel mot-clé ouvre une expression de table commune (CTE) ?" }
+  accept: [WITH]
+  why: { en: "`WITH name AS (…) SELECT …` names a subquery you can reuse.", fr: "`WITH nom AS (…) SELECT …` nomme une sous-requête réutilisable." }
+- level: medium
+  q: { en: "A table of 10 rows `CROSS JOIN` a table of 4 rows: how many rows?", fr: "Une table de 10 lignes `CROSS JOIN` une table de 4 lignes : combien de lignes ?" }
+  accept: ["40"]
+  why: { en: "A cross join is the Cartesian product: 10 × 4.", fr: "Un cross join est le produit cartésien : 10 × 4." }
+- level: medium
+  q: { en: "Which standard function converts a value to another type?", fr: "Quelle fonction standard convertit une valeur vers un autre type ?" }
+  accept: [CAST]
+  why: { en: "`CAST(x AS DATE)`; `TRY_CAST` returns NULL instead of failing.", fr: "`CAST(x AS DATE)` ; `TRY_CAST` renvoie NULL au lieu d’échouer." }
+- level: medium
+  q: { en: "`WHERE id NOT IN (SELECT …)` and the subquery returns a NULL. How many rows come back?", fr: "`WHERE id NOT IN (SELECT …)` et la sous-requête renvoie un NULL. Combien de lignes ?" }
+  accept: ["0"]
+  why: { en: "`x NOT IN (…, NULL)` is never true. Use `NOT EXISTS` instead.", fr: "`x NOT IN (…, NULL)` n’est jamais vrai. Préférez `NOT EXISTS`." }
+- level: hard
+  q: { en: "Which DuckDB clause filters on a window function without a subquery?", fr: "Quelle clause DuckDB filtre sur une fonction de fenêtre sans sous-requête ?" }
+  accept: [QUALIFY]
+  why: { en: "`QUALIFY` is to window functions what `HAVING` is to aggregates.", fr: "`QUALIFY` est aux fonctions de fenêtre ce que `HAVING` est aux agrégats." }
+- level: hard
+  q: { en: "With ORDER BY and no frame, the default frame is `RANGE BETWEEN UNBOUNDED PRECEDING AND ___`.", fr: "Avec ORDER BY et sans cadre, le cadre par défaut est `RANGE BETWEEN UNBOUNDED PRECEDING AND ___`." }
+  accept: [CURRENT ROW]
+  why: { en: "That's why `SUM(x) OVER (ORDER BY d)` is a running total, ties included.", fr: "D’où le cumul de `SUM(x) OVER (ORDER BY d)`, égalités comprises." }
+- level: hard
+  q: { en: "In ACID, what does the I stand for?", fr: "Dans ACID, que signifie le I ?" }
+  accept: [ISOLATION]
+  why: { en: "Atomicity, Consistency, Isolation, Durability.", fr: "Atomicité, Cohérence, Isolation, Durabilité." }
+- level: hard
+  q: { en: "Which normal form removes transitive dependencies (short form, e.g. 1NF)?", fr: "Quelle forme normale supprime les dépendances transitives (forme courte, ex. 1FN) ?" }
+  accept: [3NF, 3FN, THIRD NORMAL FORM, TROISIEME FORME NORMALE]
+  why: { en: "3NF: every non-key column depends on the key, the whole key, and nothing but the key.", fr: "3FN : chaque colonne non clé dépend de la clé, de toute la clé, et de rien d’autre." }
+- level: hard
+  q: { en: "Which DuckDB join keeps the left rows that have no match on the right?", fr: "Quelle jointure DuckDB garde les lignes de gauche sans correspondance à droite ?" }
+  accept: [ANTI JOIN, ANTI]
+  why: { en: "`ANTI JOIN` is the join form of `NOT EXISTS`; `SEMI JOIN` is `EXISTS`.", fr: "`ANTI JOIN` est la forme jointure de `NOT EXISTS` ; `SEMI JOIN` celle de `EXISTS`." }
+- level: hard
+  q: { en: "Column x holds 1, 1, NULL, 2. What does `COUNT(DISTINCT x)` return?", fr: "La colonne x contient 1, 1, NULL, 2. Que renvoie `COUNT(DISTINCT x)` ?" }
+  accept: ["2"]
+  why: { en: "Distinct non-NULL values: 1 and 2. NULL is never counted.", fr: "Valeurs distinctes non NULL : 1 et 2. NULL n’est jamais compté." }
+- level: hard
+  q: { en: "Which DuckDB aggregate returns `name` from the row with the highest `gold`: ___(name, gold)?", fr: "Quel agrégat DuckDB renvoie `name` de la ligne au `gold` maximal : ___(name, gold) ?" }
+  accept: [ARG_MAX, MAX_BY]
+  why: { en: "`ARG_MAX(name, gold)` (alias `MAX_BY`) avoids a self-join or a window.", fr: "`ARG_MAX(name, gold)` (alias `MAX_BY`) évite une auto-jointure ou une fenêtre." }
+- level: hard
+  q: { en: "Which standard isolation level is the only one that prevents phantom reads?", fr: "Quel niveau d’isolation standard est le seul à empêcher les lectures fantômes ?" }
+  accept: [SERIALIZABLE, SERIALISABLE]
+  why: { en: "In the SQL standard, REPEATABLE READ still allows phantoms; SERIALIZABLE does not.", fr: "Dans la norme SQL, REPEATABLE READ autorise encore les fantômes ; SERIALIZABLE non." }

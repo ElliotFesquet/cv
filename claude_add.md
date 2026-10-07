@@ -79,6 +79,10 @@ commit in a comment. Link it from the Apps page or a project page here. Same ori
 - Dataset: `node scripts/sql-dataset.mjs` (seeded) writes `public/apps/sql/*.csv`; column types in `src/scripts/sql/schema.ts`.
   Changing the data changes expected results: re-check all solutions.
 - UI strings: `src/scripts/sql/i18n.ts`; styles: `src/styles/sql.css`; progress: localStorage `cv:sql:*`.
+- Versus (`versus/`): 7 timed rounds vs a bot (no network), first correct answer scores. Rules + bot tuning `bots.ts`,
+  match/clock `versus.ts` (animation hooks listed at its top), round UI `versus-round.ts`, styles `sql-versus.css`.
+  Pool per bot is built in the page from the quiz/practice/challenges YAMLs + `theory.yaml` (typed answers, `accept` list).
+  Records in localStorage `cv:sql:versus:<bot>`.
 - Game look: `.arena` dark screen (`sql-arena.css`, `--arena-*` tokens) remaps the colour tokens locally. Effects in `fx.ts`:
   `data-type` = letter-by-letter reveal (inside `data-fx-current`: replays when the block gets `.is-current`),
   `data-scramble` = glyph scramble on hover, `data-menu` = ↑/↓ menu. Quiz = level menu → one question at a time.

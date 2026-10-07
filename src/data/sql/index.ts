@@ -5,6 +5,7 @@ import intermediate from './quiz-intermediate.yaml?raw';
 import pro from './quiz-pro.yaml?raw';
 import practiceRaw from './practice.yaml?raw';
 import challengesRaw from './challenges.yaml?raw';
+import theoryRaw from './theory.yaml?raw';
 import type { Lang } from '../../i18n/ui';
 
 export type Text = string | Record<Lang, string>;
@@ -22,6 +23,8 @@ export const quiz: Record<(typeof levels)[number], Question[]> = {
 };
 export const practice = load(practiceRaw) as Task[];
 export const challenges = load(challengesRaw) as Task[];
+export interface Theory { level: 'easy' | 'medium' | 'hard'; q: Text; accept: (string | number)[]; why: Text }
+export const theory = load(theoryRaw) as Theory[];
 
 export const tx = (v: Text, lang: Lang) => (typeof v === 'string' ? v : v[lang]);
 

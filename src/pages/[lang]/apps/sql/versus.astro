@@ -1,0 +1,115 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import Header from '../../../../components/sql/Header.astro';
+import Schema from '../../../../components/sql/Schema.astro';
+import { langPaths, type Lang } from '../../../../i18n/ui';
+import { st, type SqlKey } from '../../../../scripts/sql/i18n';
+import { ORDER, tiers } from '../../../../scripts/sql/bots';
+import { challenges, inline, practice, quiz, theory, tx, type Question, type Task, type Text, type Theory } from '../../../../data/sql';
+import '../../../../styles/sql.css';
+import '../../../../styles/sql-versus.css';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const s = st(lang);
+
+// Question pool per bot, in this page's language, rendered to HTML at build time (read by scripts/sql/versus.ts).
+const html = (v: Text) => inline(tx(v, lang));
+const qz = (qs: Question[]) => qs.map((q) => ({ kind: 'quiz', q: html(q.q), answer: q.answer, why: html(q.why),
+  options: q.options.map((o) => (typeof o === 'string' ? `<code>${inline(o)}</code>` : html(o))) }));
+const th = (level: Theory['level']) => theory.filter((x) => x.level === level)
+  .map((x) => ({ kind: 'theory', q: html(x.q), accept: x.accept.map(String), why: html(x.why) }));
+const pb = (ts: Task[]) => ts.map((x) => ({ kind: 'problem', title: tx(x.title, lang), q: html(x.prompt),
+  hint: x.hint && html(x.hint), solution: x.solution.trim(), ordered: !!x.ordered, diff: x.difficulty ?? 'practice' }));
+const pool = {
+  junior: { quiz: qz(quiz.noob), theory: th('easy'), problem: pb(practice) },
+  senior: { quiz: qz(quiz.intermediate), theory: th('medium'), problem: pb(challenges.filter((c) => c.difficulty !== 'hard')) },
+  principal: { quiz: qz(quiz.pro), theory: th('hard'), problem: pb(challenges.filter((c) => c.difficulty !== 'easy')) },
+};
+const json = JSON.stringify(pool).replace(/</g, '\\u003c');
+const bot = (b: string, suffix = '') => s[`bot.${b}${suffix}` as SqlKey];
+---
+<Base lang={lang} title={`${s.versus} · ${s.title}`}>
+  <Header lang={lang} title={s.versus} desc={s['versus.desc']} />
+  <div class="sql-versus arena" data-screen="setup">
+    <section class="vs-setup">
+      <ul class="vs-rules">
+        <li>{s['vs.rule.1']}</li><li>{s['vs.rule.2']}</li><li>{s['vs.rule.3']}</li>
+      </ul>
+      <p class="sql-kicker">{s['vs.pick']}</p>
+      <nav class="arena-menu" data-menu aria-label={s['vs.pick']}>
+        <ol>
+          {tiers.map((b, i) => (
+            <li>
+              <a href="#" data-bot={b}>
+                <span class="arena-idx">{String(i + 1).padStart(2, '0')}</span>
+                <span class="arena-label" data-scramble>{bot(b)}</span>
+                <span class="arena-meta" data-record={b}></span>
+                <span class="arena-desc">{bot(b, '.desc')}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+      <p class="arena-help">{s['menu.help']}</p>
+    </section>
+
+    <section class="vs-match">
+      <div class="vs-hud">
+        <a class="quiz-back" href="#" data-quit>{s['vs.quit']}</a>
+        <ol class="vs-dots" aria-hidden="true">{ORDER.map((k) => <li data-kind={k}></li>)}</ol>
+        <div class="vs-side vs-me"><span>{s['vs.you']}</span><strong data-you-score>0</strong></div>
+        <p class="vs-clock" data-clock role="timer">0:00</p>
+        <div class="vs-side vs-opp"><span data-bot-name></span><strong data-bot-score>0</strong></div>
+        <div class="vs-clockbar" aria-hidden="true"><span></span></div>
+        <div class="vs-opp-status">
+          <div class="vs-botbar" aria-hidden="true"><span></span></div>
+          <p data-bot-phase aria-live="polite"></p>
+        </div>
+      </div>
+      <p class="vs-splash" data-splash aria-live="assertive"></p>
+      <div class="vs-round">
+        <p class="sql-kicker" data-kicker></p>
+        <h2 data-title></h2>
+        <p class="vs-q" data-q></p>
+        <details class="vs-hint"><summary>{s.hint}</summary><p data-hint></p></details>
+        <div class="vs-options quiz-options"></div>
+        <form class="vs-theory">
+          <input type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label={s['vs.answer']} placeholder={s['vs.answer']} />
+          <button type="submit" class="button" data-submit>{s.check}</button>
+          <p class="sql-status" data-feedback role="status"></p>
+        </form>
+        <div class="vs-console">
+          <div class="sql-editor"></div>
+          <div class="sql-actions">
+            <button type="button" class="button" data-action="run" disabled>{s.run}</button>
+            <button type="button" class="button" data-action="check" data-submit disabled>{s.check}</button>
+            <button type="button" class="button button-ghost" data-action="expected" disabled>{s.expected}</button>
+          </div>
+          <p class="sql-keys muted">{s['vs.keys']}</p>
+          <p class="sql-status" role="status" aria-live="polite"></p>
+          <div class="sql-result"></div>
+        </div>
+        <div class="vs-verdict" hidden>
+          <p class="vs-verdict-msg" data-verdict-msg></p>
+          <div class="vs-reveal"></div>
+          <button type="button" class="button" data-next></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="vs-end">
+      <p class="sql-kicker">{s['vs.final']}</p>
+      <p class="vs-end-title" data-end-title></p>
+      <p class="quiz-end-score" data-end-score></p>
+      <p class="quiz-end-msg" data-end-msg></p>
+      <div class="sql-actions">
+        <button type="button" class="button" data-rematch>{s['vs.rematch']}</button>
+        <button type="button" class="button button-ghost" data-change>{s['vs.change']}</button>
+      </div>
+    </section>
+    <script is:inline type="application/json" id="vs-pool" set:html={json}></script>
+  </div>
+  <Schema lang={lang} />
+</Base>
+<script>import '../../../../scripts/sql/versus';</script>
