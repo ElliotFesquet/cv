@@ -1,0 +1,18 @@
+---
+import { href, type Lang } from '../../i18n/ui';
+import { tt } from '../../scripts/typing/i18n';
+
+interface Props { lang: Lang; title: string; desc: string }
+const { lang, title, desc } = Astro.props;
+const s = tt(lang);
+---
+<header class="arena">
+  <div class="arena-bar">
+    <a href={href(lang, 'apps/typing')}>{s.back}</a>
+    <span><span class="arena-blink">●</span> {s.engine}</span>
+  </div>
+  <h1 class="arena-title" data-type>{title}</h1>
+  <p class="arena-lede" data-type data-type-delay="300">{desc}</p>
+  <noscript><p class="ty-note">{s.noscript}</p></noscript>
+</header>
+<script>import '../../scripts/sql/fx';</script>

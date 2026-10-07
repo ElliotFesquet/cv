@@ -1,0 +1,18 @@
+---
+// The typing line driven by scripts/typing/engine.ts (finished words | current word · rest of the text), its
+// "Start typing" badge, plus the texts (both languages) as JSON for the page script.
+import type { Lang } from '../../i18n/ui';
+import { tt } from '../../scripts/typing/i18n';
+import { texts } from '../../data/typing';
+
+interface Props { lang: Lang }
+const s = tt(Astro.props.lang);
+const json = JSON.stringify(texts).replace(/</g, '\\u003c');
+---
+<div class="ty-box">
+  <p class="ty-badge" aria-hidden="true"><span class="ty-badge-go">{s.start}</span><span class="ty-badge-focus">{s.focus}</span></p>
+  <div class="ty-track" aria-hidden="true"><div class="ty-done"></div><div class="ty-next"></div></div>
+  <input class="ty-input" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"
+    enterkeyhint="next" aria-label={s.start} />
+</div>
+<script is:inline type="application/json" id="ty-texts" set:html={json}></script>

@@ -44,6 +44,10 @@
   --arena-hover: rgb(255 106 61 / 0.09);
   --arena-scan: rgb(255 255 255 / 0.03);
   --arena-vignette: rgb(0 0 0 / 0.55);
+  --ty-box-max: 64rem;   /* Typing Arena: text card width, timer ring and metric card size */
+  --ty-ring: 7rem;
+  --ty-card: 6rem;
+  --ty-radius: 0.75rem;
 
   /* Coaching (hobbies/coaching): always dark, red neon from the "Coaching ;D" slides */
   --font-display: "Anton", Impact, "Arial Narrow", sans-serif;

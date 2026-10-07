@@ -88,6 +88,15 @@ commit in a comment. Link it from the Apps page or a project page here. Same ori
   `data-scramble` = glyph scramble on hover, `data-menu` = ↑/↓ menu. Quiz = level menu → one question at a time.
   Practice/challenges = one task at a time in order, "Next" unlocks once solved, resumes at the first unsolved task.
 
+## 3b. Typing Arena (built, type D)
+- Routes: `/[lang]/apps/typing/` hub, `test/` (timed, duration chosen), `versus/` (race a bot on one text), `tutorial/`.
+- Test UI copies livechat.com/typing-speed-test: timer ring + 3 metric cards, one-line text card (done words left,
+  current word centred, Space validates even a wrong word), result `<dialog>`, "my scores" (local history).
+- Texts: `src/data/typing/texts.yaml` (`en`/`fr` lists of `topic` + `text`; letters, digits, spaces, `.,'-:;!?%()$`, straight
+  apostrophes — the build fails on anything else). Tutorial: `tutorial.yaml`. Bots (id + WPM) + schedule: `scripts/typing/bots.ts`.
+- Engine (word-by-word input, stats, strict mode for versus): `engine.ts`; strings `i18n.ts`; styles `typing.css` (shared,
+  on top of `sql-arena.css`, reuses `fx-type`) + `typing-test.css`. Storage `cv:typing:*` (time, lang, best:<s>, history, versus:<bot>).
+
 ## 4. Definition of done (every integration)
 - [ ] `/en/` and `/fr/` versions exist; every string exists in both languages
 - [ ] internal links via `href()` / `asset()`; no hard-coded `/cv/...` except inside markdown

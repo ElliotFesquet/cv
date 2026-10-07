@@ -1,0 +1,30 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import Header from '../../../../components/typing/Header.astro';
+import { href, langPaths, type Lang } from '../../../../i18n/ui';
+import { tt } from '../../../../scripts/typing/i18n';
+import { tutorial } from '../../../../data/typing';
+import { inline } from '../../../../data/sql';
+import '../../../../styles/sql-arena.css';
+import '../../../../styles/typing.css';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const s = tt(lang);
+---
+<Base lang={lang} title={`${s.tutorial} · ${s.title}`}>
+  <Header lang={lang} title={s.tutorial} desc={s['tutorial.desc']} />
+  <section class="arena">
+    <ol class="ty-steps">
+      {tutorial.map((step) => (
+        <li>
+          <h2>{step.title[lang]}</h2>
+          <ul>{step.body[lang].map((b) => <li set:html={inline(b)} />)}</ul>
+        </li>
+      ))}
+    </ol>
+    <div class="ty-actions">
+      <a class="button" href={href(lang, 'apps/typing/test')}>{s['tut.cta']}</a>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,84 @@
+---
+// Speed test, laid out like livechat.com/typing-speed-test: timer ring + 3 live metrics, one-line text box,
+// result popup, "my scores". Logic: scripts/typing/test.ts.
+import Base from '../../../../layouts/Base.astro';
+import TypeBox from '../../../../components/typing/TypeBox.astro';
+import TextLang from '../../../../components/typing/TextLang.astro';
+import { href, langPaths, type Lang } from '../../../../i18n/ui';
+import { tt } from '../../../../scripts/typing/i18n';
+import '../../../../styles/sql-arena.css';
+import '../../../../styles/typing.css';
+import '../../../../styles/typing-test.css';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const s = tt(lang);
+const durations = [15, 30, 60, 120, 300];
+const label = (d: number) => (d < 60 ? `${d} s` : `${d / 60} min`);
+const glyphs = ['G', 'a', '?', 'k', '%', 'U', 'x', '&', 'j', 'R'];
+---
+<Base lang={lang} title={`${s.test} · ${s.title}`}>
+  <div class="ty-test arena" data-state="ready">
+    <div class="arena-bar">
+      <a href={href(lang, 'apps/typing')}>{s.back}</a>
+      <span><span class="arena-blink">●</span> {s.engine}</span>
+    </div>
+    <div class="ty-deco" aria-hidden="true">{glyphs.map((g) => <span>{g}</span>)}</div>
+
+    <header class="ty-hero">
+      <p class="ty-kicker">{s['test.kicker']}</p>
+      <h1 class="ty-h1" data-type>{s['test.h1']}</h1>
+      <noscript><p class="ty-note">{s.noscript}</p></noscript>
+    </header>
+
+    <div class="ty-metrics">
+      <div class="ty-timer" role="timer">
+        <svg viewBox="0 0 110 110" aria-hidden="true">
+          <circle class="ty-ring-track" cx="55" cy="55" r="53" pathLength="100" />
+          <circle class="ty-ring" cx="55" cy="55" r="53" pathLength="100" />
+        </svg>
+        <strong data-clock>60</strong><span>{s['hud.seconds']}</span>
+      </div>
+      <div class="ty-cards">
+        <p><strong data-wpm>0</strong><span>{s['hud.wpm']}</span></p>
+        <p><strong data-cpm>0</strong><span>{s['hud.cpm']}</span></p>
+        <p><strong data-acc>0</strong><span>{s['hud.acc']}</span></p>
+      </div>
+    </div>
+
+    <TypeBox lang={lang} />
+    <p class="arena-help ty-help">{s.keys}</p>
+
+    <form class="ty-settings">
+      <fieldset class="ty-chips" data-time>
+        <legend>{s['set.time']}</legend>
+        {durations.map((d) => (
+          <label><input type="radio" name="ty-time" value={d} checked={d === 60} /><span>{label(d)}</span></label>
+        ))}
+        <label class="ty-custom"><input type="radio" name="ty-time" value="custom" /><span>{s['set.custom']}</span>
+          <input type="number" min="5" max="3600" step="5" value="90" aria-label={s['set.custom']} /></label>
+      </fieldset>
+      <TextLang lang={lang} />
+    </form>
+
+    <details class="ty-scores">
+      <summary>{s.scores}</summary>
+      <div data-scores><p>{s['scores.empty']}</p></div>
+    </details>
+
+    <dialog class="ty-modal" aria-labelledby="ty-r-title">
+      <button type="button" class="ty-close" data-close aria-label={s.close}>×</button>
+      <p class="ty-kicker">{s['res.title']}</p>
+      <h2 id="ty-r-title" data-r-title></h2>
+      <p class="ty-r-body" data-r-body></p>
+      <p class="ty-best" data-r-best></p>
+      <p data-r-rank></p>
+      <div class="ty-actions">
+        <button type="button" class="button" data-again>{s.again}</button>
+        <a class="button button-ghost" data-race href={href(lang, 'apps/typing/versus')}></a>
+      </div>
+    </dialog>
+  </div>
+</Base>
+<script>import '../../../../scripts/sql/fx';</script>
+<script>import '../../../../scripts/typing/test';</script>

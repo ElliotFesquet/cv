@@ -1,0 +1,80 @@
+/* Typing Arena · speed test (apps/typing/test), laid out like livechat.com/typing-speed-test. Tokens only.
+   Hooks: .ty-test[data-state] (ready | run | end), [data-urgent], --clock (time left, 0–1). */
+
+/* Centred hero, with letters scattered around like the original */
+.ty-test { text-align: center; }
+.ty-test .arena-bar { text-align: left; }
+.ty-hero { position: relative; z-index: 1; margin-top: var(--space-5); }
+.ty-hero > * { margin-inline: auto; }
+.ty-h1 { font-size: var(--step-2); font-weight: 650; line-height: 1; letter-spacing: -0.04em; margin: 0 auto; max-width: none; }
+.ty-deco span {
+  position: absolute; font: 500 var(--step-1) var(--font-mono); color: var(--color-muted); opacity: 0.35; pointer-events: none;
+}
+.ty-deco span:nth-child(1) { left: 4%; top: 22%; }
+.ty-deco span:nth-child(2) { left: 12%; top: 38%; transform: rotate(-20deg); }
+.ty-deco span:nth-child(3) { left: 6%; top: 58%; }
+.ty-deco span:nth-child(4) { left: 15%; top: 72%; transform: rotate(15deg); }
+.ty-deco span:nth-child(5) { left: 3%; top: 86%; }
+.ty-deco span:nth-child(6) { right: 5%; top: 24%; transform: rotate(25deg); }
+.ty-deco span:nth-child(7) { right: 13%; top: 40%; }
+.ty-deco span:nth-child(8) { right: 4%; top: 55%; transform: rotate(-12deg); }
+.ty-deco span:nth-child(9) { right: 16%; top: 70%; }
+.ty-deco span:nth-child(10) { right: 7%; top: 88%; transform: rotate(30deg); }
+
+/* Timer ring + three metric cards */
+.ty-metrics { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: var(--space-4) var(--space-5); margin-top: var(--space-5); }
+.ty-timer {
+  position: relative; width: var(--ty-ring); aspect-ratio: 1; border-radius: 50%; display: grid; place-content: center;
+  background: color-mix(in srgb, var(--color-text) 5%, var(--color-bg));
+}
+.ty-timer svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+.ty-timer circle { fill: none; stroke-width: 4; }
+.ty-ring-track { stroke: var(--color-border); }
+.ty-ring { stroke: var(--color-accent); stroke-dasharray: 100; stroke-dashoffset: calc((1 - var(--clock, 1)) * 100); transition: stroke-dashoffset 0.2s linear; }
+.ty-timer strong { font: 650 var(--step-2) / 1 var(--font-sans); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.ty-timer span, .ty-cards span { font: var(--step--1) var(--font-mono); color: var(--color-muted); }
+.ty-test[data-urgent] .ty-timer strong { color: var(--color-accent); }
+.ty-cards { display: flex; gap: var(--space-3); }
+.ty-cards p { display: grid; justify-items: center; gap: var(--space-2); margin: 0; }
+.ty-cards strong {
+  display: grid; place-items: center; width: var(--ty-card); aspect-ratio: 1; border-radius: var(--ty-radius);
+  font: 650 var(--step-2) / 1 var(--font-sans); letter-spacing: -0.03em; font-variant-numeric: tabular-nums;
+  background: color-mix(in srgb, var(--color-text) 5%, var(--color-bg)); border: 1px solid var(--color-border);
+}
+
+.ty-help { text-align: center; }
+.ty-test .ty-settings { justify-content: center; margin-top: var(--space-5); }
+.ty-test[data-state="run"] .ty-settings { opacity: 0.45; }
+.ty-test:not(.is-js) :is(.ty-metrics, .ty-box, .ty-help, .ty-scores) { display: none; }
+
+/* My scores */
+.ty-scores { margin-top: var(--space-4); }
+.ty-scores summary { cursor: pointer; display: inline-block; font-size: var(--step-0); color: var(--color-muted); }
+.ty-scores summary:hover { color: var(--color-text); }
+.ty-scores [data-scores] { max-width: var(--ty-box-max); margin: var(--space-3) auto 0; overflow-x: auto; }
+.ty-scores p { margin-inline: auto; font-size: var(--step--1); }
+.ty-scores table { width: 100%; border-collapse: collapse; font: var(--step--1) var(--font-mono); font-variant-numeric: tabular-nums; }
+.ty-scores :is(th, td) { padding: var(--space-1) var(--space-2); border-bottom: 1px solid var(--color-border); white-space: nowrap; }
+.ty-scores th { color: var(--color-muted); font-weight: 500; }
+
+/* Result popup */
+.ty-modal {
+  width: min(100% - 2 * var(--gutter), var(--measure)); padding: var(--space-5); text-align: left;
+  color: var(--color-text); background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--ty-radius);
+}
+.ty-modal::backdrop { background: var(--arena-vignette); backdrop-filter: blur(2px); }
+.ty-modal h2 { font-size: var(--step-2); letter-spacing: -0.03em; line-height: 1; margin: 0 0 var(--space-3); }
+.ty-r-body { font-size: var(--step-1); line-height: 1.4; }
+.ty-r-body mark { background: var(--color-accent); color: var(--color-on-accent); padding-inline: var(--space-1); }
+.ty-modal .ty-best { font: var(--step--1) var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-ok); }
+.ty-close {
+  position: absolute; right: var(--space-3); top: var(--space-3); font: var(--step-1) / 1 var(--font-sans); cursor: pointer;
+  color: var(--color-muted); background: none; border: 0; padding: var(--space-1);
+}
+.ty-close:hover { color: var(--color-text); }
+
+@media (max-width: 39.99rem) { .ty-deco { display: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  .ty-modal[open] { animation: rise 0.5s var(--ease) both; }
+  .ty-test[data-urgent] .ty-timer strong { animation: fx-blink 1s steps(1) infinite; }
+}

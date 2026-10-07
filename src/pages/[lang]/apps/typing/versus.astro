@@ -1,0 +1,72 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import Header from '../../../../components/typing/Header.astro';
+import TypeBox from '../../../../components/typing/TypeBox.astro';
+import TextLang from '../../../../components/typing/TextLang.astro';
+import { langPaths, type Lang } from '../../../../i18n/ui';
+import { tt, type TypingKey } from '../../../../scripts/typing/i18n';
+import { bots } from '../../../../scripts/typing/bots';
+import '../../../../styles/sql-arena.css';
+import '../../../../styles/typing.css';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const s = tt(lang);
+const bot = (id: string, suffix = '') => s[`bot.${id}${suffix}` as TypingKey];
+---
+<Base lang={lang} title={`${s.versus} · ${s.title}`}>
+  <Header lang={lang} title={s.versus} desc={s['versus.desc']} />
+  <div class="ty-versus arena" data-screen="setup">
+    <section class="ty-setup">
+      <ul class="ty-rules">
+        <li>{s['vs.rule.1']}</li><li>{s['vs.rule.2']}</li><li>{s['vs.rule.3']}</li>
+      </ul>
+      <form class="ty-settings"><TextLang lang={lang} /></form>
+      <p class="ty-kicker">{s['vs.pick']}</p>
+      <nav class="arena-menu" data-menu aria-label={s['vs.pick']}>
+        <ol>
+          {bots.map((b, i) => (
+            <li>
+              <a href={`#${b.id}`} data-bot={b.id}>
+                <span class="arena-idx">{String(i + 1).padStart(2, '0')}</span>
+                <span class="arena-label" data-scramble>{bot(b.id)}</span>
+                <span class="arena-meta">{b.wpm} {s.wpm} <span data-record={b.id}></span></span>
+                <span class="arena-desc">{bot(b.id, '.desc')}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+      <p class="arena-help">{s['menu.help']}</p>
+    </section>
+
+    <section class="ty-race">
+      <div class="ty-lanes">
+        <a class="ty-back" href="#" data-quit>{s['vs.quit']}</a>
+        <div class="ty-lane" data-who="you">
+          <span>{s['vs.you']}</span><strong data-you-wpm>0</strong>
+          <div class="ty-bar" aria-hidden="true"><span></span></div>
+        </div>
+        <div class="ty-lane" data-who="bot">
+          <span data-bot-name></span><strong data-bot-wpm>0</strong>
+          <div class="ty-bar" aria-hidden="true"><span></span></div>
+        </div>
+      </div>
+      <p class="ty-splash" data-splash aria-live="assertive"></p>
+      <TypeBox lang={lang} />
+      <p class="arena-help">{s.keys}</p>
+    </section>
+
+    <section class="ty-end">
+      <p class="ty-kicker">{s.title}</p>
+      <p class="ty-end-title" data-end-title></p>
+      <p class="ty-end-stats" data-end-stats></p>
+      <p class="ty-end-msg" data-end-msg></p>
+      <div class="ty-actions">
+        <button type="button" class="button" data-rematch>{s['vs.rematch']}</button>
+        <button type="button" class="button button-ghost" data-change>{s['vs.change']}</button>
+      </div>
+    </section>
+  </div>
+</Base>
+<script>import '../../../../scripts/typing/versus';</script>

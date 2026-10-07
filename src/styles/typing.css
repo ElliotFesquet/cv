@@ -1,0 +1,116 @@
+/* Typing Arena (apps/typing/*): imported only by those pages, after sql-arena.css (screen, menus, fx-type). Tokens only.
+   Test page layout: typing-test.css. State hooks are listed at the top of scripts/typing/{engine,test,versus}.ts. */
+
+.ty-note { font: var(--step--1) var(--font-mono); color: var(--color-accent); margin-top: var(--space-4); }
+.ty-kicker { font: 500 var(--step--1) var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-accent); margin: 0 0 var(--space-2); }
+.ty-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-4); }
+.ty-test, .ty-versus { scroll-margin-top: var(--nav-h); }
+.ty-race { scroll-margin-top: calc(var(--nav-h) + var(--space-3)); }
+
+/* Settings: radio chips (duration, text language) */
+.ty-settings { display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-5); margin-bottom: var(--space-4); }
+.ty-chips { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); border: 0; padding: 0; margin: 0; min-width: 0; }
+.ty-chips legend { float: left; margin-right: var(--space-2); font: 500 var(--step--1) var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-muted); }
+.ty-chips label { display: inline-flex; align-items: center; gap: var(--space-2); cursor: pointer; }
+.ty-chips input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
+.ty-chips span, .ty-chips input[type="number"] {
+  font: var(--step--1) var(--font-mono); color: var(--color-muted); padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--color-border); transition: color 0.2s, border-color 0.2s, background-color 0.2s;
+}
+.ty-chips label:hover span { color: var(--color-text); border-color: var(--color-accent); }
+.ty-chips input:checked + span { color: var(--color-on-accent); background: var(--color-accent); border-color: var(--color-accent); }
+.ty-chips input:focus-visible + span, .ty-chips input[type="number"]:focus { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.ty-chips input[type="number"] { width: 7ch; background: transparent; color: var(--color-text); }
+
+/* Text card: one line. Left half = finished words + current word (ends at the centre), right half = the rest. */
+.ty-box {
+  position: relative; max-width: var(--ty-box-max); margin: var(--space-6) auto var(--space-3); cursor: text;
+  padding-block: var(--space-5); border: 1px solid var(--color-border); border-radius: var(--ty-radius);
+  background: color-mix(in srgb, var(--color-text) 5%, var(--color-bg)); box-shadow: 0 var(--space-4) var(--space-6) var(--arena-vignette);
+}
+.ty-track { display: grid; grid-template-columns: 1fr 1fr; font: var(--step-1) / 1.4 var(--font-mono); letter-spacing: -0.02em; transition: opacity 0.2s; }
+.ty-done, .ty-next { display: flex; overflow: hidden; white-space: pre; }
+.ty-done { justify-content: flex-end; }
+.ty-done > *, .ty-next > * { flex: none; }
+.ty-word { padding-inline: 0.5ch; }
+.ty-done .ty-word { color: var(--color-muted); }
+.ty-done .ty-word.is-ko { text-decoration: line-through 2px var(--color-accent); }
+.ty-cur { position: relative; padding-left: 0.5ch; color: var(--color-text); }
+.ty-cur.is-ko { text-decoration: line-through 2px var(--color-accent); }
+.ty-cur .ty-c.is-ko { color: var(--color-accent); }
+.ty-cur::after { /* caret, exactly at the centre of the card */
+  content: ""; position: absolute; right: -1px; top: 10%; bottom: 10%; width: 2px; background: var(--color-accent);
+}
+.ty-next .ty-rest { padding-left: 0; }
+.ty-word.is-ghost { outline: 1px solid var(--color-accent); outline-offset: -1px; border-radius: var(--ty-radius); }
+.ty-box:not([data-focus]) .ty-track { opacity: 0.45; }
+.ty-input { position: absolute; inset: 0; width: 100%; opacity: 0; pointer-events: none; font-size: 1rem; }
+
+/* "Start typing" badge on the card's top edge; asks for a click when the card isn't focused */
+.ty-badge {
+  position: absolute; left: 50%; top: 0; transform: translate(-50%, -50%); margin: 0; max-width: none; white-space: nowrap;
+  font: 500 var(--step--1) var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--color-on-accent); background: var(--color-accent); padding: var(--space-1) var(--space-3); border-radius: var(--ty-radius);
+}
+.ty-badge::after {
+  content: ""; position: absolute; left: 50%; top: 100%; transform: translateX(-50%);
+  border: var(--space-1) solid transparent; border-top-color: var(--color-accent);
+}
+.ty-box[data-focus] .ty-badge-focus, .ty-box:not([data-focus]) .ty-badge-go { display: none; }
+:is(.ty-test:not([data-state="ready"]), .ty-versus[data-phase="live"]) .ty-box[data-focus] .ty-badge,
+.ty-test[data-state="end"] .ty-badge { display: none; }
+
+/* Versus screens: setup → race → end. Without JS only the setup shows. */
+.ty-versus:not([data-screen="setup"]) .ty-setup, .ty-versus:not([data-screen="race"]) .ty-race,
+.ty-versus:not([data-screen="end"]) .ty-end, .ty-versus:not([data-phase="countdown"]) .ty-splash { display: none; }
+.ty-versus .ty-settings { margin-block: var(--space-4) var(--space-5); }
+.ty-versus .ty-box { margin-top: var(--space-5); }
+.ty-rules { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-2); }
+.ty-rules li { padding-left: var(--space-4); position: relative; }
+.ty-rules li::before { content: "▸"; position: absolute; left: 0; color: var(--color-accent); }
+.arena-meta span { white-space: nowrap; }
+
+.ty-lanes { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3) var(--space-5); padding-top: var(--space-3); }
+.ty-back { grid-column: 1 / -1; font: var(--step--1) var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-muted); text-decoration: none; }
+.ty-back:hover { color: var(--color-text); }
+.ty-lane { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: var(--space-2); }
+.ty-lane span { font: var(--step--1) var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-muted); }
+.ty-lane strong { font: 600 var(--step-2) / 1 var(--font-mono); font-variant-numeric: tabular-nums; }
+.ty-bar { grid-column: 1 / -1; height: var(--space-1); background: var(--color-border); }
+.ty-bar span { display: block; height: 100%; transition: width 0.2s linear; }
+.ty-lane[data-who="you"] .ty-bar span { width: calc(var(--you, 0) * 100%); background: var(--color-ok); }
+.ty-lane[data-who="bot"] .ty-bar span { width: calc(var(--bot, 0) * 100%); background: var(--color-accent); }
+.ty-lane[data-who="bot"] strong { color: var(--color-accent); }
+.ty-splash {
+  font: 650 var(--step-3) / 1 var(--font-sans); letter-spacing: -0.05em; text-transform: uppercase; text-align: center;
+  color: var(--color-accent); margin: var(--space-4) 0 0; max-width: none;
+}
+.ty-end-title { font: 650 var(--step-3) / 0.9 var(--font-sans); letter-spacing: -0.05em; text-transform: uppercase; margin: var(--space-3) 0; }
+.ty-versus[data-result="won"] .ty-end-title { color: var(--color-ok); }
+.ty-versus[data-result="lost"] .ty-end-title { color: var(--color-accent); }
+.ty-end-stats { font: var(--step--1) var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-muted); max-width: none; }
+.ty-end-msg { font-size: var(--step-1); margin-block: var(--space-3) 0; }
+
+/* Tutorial */
+.ty-steps { list-style: none; padding: 0; margin: 0; counter-reset: step; border-top: 1px solid var(--color-border); }
+.ty-steps > li { counter-increment: step; display: grid; gap: var(--space-2); padding-block: var(--space-4); border-bottom: 1px solid var(--color-border); }
+.ty-steps h2 { font-size: var(--step-1); text-transform: uppercase; letter-spacing: -0.02em; margin: 0; }
+.ty-steps h2::before { content: counter(step, decimal-leading-zero) "  "; font: var(--step--1) var(--font-mono); color: var(--color-accent); vertical-align: middle; }
+.ty-steps ul { margin: 0; padding-left: var(--space-4); display: grid; gap: var(--space-1); }
+.ty-steps code { font-size: 0.9em; padding-inline: 0.25em; background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+
+@media (min-width: 40rem) { .ty-track { font-size: var(--step-2); } }
+@media (min-width: 64rem) { .ty-steps > li { grid-template-columns: var(--label-col) minmax(0, 1fr); gap: var(--space-5); } }
+
+/* Typed characters flash in like the SQL Arena reveal (fx-type, sql-arena.css) */
+@media (prefers-reduced-motion: no-preference) {
+  .ty-c.is-new { animation: fx-type 0.35s var(--ease) both; }
+  .ty-box[data-focus] .ty-cur::after { animation: fx-blink 1s steps(1) infinite; }
+  .ty-cur.is-miss { animation: ty-miss 0.4s var(--ease); }
+  .ty-badge { animation: ty-pulse 1.4s var(--ease) infinite; }
+  .ty-splash.is-tick { animation: ty-tick 0.7s var(--ease) both; }
+  .ty-end > * { animation: rise 0.6s var(--ease) both; }
+}
+@keyframes ty-miss { 30% { background: var(--color-accent); color: var(--color-on-accent); } }
+@keyframes ty-pulse { 50% { opacity: 0.7; } }
+@keyframes ty-tick { from { opacity: 0; transform: translate(0, 0) scale(1.6); } }

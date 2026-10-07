@@ -1,0 +1,134 @@
+# Typing Arena texts, with punctuation. Allowed: letters (accents fine, they are optional when typing), digits,
+# spaces and . , ' - : ; ! ? % ( ) $ — index.ts fails the build on anything else. Use straight apostrophes (').
+en:
+  - topic: GPUs
+    text: >-
+      Nvidia was founded in 1993 to build chips for video games. Its GeForce 256 card arrived in 1999 and was sold
+      as the first GPU. A few years later, CUDA let researchers program those chips for any kind of math. In 2012, a
+      neural network called AlexNet was trained on two Nvidia cards and won a famous image contest. Since then, the
+      GPU has become the engine of modern AI.
+  - topic: AI agents
+    text: >-
+      An AI agent is a language model that can act, not only answer. It reads a goal, plans a few steps and calls
+      tools: a search engine, a code runner or a database. Each result goes back into its context, so it can decide
+      what to do next. Good agents check their own work, ask for help when they're stuck and leave a clear log that a
+      human can review.
+  - topic: Tech jobs
+    text: >-
+      Data teams now hire analytics engineers to sit between raw data and business questions. They write SQL models,
+      test them in version control and document every metric, so that finance and marketing read the same number. A
+      good model is boring in the best way: it runs every morning at 6 AM, it fails loudly when a source changes, and
+      nobody has to ask which dashboard to trust.
+  - topic: Stocks
+    text: >-
+      A stock that grows 10% per year doubles in about 7 years. The rule of 72 explains why: divide 72 by the yearly
+      rate and you get the number of years it takes to double. At 6% it takes 12 years; at 24%, only 3. That's why
+      investors care so much about growth rates, and why a small change in a forecast can move a price by a lot.
+  - topic: Chips
+    text: >-
+      Modern chips are made in factories that cost billions of dollars to build. Transistors are now so small that
+      billions of them fit on a piece of silicon the size of a fingernail. The machines that print the finest
+      patterns use extreme ultraviolet light, and only one company in the world can make them. This is why chips sit
+      at the center of trade talks between the US, Europe and Asia.
+  - topic: Data centers
+    text: >-
+      Training a large model can keep thousands of GPUs busy for weeks. Each data center needs power, cooling and
+      fast networks to feed those chips. That's why tech giants now sign deals for solar, wind and even nuclear
+      energy. A single rack of AI servers can draw as much power as dozens of homes, and engineers spend a lot of
+      time making every watt count.
+  - topic: Coding assistants
+    text: >-
+      Coding assistants now write tests, fix bugs and explain old code in seconds. Junior developers learn faster
+      because they can ask questions at any hour. Senior engineers spend more time on design and review, and less on
+      boilerplate. The skill that matters most hasn't changed: knowing what to build, and being able to tell when the
+      answer on the screen is wrong.
+  - topic: Startups
+    text: >-
+      In 2023 and 2024, money poured into AI startups at a pace not seen since the early days of the web. Some teams
+      of 10 people raised hundreds of millions of dollars before selling a single product. Investors bet that a few
+      winners will pay for many losses. The hard part for founders? Turning an impressive demo into a tool that
+      customers use every day.
+  - topic: Open models
+    text: >-
+      Open models changed the race in AI. Anyone can now download the weights, run them on a laptop and fine-tune
+      them for a narrow task. A small model trained on good data can beat a giant one on a specific job, such as
+      reading invoices or sorting support tickets. Companies like this: the data never leaves their servers, and the
+      cost per request stays low.
+  - topic: Moore
+    text: >-
+      In 1965, Gordon Moore noticed that the number of transistors on a chip doubled about every year. Ten years
+      later, he revised the pace to a doubling every 2 years. This simple rule (known as Moore's law) guided the
+      whole chip industry for 50 years. It's slowing down now, and most of the new gains come from special chips such
+      as GPUs and AI accelerators.
+  - topic: Writing
+    text: >-
+      Recruiters in tech often say that the best candidates explain their work as well as they do it. Clear tickets,
+      short messages and good documentation save hours for the whole team. Typing fast helps more than people think!
+      At 40 words per minute, a one-page summary takes about 10 minutes; at 80 words per minute, it takes only 5.
+fr:
+  - topic: GPU
+    text: >-
+      Nvidia est née en 1993 pour fabriquer des puces destinées aux jeux vidéo. Sa carte GeForce 256 sort en 1999 et
+      elle est vendue comme le premier GPU. Quelques années plus tard, CUDA permet aux chercheurs de programmer ces
+      puces pour toutes sortes de calculs. En 2012, le réseau de neurones AlexNet est entraîné sur deux cartes Nvidia
+      et gagne un célèbre concours de vision. Depuis, le GPU est devenu le moteur de l'IA moderne.
+  - topic: Agents IA
+    text: >-
+      Un agent IA est un modèle de langage qui peut agir, et pas seulement répondre. Il lit un objectif, découpe le
+      travail en étapes et appelle des outils, comme un moteur de recherche, un tableur ou une base de données. Chaque
+      résultat revient dans son contexte pour choisir la suite. Un bon agent vérifie son travail, demande de l'aide
+      quand il bloque et laisse un journal clair pour la personne qui relit.
+  - topic: Métiers de la tech
+    text: >-
+      Les équipes data recrutent des analytics engineers pour faire le lien entre les données brutes et les questions
+      métier. Ils écrivent des modèles SQL, les testent dans Git et documentent chaque indicateur, pour que la finance
+      et le marketing lisent le même chiffre. Un bon modèle tourne chaque matin à 6 h, échoue bruyamment quand une
+      source change, et personne ne se demande quel tableau de bord croire.
+  - topic: Bourse
+    text: >-
+      Une action qui progresse de 10 % par an double en 7 ans environ. La règle de 72 l'explique bien : il suffit de
+      diviser 72 par le taux annuel pour obtenir le nombre d'années. À 6 %, il faut 12 ans ; à 24 %, seulement 3.
+      Voilà pourquoi les investisseurs scrutent la croissance, et pourquoi une petite révision des prévisions peut
+      faire bouger un cours très fortement.
+  - topic: Puces
+    text: >-
+      Les puces modernes sortent d'usines qui coûtent des milliards de dollars. Les transistors sont devenus si
+      petits que des milliards tiennent sur un morceau de silicium grand comme un ongle. Les machines qui gravent les
+      motifs les plus fins utilisent la lumière ultraviolette extrême, et une seule entreprise au monde sait les
+      fabriquer. Voilà pourquoi les puces sont au centre des tensions commerciales mondiales.
+  - topic: Centres de données
+    text: >-
+      Entraîner un grand modèle peut mobiliser des milliers de GPU pendant des semaines. Chaque centre de données a
+      besoin d'électricité, de refroidissement et de réseaux rapides pour occuper ces puces. Les géants de la tech
+      signent donc des contrats pour du solaire, de l'éolien et même du nucléaire. Une seule baie de serveurs IA peut
+      consommer autant que des dizaines de foyers : chaque watt économisé compte.
+  - topic: Assistants de code
+    text: >-
+      Les assistants de code écrivent des tests, corrigent des bugs et expliquent du vieux code en quelques secondes.
+      Les développeurs juniors apprennent plus vite, car ils peuvent poser leurs questions à toute heure. Les seniors
+      passent plus de temps sur la conception et la relecture. La compétence clé n'a pas changé : savoir quoi
+      construire, et repérer quand la réponse affichée est fausse.
+  - topic: Startups
+    text: >-
+      En 2023 et 2024, les startups d'IA ont levé des sommes jamais vues depuis les débuts du web. Certaines équipes
+      de 10 personnes ont obtenu des centaines de millions de dollars avant même de vendre un produit. Les fonds
+      parient que quelques gagnants paieront pour beaucoup de pertes. Le plus dur pour les fondateurs ? Transformer
+      une démo brillante en outil utilisé tous les jours.
+  - topic: Modèles ouverts
+    text: >-
+      Les modèles ouverts ont changé la donne. Tout le monde peut télécharger des poids, les faire tourner sur un
+      portable et les ajuster pour une tâche précise. Un petit modèle entraîné sur de bonnes données peut battre un
+      géant sur un travail ciblé, comme lire des factures ou trier des tickets de support. Les entreprises aiment ça :
+      les données restent chez elles et le coût par requête reste bas.
+  - topic: Moore
+    text: >-
+      En 1965, Gordon Moore remarque que le nombre de transistors sur une puce double environ chaque année. Dix ans
+      plus tard, il ramène le rythme à un doublement tous les 2 ans. Cette règle simple (la loi de Moore) a guidé
+      toute une industrie pendant 50 ans. Elle ralentit désormais, et les gains viennent surtout de puces
+      spécialisées, comme les GPU et les accélérateurs d'IA.
+  - topic: Écrire
+    text: >-
+      Les recruteurs tech répètent souvent que les meilleurs profils savent expliquer leur travail aussi bien que le
+      faire. Des tickets clairs, des messages courts et une bonne documentation font gagner des heures à toute une
+      équipe. Taper vite aide plus qu'on ne le pense ! À 40 mots par minute, une page de synthèse prend environ 10
+      minutes ; à 80 mots par minute, seulement 5.

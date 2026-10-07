@@ -1,0 +1,15 @@
+---
+// Language of the practice texts, independent from the page language (remembered by scripts/typing/common.ts).
+import { languages, type Lang } from '../../i18n/ui';
+import { tt, type TypingKey } from '../../scripts/typing/i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const s = tt(lang);
+---
+<fieldset class="ty-chips" data-text-lang>
+  <legend>{s['set.text']}</legend>
+  {Object.keys(languages).map((l) => (
+    <label><input type="radio" name="ty-lang" value={l} checked={l === lang} /><span>{s[`lang.${l}` as TypingKey]}</span></label>
+  ))}
+</fieldset>

@@ -1,0 +1,73 @@
+# Typing Arena tutorial: one step per entry, each body item is a bullet. Plain text, `code` spans allowed.
+- title:
+    en: Sit, then find the home row
+    fr: Bien s’asseoir, puis trouver la rangée de repos
+  body:
+    en:
+      - Feet flat, wrists floating just above the keyboard, screen at eye level. Relaxed shoulders type faster.
+      - "Rest your left fingers on `A S D F` and your right fingers on `J K L ;` (AZERTY: `Q S D F` and `J K L M`)."
+      - The small bumps on F and J let you find this position without looking. Come back to it after every word.
+    fr:
+      - Pieds à plat, poignets légèrement au-dessus du clavier, écran à hauteur des yeux. Des épaules détendues tapent plus vite.
+      - "Posez les doigts gauches sur `Q S D F` et les doigts droits sur `J K L M` (QWERTY : `A S D F` et `J K L ;`)."
+      - Les petits reliefs sur F et J permettent de retrouver cette position sans regarder. Revenez-y après chaque mot.
+- title:
+    en: One finger, one column
+    fr: Un doigt, une colonne
+  body:
+    en:
+      - Each finger owns the keys above and below its home key. Index fingers also cover the middle columns (`T G B` and `Y H N`).
+      - Thumbs hit the space bar. Press Shift with the hand that is not typing the capital letter.
+      - "Numbers use the same columns, one row higher. Punctuation lives under the right pinky and ring finger (`. , ; '`); add Shift for `? ! :`. Both feel slow at first, which is why the texts here are full of them."
+    fr:
+      - Chaque doigt gère les touches au-dessus et en dessous de sa touche de repos. Les index couvrent aussi les colonnes du milieu (`T G B` et `Y H N`).
+      - Les pouces tapent l’espace. Appuyez sur Maj avec la main qui ne tape pas la majuscule.
+      - "Les chiffres suivent les mêmes colonnes, une rangée plus haut. La ponctuation est sous l’annulaire et l’auriculaire droits (`, ; : !` en AZERTY, Maj pour `. ?`). Les deux semblent lents au début, d’où leur présence dans les textes."
+- title:
+    en: Eyes on the text, never on the keys
+    fr: Les yeux sur le texte, jamais sur le clavier
+  body:
+    en:
+      - Looking down breaks your rhythm and costs you more than a typo. If you have to, cover your hands with a cloth for a week.
+      - Read one or two words ahead of the caret. Your fingers type the current word while your eyes load the next one.
+    fr:
+      - Regarder ses mains casse le rythme et coûte plus cher qu’une faute. Au besoin, couvrez vos mains d’un torchon pendant une semaine.
+      - Lisez un ou deux mots en avance sur le curseur. Les doigts tapent le mot en cours pendant que les yeux chargent le suivant.
+- title:
+    en: Accuracy first, then speed
+    fr: La précision d’abord, la vitesse ensuite
+  body:
+    en:
+      - Aim for 95 % accuracy or more. Below that, slow down on purpose until it comes back.
+      - Every error costs a backspace and a retype. Clean typing at 50 WPM beats messy typing at 60.
+      - Keep a steady rhythm rather than bursts and pauses. Even keystrokes are what makes speed last.
+    fr:
+      - Visez 95 % de précision ou plus. En dessous, ralentissez volontairement jusqu’à la retrouver.
+      - Chaque erreur coûte un retour arrière et une seconde frappe. 50 mots/min sans faute valent mieux que 60 avec.
+      - Gardez un rythme régulier plutôt que des rafales et des pauses. Ce sont des frappes égales qui rendent la vitesse durable.
+- title:
+    en: A 15 minute routine
+    fr: Une routine de 15 minutes
+  body:
+    en:
+      - "Warm up: one 60 s test, calm, to get your baseline."
+      - "Work: three 2 min tests, focused on accuracy. Note your worst keys and slow down on them."
+      - "Push: one Versus race against the opponent just above your level. Beat them, then move up a rung."
+      - Daily practice beats long sessions. Most people gain 10 to 20 WPM in a few weeks.
+    fr:
+      - "Échauffement : un test de 60 s, calmement, pour mesurer votre niveau."
+      - "Travail : trois tests de 2 min, concentré sur la précision. Repérez vos touches faibles et ralentissez dessus."
+      - "Effort : une course Versus contre l’adversaire juste au-dessus de votre niveau. Battez-le, puis montez d’un cran."
+      - Un peu chaque jour vaut mieux que de longues séances. On gagne souvent 10 à 20 mots/min en quelques semaines.
+- title:
+    en: Where you stand
+    fr: Où vous situer
+  body:
+    en:
+      - "WPM = words per minute, where one word is 5 characters. Only correctly typed words count, and Space always moves you to the next word: a wrong word stays wrong."
+      - "Around 40 WPM is typical, 60 is good, 80 is fast, 100 and above is the top few percent."
+      - The Versus opponents follow that ladder, from the Intern at 40 to the Machine at 150.
+    fr:
+      - "Mots/min = mots par minute, un mot valant 5 caractères. Seuls les mots bien tapés comptent, et Espace passe toujours au mot suivant : un mot faux reste faux."
+      - "Autour de 40 mots/min, c’est la moyenne ; 60, c’est bien ; 80, c’est rapide ; 100 et plus, c’est l’élite."
+      - Les adversaires du mode Versus suivent cette échelle, du Stagiaire à 40 jusqu’à la Machine à 150.

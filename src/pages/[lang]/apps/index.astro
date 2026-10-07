@@ -2,11 +2,15 @@
 import Base from '../../../layouts/Base.astro';
 import { href, langPaths, t, type Lang } from '../../../i18n/ui';
 import { st } from '../../../scripts/sql/i18n';
+import { tt } from '../../../scripts/typing/i18n';
 
 export const getStaticPaths = langPaths;
 const lang = Astro.params.lang as Lang;
 const ui = t(lang);
-const apps = [{ path: 'apps/sql', title: st(lang).title, desc: st(lang).lede }];
+const apps = [
+  { path: 'apps/sql', title: st(lang).title, desc: st(lang).lede },
+  { path: 'apps/typing', title: tt(lang).title, desc: tt(lang).lede },
+];
 ---
 <Base lang={lang} title={ui['nav.apps']}>
   <h1>{ui['nav.apps']}</h1>
