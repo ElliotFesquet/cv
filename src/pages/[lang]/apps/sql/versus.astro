@@ -30,7 +30,7 @@ const json = JSON.stringify(pool).replace(/</g, '\\u003c');
 const bot = (b: string, suffix = '') => s[`bot.${b}${suffix}` as SqlKey];
 ---
 <Base lang={lang} title={`${s.versus} · ${s.title}`}>
-  <Header lang={lang} title={s.versus} desc={s['versus.desc']} />
+  <Header lang={lang} title={s.versus} desc={s['versus.desc']} music="breakcore" />
   <div class="sql-versus arena" data-screen="setup">
     <section class="vs-setup">
       <ul class="vs-rules">

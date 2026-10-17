@@ -97,6 +97,11 @@ commit in a comment. Link it from the Apps page or a project page here. Same ori
 - Engine (word-by-word input, stats, strict mode for versus): `engine.ts`; strings `i18n.ts`; styles `typing.css` (shared,
   on top of `sql-arena.css`, reuses `fx-type`) + `typing-test.css`. Storage `cv:typing:*` (time, lang, best:<s>, history, versus:<bot>).
 
+## 3c. Arena music
+- `components/Music.astro` (toggle + headphones note) via `music="breakcore"|"chillstep"` on the sql/typing `Header`.
+  Generated live with Web Audio in `src/scripts/music/` (`synth.ts` instruments; `breakcore.ts` / `chillstep.ts` = one generator + 5 songs each, add a song = one `make({...})` line; `player.ts` picks a random song, crossfades to another every 64 bars), no audio files.
+  Starts on the first key/click, mute saved in localStorage `cv:music:on`.
+
 ## 4. Definition of done (every integration)
 - [ ] `/en/` and `/fr/` versions exist; every string exists in both languages
 - [ ] internal links via `href()` / `asset()`; no hard-coded `/cv/...` except inside markdown

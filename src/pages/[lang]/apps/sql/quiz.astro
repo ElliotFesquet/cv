@@ -12,7 +12,7 @@ const s = st(lang);
 const label = (l: string) => s[`level.${l}` as SqlKey];
 ---
 <Base lang={lang} title={`${s.quiz} · ${s.title}`}>
-  <Header lang={lang} title={s.quiz} desc={s['quiz.desc']} />
+  <Header lang={lang} title={s.quiz} desc={s['quiz.desc']} music="chillstep" />
   <div class="sql-quiz arena">
     <nav class="quiz-tabs arena-menu" data-menu aria-label={s.quiz}>
       <ol>

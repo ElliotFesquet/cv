@@ -12,6 +12,6 @@ const lang = Astro.params.lang as Lang;
 const s = st(lang);
 ---
 <Base lang={lang} title={`${s.practice} · ${s.title}`}>
-  <Header lang={lang} title={s.practice} desc={s['practice.desc']} />
+  <Header lang={lang} title={s.practice} desc={s['practice.desc']} music="chillstep" />
   <Workbench lang={lang} tasks={practice} unit={s.exercise} />
 </Base>

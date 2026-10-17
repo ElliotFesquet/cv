@@ -1,9 +1,10 @@
 ---
+import Music from '../Music.astro';
 import { href, type Lang } from '../../i18n/ui';
 import { st } from '../../scripts/sql/i18n';
 
-interface Props { lang: Lang; title: string; desc: string }
-const { lang, title, desc } = Astro.props;
+interface Props { lang: Lang; title: string; desc: string; music?: 'breakcore' | 'chillstep' }
+const { lang, title, desc, music } = Astro.props;
 const s = st(lang);
 ---
 <header class="sql-head arena">
@@ -11,6 +12,7 @@ const s = st(lang);
     <a class="sql-back" href={href(lang, 'apps/sql')}>{s.back}</a>
     <span><span class="arena-blink">●</span> {s.engine}</span>
   </div>
+  {music && <Music lang={lang} style={music} />}
   <h1 class="arena-title" data-type>{title}</h1>
   <p class="arena-lede" data-type data-type-delay="300">{desc}</p>
   <noscript><p class="sql-status" data-kind="error">{s.noscript}</p></noscript>

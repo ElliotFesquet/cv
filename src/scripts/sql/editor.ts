@@ -14,6 +14,7 @@ const theme = EditorView.theme({
   '&.cm-focused': { outline: '2px solid var(--color-accent)', outlineOffset: '-1px' },
   '.cm-scroller': { fontFamily: 'var(--font-mono)', minHeight: '9rem', maxHeight: '24rem' },
   '.cm-content': { caretColor: 'var(--color-accent)' },
+  '.cm-cursor, .cm-dropCursor': { borderLeft: '2px solid var(--color-accent)' }, // drawn cursor, visible on the dark arena
   '.cm-gutters': { background: 'transparent', color: 'var(--color-muted)', border: 'none' },
   '.cm-activeLine, .cm-activeLineGutter': { background: 'color-mix(in srgb, var(--color-text) 5%, transparent)' },
   '&.cm-focused .cm-selectionBackground, .cm-selectionBackground': { background: 'color-mix(in srgb, var(--color-accent) 30%, transparent)' },

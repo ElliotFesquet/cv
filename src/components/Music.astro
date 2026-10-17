@@ -1,0 +1,16 @@
+---
+// Music toggle + headphones note for the arena pages (scripts/music/player.ts). Hidden until the script runs.
+import type { Lang } from '../i18n/ui';
+
+interface Props { lang: Lang; style: 'breakcore' | 'chillstep' }
+const { lang, style } = Astro.props;
+const s = {
+  en: { on: 'on', off: 'off', phones: 'Put your headphones on: music starts on your first key or click.' },
+  fr: { on: 'activée', off: 'coupée', phones: 'Mettez un casque : la musique démarre à la première touche ou au premier clic.' },
+}[lang];
+---
+<div class="arena-music" data-music={style} data-on={s.on} data-off={s.off} hidden>
+  <button type="button" aria-pressed="false">♪ {style} · <span data-music-song></span> · <span data-music-state>{s.on}</span></button>
+  <p><span aria-hidden="true">🎧</span> {s.phones}</p>
+</div>
+<script>import '../scripts/music/player';</script>
