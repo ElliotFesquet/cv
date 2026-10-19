@@ -13,10 +13,11 @@ Bilingual: English (default) and French. Every route lives under `/en/` or `/fr/
 - `src/layouts/Base.astro` (fonts, styles, nav, footer); `src/components/Nav.astro` (links + EN/FR), `Footer.astro` (contact CTA from `cv.yaml` → `cta`)
 - `src/pages/index.astro` — redirect; `404.astro` — bilingual 404; `[lang]/index.astro` — CV; `[lang]/hobbies.astro` — Hobbies index; `[lang]/hobbies/coaching/` — Kalista Mid coaching site + demo checkout (prices/accounts `src/data/coaching.ts`, strings `src/scripts/coaching/i18n.ts`, styles `coaching*.css`, `--coach-*` tokens, slide crops `public/hobbies/coaching/`, demo orders in localStorage `cv:coaching:orders`, no card data stored); `[lang]/apps/` — Apps index + SQL Arena game (`apps/sql/`, see `claude_add.md` §3) + Typing Arena (`apps/typing/`, §3b); arena music `src/scripts/music/` (§3c)
 - `scripts/cv-pdf.mjs` — after build, prints the CV page (`print.css` + print tokens) to `dist/elliot-fesquet-cv-{en,fr}.pdf` via installed Chrome. Keep each PDF to 1 A4 page.
-- `src/pages/[lang]/projects/index.astro` + `[slug].astro` — projects; collection schema in `src/content.config.ts`
+- `src/pages/[lang]/projects/index.astro` + `[slug].astro` — projects; horizontal journey (problem → approach → architecture → results; `scripts/projects/journey.ts`, `project-journey.css`); each `## ` section of the body is rendered as its own panel (split in `[slug].astro`); frontmatter `architecture` = Mermaid flowchart with `logos:<name>` icons (@iconify-json/logos, rendered by `scripts/projects/mermaid.ts`), `dashboard` charts/shots → `components/projects/Dashboard.astro`, images in `public/projects/<slug>/`
 - `src/data/cv.yaml` — single source of truth for CV (en/fr per field); `src/data/cv.ts` loads + types it
 - `src/content/projects/{en,fr}/<slug>.md` — one markdown file per project per language
 - `public/` — copied as-is under `/cv/` (dbt docs, static files); `.github/workflows/deploy.yml` — build + deploy
+- `public/projects/marketing-roi-optimizer/dashboard/` — DEM2 Streamlit dashboard ported to stlite (`app.py`, `model.py`, `i18n.py`, CSV), loaded on click from frontmatter `dashboard.app`; runtime in gitignored `vendor/`, fetched + SHA-256-pinned by `scripts/dem2-vendor.mjs` (runs before dev/build; test with a static server, never a CDN)
 
 ## Design tokens (tokens.css `:root`; dark under prefers-color-scheme, compact scale under print)
 `--color-{bg,text,muted,border,accent,accent-ink,on-accent}` (accent-ink for small text), `--font-{sans,mono}` (Inter Tight + JetBrains Mono, self-hosted via @fontsource),
@@ -28,7 +29,7 @@ Breakpoints: mobile-first; 40rem (tablet), 64rem (desktop: sticky section labels
 - No phone number or street address on the site.
 - Internal links always via `href()` — never a hard-coded `/...` path (base path breaks).
 - One file per page, no file over ~200 lines, targeted edits over rewrites. Every string in both `en` and `fr`.
-- Static only: no backend, no secrets, no runtime data fetch. Approved exception: an app may fetch its own static files under `/cv/` (SQL Arena: DuckDB WASM + `public/apps/sql/*.csv`).
+- Static only: no backend, no secrets, no runtime data fetch. Approved exception: an app may fetch its own static files under `/cv/` (SQL Arena: DuckDB WASM + `public/apps/sql/*.csv`; DEM2 dashboard: stlite + Pyodide).
 - YAML: quote any value containing a comma inside `{ }` flow maps, or it is silently truncated.
 - New styles go in global.css under their own `/* Section */` comment, tokens only; new tokens only in tokens.css. Each CSS file < ~200 lines.
 
@@ -40,7 +41,7 @@ Breakpoints: mobile-first; 40rem (tablet), 64rem (desktop: sticky section labels
 ## Add a project page
 1. Create `src/content/projects/en/<slug>.md` and `src/content/projects/fr/<slug>.md` (same slug).
 2. Frontmatter: `title` (required), optional `summary`, `date`, `stack` (list). Schema: `src/content.config.ts`.
-3. Body sections: Problem → Data sources → Data model → Decisions and tradeoffs → What I'd do differently.
+3. Body sections: Problem → Data sources → Data model → Decisions and tradeoffs (each `##` becomes a panel).
 4. dbt docs (optional): `dbt docs generate --static` in the dbt repo, review for exposed names/SQL, copy `target/static_index.html` to `public/projects/<slug>/docs/index.html` (served at `/cv/projects/<slug>/docs/`).
 5. `npm run build` locally, then push.
 

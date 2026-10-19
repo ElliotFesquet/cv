@@ -1,7 +1,14 @@
 ---
-import { getCollection, render } from 'astro:content';
+// Project page as a horizontal journey: hero → problem → approach → architecture → results.
+// Desktop: vertical scroll drives the track sideways (scripts/projects/journey.ts). Mobile / no JS: swipe carousel.
+import { getCollection } from 'astro:content';
+import { createSatteriMarkdownProcessor } from '@astrojs/markdown-satteri';
 import Base from '../../../layouts/Base.astro';
-import type { Lang } from '../../../i18n/ui';
+import Architecture from '../../../components/projects/Architecture.astro';
+import Dashboard from '../../../components/projects/Dashboard.astro';
+import { href, t, type Lang } from '../../../i18n/ui';
+import '../../../styles/projects.css';
+import '../../../styles/project-journey.css';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -12,15 +19,65 @@ export async function getStaticPaths() {
 }
 
 const lang = Astro.params.lang as Lang;
+const s = t(lang);
 const { entry } = Astro.props;
-const { Content } = await render(entry);
+const d = entry.data;
+// Each `## ` section of the write-up becomes one panel: the first is the problem, the rest the approach.
+const markdown = await createSatteriMarkdownProcessor();
+const chunks = (entry.body ?? '').split(/^(?=## )/m).filter((c) => c.startsWith('## '));
+const sections = await Promise.all(chunks.map(async (chunk, i) => ({
+  step: i === 0 ? 'problem' : 'approach',
+  id: i < 2 ? (i === 0 ? 'problem' : 'approach') : undefined,
+  html: (await markdown.render(chunk)).code,
+})));
+const steps = ['problem', 'approach', 'architecture', 'results'] as const;
 ---
-<Base lang={lang} title={entry.data.title}>
-  <article class="project">
-    <h1>{entry.data.title}</h1>
-    {entry.data.stack.length > 0 && (
-      <ul class="project-stack">{entry.data.stack.map((s) => <li>{s}</li>)}</ul>
-    )}
-    <Content />
+<Base lang={lang} title={d.title}>
+  <article class="journey" data-journey>
+    <div class="journey-pin">
+      <nav class="journey-steps" aria-label={s['project.steps']}>
+        {steps.map((step, i) => (
+          <a href={`#${step}`} data-step-link={step}><span>{String(i + 1).padStart(2, '0')}</span> {s[`project.step.${step}`]}</a>
+        ))}
+        <span class="journey-progress" aria-hidden="true"></span>
+      </nav>
+      <div class="journey-track">
+        <header class="panel panel-hero" data-step="problem">
+          <p class="project-back"><a href={href(lang, 'projects')}>← {s['nav.projects']}</a></p>
+          <h1>{d.title}</h1>
+          {d.summary && <p class="project-summary">{d.summary}</p>}
+          <dl class="project-meta">
+            {d.date && <div><dt>{s['project.date']}</dt><dd>{d.date.getFullYear()}</dd></div>}
+            {d.team.length > 0 && <div><dt>{s['project.team']}</dt><dd>{d.team.join(', ')}</dd></div>}
+            {d.role && <div><dt>{s['project.role']}</dt><dd>{d.role}</dd></div>}
+            {d.repo && <div><dt>{s['project.code']}</dt><dd><a href={d.repo}>GitHub ↗</a></dd></div>}
+          </dl>
+          {d.stack.length > 0 && <ul class="project-stack">{d.stack.map((x) => <li>{x}</li>)}</ul>}
+          <p class="journey-hint" aria-hidden="true">
+            <span class="hint-scroll">{s['project.hintScroll']}</span><span class="hint-swipe">{s['project.hintSwipe']}</span> →
+          </p>
+        </header>
+        {sections.map((sec) => (
+          <section class="panel panel-text" id={sec.id} data-step={sec.step} set:html={sec.html} />
+        ))}
+        {d.architecture && (
+          <section class="panel panel-arch" id="architecture" data-step="architecture">
+            <h2>{s['project.architecture']}</h2>
+            <Architecture source={d.architecture} label={s['project.architecture']} noscript={s['project.archNoscript']} />
+          </section>
+        )}
+        <section class="panel panel-results" id="results" data-step="results">
+          <h2>{s['project.dashboard']}</h2>
+          <Dashboard lang={lang} url={d.dashboard?.url} app={d.dashboard?.app} note={d.dashboard?.note}
+            charts={d.dashboard?.charts ?? []} shots={d.dashboard?.shots ?? []} />
+        </section>
+      </div>
+    </div>
   </article>
 </Base>
+
+<script>
+  import '../../../scripts/projects/journey';
+  import '../../../scripts/projects/mermaid';
+  import '../../../scripts/projects/live-app';
+</script>

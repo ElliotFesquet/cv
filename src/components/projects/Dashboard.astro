@@ -1,0 +1,60 @@
+---
+// Results: bar charts drawn from frontmatter + screenshots, laid out as a row of cards.
+// A placeholder card when there is nothing yet.
+import { asset, t, type Lang } from '../../i18n/ui';
+
+interface Chart { title: string; unit: string; max?: number; bars: { label: string; value: number }[] }
+interface Shot { src: string; alt: string; caption?: string }
+interface Props { lang: Lang; url?: string; app?: string; note?: string; charts: Chart[]; shots: Shot[] }
+const { lang, url, app, note, charts, shots } = Astro.props;
+const s = t(lang);
+const appUrl = app && `${asset(app)}?lang=${lang}`;
+const decimals = (c: Chart) => Math.max(...c.bars.map((b) => (String(b.value).split('.')[1] ?? '').length));
+const fmt = (v: number, c: Chart) => `${v.toLocaleString(lang, { minimumFractionDigits: decimals(c) })}${c.unit}`;
+const empty = charts.length === 0 && shots.length === 0;
+---
+{(note || url) && (
+  <p class="dash-lede">
+    {note && <span class="muted">{note}</span>}
+    {url && <a class="button button-ghost" href={url}>{s['project.openDashboard']} ↗</a>}
+  </p>
+)}
+<div class="dash">
+  {appUrl && (
+    <figure class="dash-card dash-app" data-live-app={appUrl}>
+      <div class="dash-app-poster">
+        <p class="dash-app-kicker">Streamlit · Python · WebAssembly</p>
+        <p class="dash-app-title">{s['project.app.title']}</p>
+        <p class="muted">{s['project.app.note']}</p>
+        <p class="dash-app-actions">
+          <button type="button" class="button" data-live-app-start>{s['project.app.launch']} ▶</button>
+          <a class="button button-ghost" href={appUrl} target="_blank" rel="noopener">{s['project.app.open']} ↗</a>
+        </p>
+      </div>
+    </figure>
+  )}
+  {empty && !appUrl && <p class="dash-card dash-empty">{s['project.dashboardSoon']}</p>}
+  {charts.map((c) => {
+    const max = c.max ?? Math.max(...c.bars.map((b) => b.value));
+    return (
+      <figure class="dash-card dash-chart">
+        <figcaption>{c.title}</figcaption>
+        <ul>
+          {c.bars.map((b) => (
+            <li title={`${b.label}: ${fmt(b.value, c)}`}>
+              <span class="dash-bar-label">{b.label}</span>
+              <span class="dash-bar" style={`--w: ${(b.value / max) * 100}%`}></span>
+              <span class="dash-bar-value">{fmt(b.value, c)}</span>
+            </li>
+          ))}
+        </ul>
+      </figure>
+    );
+  })}
+  {shots.map((sh) => (
+    <figure class="dash-card dash-shot">
+      <img src={asset(sh.src)} alt={sh.alt} loading="lazy" />
+      {sh.caption && <figcaption class="muted">{sh.caption}</figcaption>}
+    </figure>
+  ))}
+</div>

@@ -1,0 +1,58 @@
+<!doctype html>
+<!-- DEM2 Marketing ROI dashboard: Streamlit running in the browser with stlite (Pyodide). Embedded in an iframe
+     on the project page; query: ?lang=en|fr&base=light|dark&bg=&text=&accent= (hex colours from the site tokens).
+     Runtime files in vendor/ come from scripts/dem2-vendor.mjs; nothing is fetched from a third party. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Marketing ROI Optimizer · dashboard</title>
+  <link rel="stylesheet" href="vendor/stlite/stlite.css" />
+  <style>html, body { margin: 0; }</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module">
+    import { mount } from './vendor/stlite/stlite.js';
+
+    const q = new URLSearchParams(location.search);
+    const lang = q.get('lang') === 'fr' ? 'fr' : 'en';
+    const dark = q.get('base') === 'dark';
+    // Fallbacks mirror src/styles/tokens.css (light / dark) for when the page is opened on its own.
+    const colour = (key, light, darkValue) => {
+      const v = q.get(key) ?? '';
+      return /^#[0-9a-f]{6}$/i.test(v) ? v : dark ? darkValue : light;
+    };
+    const bg = colour('bg', '#f3f1ec', '#121211');
+    const text = colour('text', '#121211', '#edebe6');
+    const accent = colour('accent', '#ff4f1f', '#ff6a3d');
+    document.documentElement.lang = lang;
+    document.body.style.background = bg;
+
+    const url = (path) => new URL(path, location.href).href;
+    mount({
+      entrypoint: 'app.py',
+      files: {
+        'app.py': { url: url('app.py') },
+        'model.py': { url: url('model.py') },
+        'i18n.py': { url: url('i18n.py') },
+        'marketing_and_sales.csv': { url: url('marketing_and_sales.csv') },
+        'settings.py': { data: `LANG = "${lang}"\nACCENT = "${accent}"\n` },
+      },
+      requirements: ['scikit-learn'],
+      pyodideUrl: url('vendor/pyodide/pyodide.mjs'),
+      wheelUrls: {
+        stliteLib: url('vendor/stlite/wheels/stlite_lib-0.1.0-py3-none-any.whl'),
+        streamlit: url('vendor/stlite/wheels/streamlit-1.62.0-cp313-none-any.whl'),
+      },
+      streamlitConfig: {
+        'client.toolbarMode': 'viewer',
+        'theme.base': dark ? 'dark' : 'light',
+        'theme.primaryColor': accent,
+        'theme.backgroundColor': bg,
+        'theme.textColor': text,
+      },
+    }, document.getElementById('root'));
+  </script>
+</body>
+</html>

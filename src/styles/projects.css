@@ -1,0 +1,45 @@
+/* Projects: list extras, project header, architecture diagram, dashboard cards. Tokens only.
+   The horizontal panel layout lives in project-journey.css. */
+.project-list-stack { grid-column: 2; margin: var(--space-2) 0 0; font: var(--step--1) var(--font-mono); color: var(--color-muted); }
+
+/* Header (hero panel) */
+.project-back { font: var(--step--1) var(--font-mono); margin: 0 0 var(--space-4); }
+.project-back a { text-decoration: none; color: var(--color-muted); }
+.project-back a:hover { color: var(--color-accent-ink); }
+.project-summary { font-size: var(--step-1); max-width: var(--measure); margin: var(--space-4) 0; }
+.project-meta { display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-5); margin: 0 0 var(--space-4); }
+.project-meta dt { font: 500 var(--step--1) var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-muted); }
+.project-meta dd { margin: var(--space-1) 0 0; }
+
+/* Architecture: Mermaid SVG (scripts/projects/mermaid.ts) */
+.arch { margin: 0; min-height: 0; }
+.arch-canvas { display: grid; place-items: center start; height: 100%; }
+.arch-canvas svg { display: block; width: 100%; height: auto; }
+.arch:not(.is-rendered) .arch-canvas { min-height: 12rem; border: 1px dashed var(--color-border); }
+.arch .cluster-label, .arch .nodeLabel { font-family: var(--font-sans); }
+
+/* Dashboard cards: bar charts (single series, accent fill, direct value labels) and screenshots */
+.dash-lede { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); margin: 0 0 var(--space-4); }
+.dash { display: grid; gap: var(--space-4); }
+.dash-card { margin: 0; border: 1px solid var(--color-border); padding: var(--space-4); background: var(--color-bg); }
+.dash-empty { color: var(--color-muted); font: var(--step--1) var(--font-mono); border-style: dashed; }
+.dash-chart figcaption { font-weight: 600; margin-bottom: var(--space-4); }
+.dash-chart ul { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-3); }
+.dash-chart li { display: grid; grid-template-columns: minmax(0, 9rem) 1fr auto; align-items: center; gap: var(--space-3); }
+.dash-bar-label { font-size: var(--step--1); }
+.dash-bar {
+  display: block; height: var(--space-3); border-left: 1px solid var(--color-text);
+  background: linear-gradient(var(--color-accent), var(--color-accent)) no-repeat left / var(--w) 100%;
+}
+.dash-chart li:hover .dash-bar { background-image: linear-gradient(var(--color-accent-ink), var(--color-accent-ink)); }
+.dash-bar-value { font: var(--step--1) var(--font-mono); }
+.dash-shot { padding: var(--space-2); }
+.dash-app { padding: 0; overflow: hidden; }
+.dash-app-poster { display: grid; gap: var(--space-3); align-content: center; min-height: 100%; padding: var(--space-5) var(--space-4); }
+.dash-app-poster p { margin: 0; max-width: var(--measure); }
+.dash-app-kicker { font: 500 var(--step--1) var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-accent-ink); }
+.dash-app-title { font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; }
+.dash-app-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+.dash-app-frame { display: block; width: 100%; height: 80svh; border: 0; }
+.dash-shot img { display: block; width: 100%; height: auto; }
+.dash-shot figcaption { font-size: var(--step--1); margin-top: var(--space-2); }

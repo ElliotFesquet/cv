@@ -17,6 +17,7 @@
   --step-1: clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem);
   --step-2: clamp(1.75rem, 1.35rem + 1.7vw, 2.9rem);
   --step-3: clamp(3.4rem, 0.8rem + 11vw, 11rem);
+  --step-display: clamp(2.75rem, 1.2rem + 5vw, 6.5rem); /* project hero title */
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;

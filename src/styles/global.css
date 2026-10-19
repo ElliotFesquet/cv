@@ -106,9 +106,6 @@ main { padding-block: var(--space-6); counter-reset: section item; }
 .project-list a::after { content: ""; position: absolute; inset: 0; }
 .project-list p { grid-column: 2; margin: var(--space-1) 0 0; }
 
-.project { counter-reset: part; }
-.project h2 { counter-increment: part; margin-top: var(--space-6); padding-top: var(--space-3); border-top: 1px solid var(--color-border); }
-.project h2::before { content: counter(part, decimal-leading-zero); display: block; font: 500 var(--step--1) var(--font-mono); color: var(--color-accent-ink); margin-bottom: var(--space-2); }
 .project-stack { display: flex; flex-wrap: wrap; gap: var(--space-2); list-style: none; padding: 0; }
 .project-stack li { font: var(--step--1) var(--font-mono); border: 1px solid var(--color-border); border-radius: var(--radius); padding: var(--space-1) var(--space-3); }
 

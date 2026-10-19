@@ -1,0 +1,15 @@
+---
+// Mermaid diagram, rendered in the browser by scripts/projects/mermaid.ts.
+// Only the `logos:<name>` icons used by this diagram are shipped (subset of @iconify-json/logos).
+import logos from '@iconify-json/logos/icons.json';
+
+interface Props { source: string; label: string; noscript: string }
+const { source, label, noscript } = Astro.props;
+const used = [...new Set([...source.matchAll(/logos:([\w-]+)/g)].map((m) => m[1]))];
+const icons = Object.fromEntries(used.filter((n) => n in logos.icons).map((n) => [n, logos.icons[n as keyof typeof logos.icons]]));
+const pack = JSON.stringify({ prefix: 'logos', icons, width: logos.width, height: logos.height });
+---
+<figure class="arch" data-mermaid={source} data-icons={pack} role="img" aria-label={label}>
+  <div class="arch-canvas"></div>
+  <noscript><p class="muted">{noscript}</p></noscript>
+</figure>

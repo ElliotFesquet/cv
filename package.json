@@ -3,12 +3,13 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build && node scripts/cv-pdf.mjs",
+    "dev": "node scripts/dem2-vendor.mjs && astro dev",
+    "build": "node scripts/dem2-vendor.mjs && astro build && node scripts/cv-pdf.mjs",
     "preview": "astro preview",
-    "build:site": "astro build"
+    "build:site": "node scripts/dem2-vendor.mjs && astro build"
   },
   "dependencies": {
+    "@astrojs/markdown-satteri": "^0.4.2",
     "@codemirror/autocomplete": "^6.20.3",
     "@codemirror/commands": "^6.11.1",
     "@codemirror/lang-sql": "^6.10.0",
@@ -19,10 +20,13 @@
     "@fontsource-variable/inter-tight": "^5.3.0",
     "@fontsource-variable/jetbrains-mono": "^5.3.0",
     "@fontsource/anton": "^5.3.0",
+    "@iconify-json/logos": "^1.2.17",
     "@lezer/highlight": "^1.2.5",
+    "@stlite/browser": "^1.9.2",
     "astro": "^7.3.5",
     "codemirror": "^6.0.2",
-    "js-yaml": "^5.4.2"
+    "js-yaml": "^5.4.2",
+    "mermaid": "^12.2.0"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",
