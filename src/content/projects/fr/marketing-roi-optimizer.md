@@ -14,7 +14,7 @@ architecture: |
       sk(["scikit-learn<br/>Pipeline"])
     end
     subgraph model["Modélisation"]
-      lr(["Régression linéaire ★"])
+      lr(["Régression linéaire (retenue)"])
       xgb(["XGBoost · Random forest"])
       keras@{ icon: "logos:tensorflow", label: "Keras MLP", pos: "b", h: 44 }
     end

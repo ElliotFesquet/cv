@@ -1,0 +1,24 @@
+/* Showcase rows (components/Showcase.astro). Tokens only. */
+.showcase { display: grid; gap: var(--space-6); }
+.showcase-item { display: grid; gap: var(--space-4); align-items: center; }
+.showcase-pic { display: block; overflow: hidden; background: var(--color-surface); }
+.showcase-pic img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; transition: transform 0.6s var(--ease); }
+.showcase-pic:hover img { transform: scale(1.03); }
+.showcase-media { display: grid; gap: var(--space-2); }
+.showcase-more { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: var(--space-2); }
+.showcase-more img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
+.showcase-text { display: grid; gap: var(--space-4); }
+.showcase-text h2, .showcase-text p { margin: 0; }
+.showcase-text p { font-size: var(--step-1); line-height: 1.4; max-width: 34ch; }
+
+@media (min-width: 64rem) {
+  .showcase-item { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--space-6); }
+  .showcase-item:nth-child(even) .showcase-media { order: 2; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .showcase-media > *, .showcase-more img, .showcase-text > * { animation: rise 0.9s var(--ease) both; animation-delay: calc(var(--i) * 160ms + 200ms); }
+  .showcase-more img:nth-child(2), .showcase-text > :nth-child(2) { animation-delay: calc(var(--i) * 160ms + 280ms); }
+  .showcase-more img:nth-child(n + 3), .showcase-text > :nth-child(n + 3) { animation-delay: calc(var(--i) * 160ms + 360ms); }
+}
+.showcase + .cv-section { margin-top: var(--space-6); }

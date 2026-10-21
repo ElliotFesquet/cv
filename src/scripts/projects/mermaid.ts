@@ -19,7 +19,14 @@ function fit(canvas: HTMLElement) {
 }
 
 async function render() {
-  const { default: mermaid } = await import('mermaid');
+  // A stale dev-server dependency cache (after `npm install`) fails this import once: reload a single time.
+  const mod = await import('mermaid').catch(() => null);
+  if (!mod) {
+    try { if (!sessionStorage.getItem('cv:mermaid:retry')) { sessionStorage.setItem('cv:mermaid:retry', '1'); location.reload(); } } catch {}
+    return;
+  }
+  try { sessionStorage.removeItem('cv:mermaid:retry'); } catch {}
+  const { default: mermaid } = mod;
   const css = getComputedStyle(document.documentElement);
   const v = (name: string) => css.getPropertyValue(name).trim();
   mermaid.initialize({

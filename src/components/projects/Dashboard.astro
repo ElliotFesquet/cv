@@ -23,8 +23,8 @@ const empty = charts.length === 0 && shots.length === 0;
   {appUrl && (
     <figure class="dash-card dash-app" data-live-app={appUrl}>
       <div class="dash-app-poster">
-        <p class="dash-app-kicker">Streamlit · Python · WebAssembly</p>
         <p class="dash-app-title">{s['project.app.title']}</p>
+        <p class="dash-app-tech">Streamlit, Python, WebAssembly</p>
         <p class="muted">{s['project.app.note']}</p>
         <p class="dash-app-actions">
           <button type="button" class="button" data-live-app-start>{s['project.app.launch']} ▶</button>

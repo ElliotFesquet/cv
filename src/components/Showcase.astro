@@ -1,0 +1,30 @@
+---
+// Apps / Hobbies index: one item per screen-wide row, its real screenshot large beside the words,
+// sides alternating so neighbouring rows never share a layout.
+import '../styles/showcase.css';
+
+export interface Item { url: string; title: string; desc: string; img: string; alt: string; action: string; more?: { src: string; alt: string }[] }
+interface Props { items: Item[] }
+const { items } = Astro.props;
+---
+<div class="showcase">
+  {items.map((it, i) => (
+    <article class="showcase-item sheet" style={`--i: ${i}`}>
+      <div class="showcase-media">
+        <a class="showcase-pic" href={it.url} tabindex="-1">
+          <img src={it.img} alt={it.alt} width="1200" height="750" decoding="async" />
+        </a>
+        {it.more && (
+          <div class="showcase-more">
+            {it.more.map((m) => <img src={m.src} alt={m.alt} width="1200" height="750" loading="lazy" decoding="async" />)}
+          </div>
+        )}
+      </div>
+      <div class="showcase-text">
+        <h2>{it.title}</h2>
+        <p>{it.desc}</p>
+        <a class="button" href={it.url}>{it.action} →</a>
+      </div>
+    </article>
+  ))}
+</div>

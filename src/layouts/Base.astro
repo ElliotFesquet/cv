@@ -1,11 +1,12 @@
 ---
-import '@fontsource-variable/inter-tight';
+import '@fontsource-variable/archivo/wdth.css'; // weight + width axes (print sets it condensed)
 import '@fontsource-variable/jetbrains-mono';
 import '../styles/tokens.css';
 import '../styles/global.css';
 import '../styles/print.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import Vitrine from '../components/Vitrine.astro';
 import type { Lang } from '../i18n/ui';
 
 interface Props { lang: Lang; title: string }
@@ -20,6 +21,7 @@ const { lang, title } = Astro.props;
     <title>{title} · Elliot Fesquet</title>
   </head>
   <body>
+    <Vitrine />
     <Nav lang={lang} />
     <main class="container">
       <slot />

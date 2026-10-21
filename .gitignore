@@ -4,3 +4,4 @@ dist/
 
 # DEM2 dashboard runtime (stlite + Pyodide), fetched by scripts/dem2-vendor.mjs
 public/projects/marketing-roi-optimizer/dashboard/vendor/
+.taste-skill/

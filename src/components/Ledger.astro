@@ -1,0 +1,24 @@
+---
+// Quiet ledger with side preview (tasteskill section work-quiet-ledger): one row per item,
+// name | kind | year; hovering or focusing a row shows its picture beside the column (CSS only).
+import '../styles/ledger.css';
+
+export interface Row { url: string; name: string; kind: string; year?: string; summary?: string; img?: string; alt?: string }
+interface Props { title: string; rows: Row[]; level?: 'h1' | 'h2' }
+const { title, rows, level = 'h2' } = Astro.props;
+const Heading = level;
+---
+<section class="ledger sheet" aria-label={title}>
+  {level === 'h2' && <Heading class="ledger-title">{title}</Heading>}
+  <ul class="ledger-list">
+    {rows.map((r, i) => (
+      <li class:list={[{ 'has-pic': !!r.img }]} style={`--i: ${i}`}>
+        {r.img && <img src={r.img} alt={r.alt ?? ''} width="1200" height="900" loading="lazy" decoding="async" />}
+        <a href={r.url}>{r.name}</a>
+        <span class="ledger-kind">{r.kind}</span>
+        <span class="ledger-year">{r.year}</span>
+        {r.summary && <p>{r.summary}</p>}
+      </li>
+    ))}
+  </ul>
+</section>

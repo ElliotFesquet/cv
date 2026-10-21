@@ -4,7 +4,7 @@
 .arena {
   --color-bg: var(--arena-bg); --color-text: var(--arena-ink); --color-muted: var(--arena-dim);
   --color-border: var(--arena-line); --color-accent: var(--arena-accent); --color-accent-ink: var(--arena-accent);
-  --color-ok: var(--arena-ok);
+  --color-ok: var(--arena-ok); --color-on-accent: var(--arena-bg); --color-surface: var(--arena-line);
   position: relative; isolation: isolate; overflow: clip;
   background: var(--color-bg); color: var(--color-text);
   margin-inline: calc(var(--gutter) * -1); padding: var(--space-5) var(--gutter);
@@ -16,6 +16,9 @@
     radial-gradient(ellipse at center, transparent 55%, var(--arena-vignette));
 }
 .arena + .arena { padding-top: 0; }
+/* Game screen keeps its own button voice (site buttons are sans + square) */
+.arena .button { font: 500 var(--step--1) / 1 var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; border-radius: var(--radius); border: 1px solid var(--color-accent); }
+.arena .button-ghost { background: transparent; color: var(--color-text); border-color: var(--color-border); }
 .arena ::selection { background: var(--color-accent); color: var(--color-on-accent); }
 
 /* Top bar */

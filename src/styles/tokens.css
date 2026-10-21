@@ -1,23 +1,45 @@
 /* Design tokens: the only place colours, type, spacing are defined (incl. dark + print overrides). */
 :root {
-  --color-bg: #f3f1ec;
-  --color-text: #121211;
-  --color-muted: #66635c;
-  --color-border: #d4d0c7;
-  --color-accent: #ff4f1f;      /* fills, rules, selection */
-  --color-accent-ink: #b5360f;  /* accent for small text (AA on bg) */
-  --color-on-accent: #121211;
+  /* Fresco (light): plaster ground, umber ink, God's mantle red as the action, sky blue-grey second.
+     Sampled from Michelangelo's Creation of Adam (public/vitrine/). Dark "vitrine" variant below. */
+  --color-bg: #e8e2d3;
+  --color-surface: #dcd4c2;     /* one tone step: panels, fields */
+  --color-text: #2b2418;
+  --color-muted: #675c48;
+  --color-border: #c9bfa9;
+  --color-accent: #8a3a2e;      /* the action, selection */
+  --color-accent-ink: #8a3a2e;  /* accent for small text (AA on bg) */
+  --color-on-accent: #f7f1e6;
+  --color-sky: #4f6878;         /* fresco sky: second accent (links, details) */
+
+  /* Vitrine: the painting fixed behind the site, set back behind glass (components/Vitrine.astro) */
+  --vitrine-art: 0.92;          /* hands opacity */
+  --vitrine-angle: 32deg;       /* fallback for the screen diagonal (atan2 in vitrine.css) */
+  --vitrine-axis: 21.7deg;      /* the image already slopes down this much (measured) */
+  --vitrine-length: 150vmax;   /* fallback arm length (hypot in vitrine.css) */
+  --vitrine-scale: 0.92;        /* image width / screen diagonal: both hands whole, arms still reach the corners */
+  --vitrine-center: calc(50% + var(--nav-h) / 2 - 4vh); /* middle of the space between nav and the first sheet */
+  --vitrine-glow: none;         /* a drop-shadow here gets clipped by the 3D layer in Chrome: leave none */
+  --vitrine-depth: -90px;       /* how far behind the glass */
+  --vitrine-tilt: 2.5deg;       /* max mouse tilt */
+  --vitrine-shade: rgb(43 36 24 / 0.28);    /* inner shadow of the case */
+  --vitrine-sheen: rgb(255 255 255 / 0.14); /* glass reflection */
+  --sheet-bg: rgb(232 226 211 / 0.78);      /* glass sheet over the painting */
+  --sheet-edge: rgb(255 255 255 / 0.45);
+  --sheet-blur: 14px;
+  --sheet-radius: 1.25rem;
   --color-ok: #1d7a3a;          /* correct answers (SQL game) */
 
-  --font-sans: "Inter Tight Variable", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono Variable", ui-monospace, Consolas, monospace;
+  --font-sans: "Archivo Variable", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, Consolas, monospace; /* real code only */
 
   --step--1: 0.8125rem;
   --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
   --step-1: clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem);
   --step-2: clamp(1.75rem, 1.35rem + 1.7vw, 2.9rem);
   --step-3: clamp(3.4rem, 0.8rem + 11vw, 11rem);
-  --step-display: clamp(2.75rem, 1.2rem + 5vw, 6.5rem); /* project hero title */
+  --step-name: clamp(3.5rem, 1rem + 8vw, 9.5rem);       /* CV home: the name in the reading column */
+  --step-display: clamp(1.75rem, 0.9rem + 3.4vw, 3rem); /* project hero title: 2 lines for 51 chars */
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -30,7 +52,8 @@
   --page-max: 88rem;
   --measure: 66ch;
   --label-col: 15rem;
-  --nav-h: 3.25rem;
+  --nav-h: 3.75rem;
+  --ledger-col: 40rem;          /* work ledger column */
   --radius: 999px;
   --node: 0.5625rem;            /* CV timeline node diameter */
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -75,12 +98,20 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-bg: #0f0f0e;
-    --color-text: #edebe6;
-    --color-muted: #94918a;
-    --color-border: #2c2b28;
-    --color-accent: #ff6a3d;
-    --color-accent-ink: #ff7d55;
+    --color-bg: #14110d;
+    --color-surface: #211b14;
+    --color-text: #ece4d3;
+    --color-muted: #a89c86;
+    --color-border: #3a3125;
+    --color-accent: #d0a572;      /* Adam's skin under museum light */
+    --color-accent-ink: #dcb88a;
+    --color-on-accent: #1a140c;
+    --color-sky: #9fb3c0;
+    --vitrine-art: 0.88;
+    --vitrine-shade: rgb(0 0 0 / 0.65);
+    --vitrine-sheen: rgb(255 255 255 / 0.07);
+    --sheet-bg: rgb(20 17 13 / 0.8);
+    --sheet-edge: rgb(255 255 255 / 0.08);
     --color-ok: #4cc47a;
   }
 }
@@ -88,7 +119,7 @@
 /* Print / PDF (scripts/cv-pdf.mjs): compact A4 scale */
 @media print {
   :root {
-    --color-bg: #fff; --color-text: #111; --color-muted: #555; --color-border: #d6d6d6; --color-accent-ink: #b5360f;
+    --color-bg: #fff; --color-text: #111; --color-muted: #555; --color-border: #d6d6d6; --color-accent-ink: #8a3a2e;
     --step--1: 7.5pt; --step-0: 9pt; --step-1: 10.5pt; --step-2: 13pt; --step-3: 24pt;
     --space-3: 6pt; --space-4: 8pt; --space-5: 7pt; --space-6: 10pt; --gutter: 0; --label-col: 28mm;
   }

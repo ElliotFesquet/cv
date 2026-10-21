@@ -1,6 +1,7 @@
 ---
 import Base from '../../../layouts/Base.astro';
-import { href, langPaths, t, type Lang } from '../../../i18n/ui';
+import Showcase from '../../../components/Showcase.astro';
+import { asset, href, langPaths, t, type Lang } from '../../../i18n/ui';
 import { st } from '../../../scripts/sql/i18n';
 import { tt } from '../../../scripts/typing/i18n';
 
@@ -8,19 +9,16 @@ export const getStaticPaths = langPaths;
 const lang = Astro.params.lang as Lang;
 const ui = t(lang);
 const apps = [
-  { path: 'apps/sql', title: st(lang).title, desc: st(lang).lede },
-  { path: 'apps/typing', title: tt(lang).title, desc: tt(lang).lede },
+  { url: href(lang, 'apps/sql'), title: st(lang).title, desc: st(lang).lede, img: asset('home/versus.webp'), alt: st(lang).title, action: ui['showcase.open'],
+    more: [{ src: asset('home/sql.webp'), alt: st(lang).title }, { src: asset('home/quiz.webp'), alt: st(lang).title }] },
+  { url: href(lang, 'apps/typing'), title: tt(lang).title, desc: tt(lang).lede, img: asset('home/typing.webp'), alt: tt(lang).title, action: ui['showcase.open'],
+    more: [{ src: asset('home/typing-versus.webp'), alt: tt(lang).title }, { src: asset('home/typing-tutorial.webp'), alt: tt(lang).title }] },
 ];
 ---
 <Base lang={lang} title={ui['nav.apps']}>
-  <h1>{ui['nav.apps']}</h1>
-  <p class="muted">{ui['apps.lede']}</p>
-  <ul class="project-list">
-    {apps.map((a) => (
-      <li>
-        <a href={href(lang, a.path)}>{a.title}</a>
-        <p class="muted">{a.desc}</p>
-      </li>
-    ))}
-  </ul>
+  <header class="page-head">
+    <h1>{ui['nav.apps']}</h1>
+    <p>{ui['apps.lede']}</p>
+  </header>
+  <Showcase items={apps} />
 </Base>

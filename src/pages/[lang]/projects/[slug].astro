@@ -36,14 +36,13 @@ const steps = ['problem', 'approach', 'architecture', 'results'] as const;
   <article class="journey" data-journey>
     <div class="journey-pin">
       <nav class="journey-steps" aria-label={s['project.steps']}>
-        {steps.map((step, i) => (
-          <a href={`#${step}`} data-step-link={step}><span>{String(i + 1).padStart(2, '0')}</span> {s[`project.step.${step}`]}</a>
+        {steps.map((step) => (
+          <a href={`#${step}`} data-step-link={step}>{s[`project.step.${step}`]}</a>
         ))}
         <span class="journey-progress" aria-hidden="true"></span>
       </nav>
       <div class="journey-track">
         <header class="panel panel-hero" data-step="problem">
-          <p class="project-back"><a href={href(lang, 'projects')}>← {s['nav.projects']}</a></p>
           <h1>{d.title}</h1>
           {d.summary && <p class="project-summary">{d.summary}</p>}
           <dl class="project-meta">
@@ -56,6 +55,7 @@ const steps = ['problem', 'approach', 'architecture', 'results'] as const;
           <p class="journey-hint" aria-hidden="true">
             <span class="hint-scroll">{s['project.hintScroll']}</span><span class="hint-swipe">{s['project.hintSwipe']}</span> →
           </p>
+          <p class="project-back"><a href={href(lang, 'projects')}>← {s['nav.projects']}</a></p>
         </header>
         {sections.map((sec) => (
           <section class="panel panel-text" id={sec.id} data-step={sec.step} set:html={sec.html} />

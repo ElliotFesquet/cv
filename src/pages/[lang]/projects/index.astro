@@ -1,26 +1,26 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
+import Ledger from '../../../components/Ledger.astro';
 import { href, langPaths, t, type Lang } from '../../../i18n/ui';
-import '../../../styles/projects.css';
 
 export const getStaticPaths = langPaths;
 const lang = Astro.params.lang as Lang;
 const title = t(lang)['nav.projects'];
 const projects = (await getCollection('projects', (p) => p.id.startsWith(`${lang}/`)))
   .sort((a, b) => (b.data.date?.getTime() ?? 0) - (a.data.date?.getTime() ?? 0));
-const slug = (id: string) => id.split('/')[1];
+const rows = projects.map((p) => {
+  const slug = p.id.split('/')[1];
+  return {
+    url: href(lang, `projects/${slug}`), name: p.data.title, summary: p.data.summary,
+    kind: p.data.stack.slice(0, 3).join(', '), year: String(p.data.date?.getUTCFullYear() ?? ''),
+  };
+});
 ---
 <Base lang={lang} title={title}>
-  <h1>{title}</h1>
-  <p class="muted">{t(lang)['projects.lede']}</p>
-  <ul class="project-list">
-    {projects.map((p) => (
-      <li>
-        <a href={href(lang, `projects/${slug(p.id)}`)}>{p.data.title}</a>
-        {p.data.summary && <p class="muted">{p.data.summary}</p>}
-        {p.data.stack.length > 0 && <p class="project-list-stack">{p.data.stack.join(' · ')}</p>}
-      </li>
-    ))}
-  </ul>
+  <header class="page-head">
+    <h1>{title}</h1>
+    <p>{t(lang)['projects.lede']}</p>
+  </header>
+  <Ledger title={title} rows={rows} level="h1" />
 </Base>

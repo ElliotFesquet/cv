@@ -1,0 +1,40 @@
+/* Work ledger (components/Ledger.astro). Tokens only. Nothing drawn between rows; three fixed starts make the columns.
+   Desktop: rows in a column at 22% of the width, the hovered row's picture shown to its right (first row's at rest). */
+.ledger { margin-top: var(--space-6); }
+.ledger-title { margin-bottom: var(--space-5); }
+.page-head + .ledger { margin-top: 0; }
+.ledger-list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-4); }
+.ledger-list li {
+  position: relative; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) auto;
+  gap: var(--space-1) var(--space-4); align-items: baseline;
+}
+.ledger-list a { font-size: var(--step-1); font-weight: 500; text-decoration: none; }
+.ledger-list a::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+.ledger-kind { color: var(--color-muted); font-size: var(--step--1); }
+.ledger-year { color: var(--color-muted); font-variant-numeric: tabular-nums; justify-self: end; }
+.ledger-list p { grid-column: 1 / -1; margin: 0; color: var(--color-muted); }
+.ledger-list img { display: none; }
+
+/* Phone: pictures sit above their row */
+@media (max-width: 79.99rem) {
+  .ledger-list li.has-pic img { display: block; grid-column: 1 / -1; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; margin-bottom: var(--space-2); }
+}
+
+@media (min-width: 80rem) {
+  .ledger-list { gap: var(--space-2); min-height: calc(var(--preview-w) * 0.75); }
+  .ledger-list li { padding-block: var(--space-2); transition: color 0.2s; }
+  .ledger-list:hover li, .ledger-list:focus-within li { color: var(--color-muted); }
+  .ledger-list li:hover, .ledger-list li:focus-within { color: var(--color-text); }
+  .ledger-list img {
+    display: block; position: absolute; top: 0; left: calc(100% + var(--space-5));
+    width: var(--preview-w); aspect-ratio: 4 / 3; object-fit: cover; object-position: top;
+    opacity: 0; transition: opacity 0.15s; pointer-events: none;
+  }
+  .ledger-list li:hover img, .ledger-list li:focus-within img { opacity: 1; z-index: 2; }
+  .ledger-list:not(:hover):not(:focus-within) li.has-pic:not(.has-pic ~ .has-pic) img { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ledger-list > li, .ledger-list p { animation: rise 0.8s var(--ease) both; animation-delay: calc(var(--i) * 70ms + 200ms); }
+  .ledger-list p { animation-delay: calc(var(--i) * 70ms + 320ms); }
+}

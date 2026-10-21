@@ -1,0 +1,55 @@
+/* Vitrine (components/Vitrine.astro): the hands, fixed behind the site, set back behind glass. Tokens only.
+   --scroll (px), --tx / --ty (-0.5..0.5) come from the component script; without it the case is simply static. */
+.vitrine {
+  --scroll: 0; --tx: 0; --ty: 0;
+  position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
+  background: var(--color-bg); perspective: 1200px;
+}
+.vitrine-case {
+  position: absolute; inset: 0;
+  transform-style: preserve-3d;
+  transform:
+    translate3d(0, calc(var(--scroll) * -0.06px), 0)
+    rotateX(calc(var(--ty) * var(--vitrine-tilt) * -1)) rotateY(calc(var(--tx) * var(--vitrine-tilt)));
+  transition: transform 0.6s var(--ease);
+}
+/* Turned onto the screen diagonal: one hand from the top left, one from the bottom right.
+   The image's own arm axis already slopes var(--vitrine-axis); the arm ends fade out. */
+.vitrine-art {
+  --angle: var(--vitrine-angle);
+  position: absolute; left: 50%; top: var(--vitrine-center); display: block; max-width: none; height: auto; width: var(--vitrine-length);
+  opacity: var(--vitrine-art); filter: var(--vitrine-glow);
+  /* the gap between the fingertips (50.6% across the image) lands on the centre of the screen */
+  transform: translate(-50%, -50%) translateZ(var(--vitrine-depth)) rotate(calc(var(--angle) - var(--vitrine-axis))) translateX(-0.6%);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+@supports (rotate: atan2(1px, 1px)) { .vitrine-art { --angle: atan2(100vh, 100vw); } }
+@supports (width: hypot(1px, 1px)) { .vitrine-art { width: calc(hypot(100vw, 100vh) * var(--vitrine-scale)); } }
+
+/* The pane of glass: a dark inner edge (the case is deeper than the painting) and one moving reflection */
+.vitrine-glass {
+  position: absolute; inset: 0;
+  box-shadow: inset 0 0 12vmax var(--vitrine-shade);
+  background: linear-gradient(115deg, transparent 15%, var(--vitrine-sheen) 45%, transparent 75%) no-repeat;
+  background-size: 220% 100%;
+  background-position: calc(50% + var(--tx) * 30%) 0;
+  transition: background-position 0.6s var(--ease);
+}
+
+/* Glass sheet: content panels that slide over the painting */
+.sheet {
+  background: var(--sheet-bg);
+  -webkit-backdrop-filter: blur(var(--sheet-blur)) saturate(1.1);
+  backdrop-filter: blur(var(--sheet-blur)) saturate(1.1);
+  border: 1px solid var(--sheet-edge);
+  border-radius: var(--sheet-radius);
+  padding: var(--space-5);
+}
+
+@media (max-width: 39.99rem) {
+  .vitrine-art { opacity: calc(var(--vitrine-art) * 0.6); }
+  .sheet { padding: var(--space-4); border-radius: calc(var(--sheet-radius) * 0.7); }
+}
+
+@media print { .vitrine { display: none; } .sheet { background: none; border: 0; padding: 0; backdrop-filter: none; } }

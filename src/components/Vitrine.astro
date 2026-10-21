@@ -1,0 +1,37 @@
+---
+// Two reaching hands after Michelangelo's Creation of Adam (public/vitrine/hands.webp, Elliot's own image, white removed),
+// laid along the screen diagonal behind every page as if in a museum case: one hand from the top left, one from the bottom right.
+// Approved exception to "no JS in Base": the motion script below, off under reduced motion; the case is static without it.
+import { asset } from '../i18n/ui';
+import '../styles/vitrine.css';
+---
+<div class="vitrine" aria-hidden="true" data-vitrine>
+  <div class="vitrine-case">
+    <img class="vitrine-art" src={asset('vitrine/hands.webp')} alt="" width="2400" height="1340" fetchpriority="high" />
+  </div>
+  <div class="vitrine-glass"></div>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-vitrine]');
+  const still = matchMedia('(prefers-reduced-motion: reduce)');
+  if (root && !still.matches) {
+    let tx = 0, ty = 0, frame = 0;
+    const paint = () => {
+      frame = 0;
+      root.style.setProperty('--scroll', String(Math.min(scrollY, innerHeight * 2)));
+      root.style.setProperty('--tx', tx.toFixed(3));
+      root.style.setProperty('--ty', ty.toFixed(3));
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(paint); };
+    addEventListener('scroll', schedule, { passive: true });
+    if (matchMedia('(pointer: fine)').matches) {
+      addEventListener('pointermove', (e) => {
+        tx = e.clientX / innerWidth - 0.5;
+        ty = e.clientY / innerHeight - 0.5;
+        schedule();
+      }, { passive: true });
+    }
+    paint();
+  }
+</script>

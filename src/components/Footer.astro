@@ -1,20 +1,34 @@
 ---
-import { t, type Lang } from '../i18n/ui';
+// Contact close on every page: the cta from cv.yaml with two actions, then one quiet line and the painting's credit.
+import { href, t, type Lang } from '../i18n/ui';
 import { cv } from '../data/cv';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const l = t(lang);
 ---
-<footer class="site-footer">
+<footer class="site-footer" id="contact">
   <div class="container">
-    <p class="site-footer-label">{l['cta.label']}</p>
-    <h2 class="site-footer-title">{cv.cta.title[lang]}</h2>
-    <p>{cv.cta.text[lang]}</p>
-    <div class="site-footer-actions">
-      <a class="button" href={`mailto:${cv.email}`}>{l['cta.email']} ↗</a>
-      <a class="button button-ghost" href={cv.linkedin}>LinkedIn ↗</a>
+    <section class="contact sheet" aria-labelledby="contact-title">
+      <h2 id="contact-title">{cv.cta.title[lang]}</h2>
+      <div class="contact-side">
+        <p>{cv.cta.text[lang]}</p>
+        <p class="contact-actions">
+          <a class="button" href={`mailto:${cv.email}`}>{l['cta.email']} ↗</a>
+          <a class="button button-ghost" href={cv.linkedin}>LinkedIn ↗</a>
+        </p>
+      </div>
+    </section>
+    <div class="footer-line">
+      <p>{cv.name}, {cv.headline[lang].toLowerCase()}</p>
+      <nav aria-label={l['footer.nav']}>
+        <a href={href(lang)}>{l['nav.home']}</a>
+        <a href={href(lang, 'projects')}>{l['nav.projects']}</a>
+        <a href={href(lang, 'apps')}>{l['nav.apps']}</a>
+        <a href={href(lang, 'hobbies')}>{l['nav.hobbies']}</a>
+      </nav>
+      <p>© {new Date().getFullYear()}</p>
     </div>
-    <p class="site-footer-meta">© {new Date().getFullYear()} {cv.name}</p>
+    <p class="credits">{l['footer.credit']}</p>
   </div>
 </footer>

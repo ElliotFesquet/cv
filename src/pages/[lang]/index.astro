@@ -1,4 +1,6 @@
 ---
+// CV home: the name over the painting (components/Vitrine.astro, fixed behind the site),
+// then the CV on one glass sheet that slides over it. Print (print.css) keeps only the CV.
 import Base from '../../layouts/Base.astro';
 import { cvPdf, langPaths, t, type Lang } from '../../i18n/ui';
 import { cv, formatMonth } from '../../data/cv';
@@ -10,68 +12,66 @@ const l = t(lang);
 <Base lang={lang} title={cv.headline[lang]}>
   <header class="cv-header">
     <h1>{cv.name}</h1>
-    <p class="cv-headline">{cv.headline[lang]}</p>
+    <p class="cv-lede">{l['cv.lede']}</p>
     <ul class="cv-contact">
       <li>{cv.location[lang]}</li>
       <li><a href={`mailto:${cv.email}`}>{cv.email}</a></li>
       <li><a href={cv.linkedin}>LinkedIn</a></li>
     </ul>
-    <p class="muted"><strong>{l['cv.workRights']}:</strong> {cv.work_rights[lang]}</p>
+    <p class="cv-rights"><strong>{l['cv.workRights']}:</strong> {cv.work_rights[lang]}</p>
     <a class="button cv-download" href={cvPdf(lang)} download>{l['cv.download']} ↓</a>
   </header>
 
-  <section class="cv-section ruled cv-profile">
-    <h2>{l['cv.profile']}</h2>
-    <p>{cv.profile[lang]}</p>
-  </section>
+  <div class="cv-sheet sheet">
+    <section class="cv-section cv-profile">
+      <h2>{l['cv.profile']}</h2>
+      <p>{cv.profile[lang]}</p>
+    </section>
 
-  <section class="cv-section ruled">
-    <h2>{l['cv.skills']}</h2>
-    <dl class="cv-skills">
-      {cv.skills.map((s) => (
-        <div><dt>{s.label[lang]}</dt><dd>{s.items[lang]}</dd></div>
+    <section class="cv-section">
+      <h2>{l['cv.experience']}</h2>
+      {cv.experience.map((job) => (
+        <article class="cv-entry">
+          <p class="cv-when">
+            <time datetime={job.start}>{formatMonth(job.start, lang)}</time> –{' '}
+            <time datetime={job.end}>{formatMonth(job.end, lang)}</time>
+          </p>
+          <div class="cv-what">
+            <h3>{job.company} <span class="cv-role">{job.role[lang]}</span></h3>
+            <p>{job.location[lang]} ({job.type[lang]})</p>
+            <ul>
+              {job.bullets.map((b) => <li><strong>{b.title[lang]}:</strong> {b[lang]}</li>)}
+            </ul>
+          </div>
+        </article>
       ))}
-    </dl>
-  </section>
+    </section>
 
-  <section class="cv-section ruled">
-    <h2>{l['cv.experience']}</h2>
-    {cv.experience.map((job) => (
-      <article class="cv-entry">
-        <p class="cv-when">
-          <time datetime={job.start}>{formatMonth(job.start, lang)}</time> –{' '}
-          <time datetime={job.end}>{formatMonth(job.end, lang)}</time>
-        </p>
-        <div class="cv-what">
-          <h3>{job.company} <span class="cv-role">{job.role[lang]}</span></h3>
-          <p class="muted">{job.location[lang]} ({job.type[lang]})</p>
-          <ul>
-            {job.bullets.map((b) => <li><strong>{b.title[lang]}:</strong> {b[lang]}</li>)}
-          </ul>
-        </div>
-      </article>
-    ))}
-  </section>
-
-  <section class="cv-section ruled">
-    <h2>{l['cv.education']}</h2>
-    {cv.education.map((e) => (
-      <article class="cv-entry">
-        <p class="cv-when">{e.start} – {e.end}</p>
-        <div class="cv-what">
-          <h3>{e.school} <span class="cv-role">{e.degree[lang]}</span></h3>
-          {e.detail && <p>{e.detail[lang]}</p>}
-        </div>
-      </article>
-    ))}
-  </section>
-
-  <section class="cv-section ruled">
-    <h2>{l['cv.activities']}</h2>
-    <dl class="cv-skills">
-      {cv.activities.map((a) => (
-        <div><dt>{a.label[lang]}</dt><dd>{a[lang]}</dd></div>
+    <section class="cv-section">
+      <h2>{l['cv.education']}</h2>
+      {cv.education.map((e) => (
+        <article class="cv-entry">
+          <p class="cv-when">{e.start} – {e.end}</p>
+          <div class="cv-what">
+            <h3>{e.school} <span class="cv-role">{e.degree[lang]}</span></h3>
+            {e.detail && <p>{e.detail[lang]}</p>}
+          </div>
+        </article>
       ))}
-    </dl>
-  </section>
+    </section>
+
+    <section class="cv-section">
+      <h2>{l['cv.skills']}</h2>
+      <dl class="cv-skills">
+        {cv.skills.map((s) => <div><dt>{s.label[lang]}</dt><dd>{s.items[lang]}</dd></div>)}
+      </dl>
+    </section>
+
+    <section class="cv-section">
+      <h2>{l['cv.activities']}</h2>
+      <dl class="cv-acts">
+        {cv.activities.map((a) => <div><dt>{a.label[lang]}</dt><dd>{a[lang]}</dd></div>)}
+      </dl>
+    </section>
+  </div>
 </Base>

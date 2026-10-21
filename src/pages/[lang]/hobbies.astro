@@ -1,22 +1,27 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { href, langPaths, t, type Lang } from '../../i18n/ui';
+import Showcase from '../../components/Showcase.astro';
+import { asset, href, langPaths, t, type Lang } from '../../i18n/ui';
+import { cv } from '../../data/cv';
 import { ct } from '../../scripts/coaching/i18n';
 
 export const getStaticPaths = langPaths;
 const lang = Astro.params.lang as Lang;
-const title = t(lang)['nav.hobbies'];
-const hobbies = [{ path: 'hobbies/coaching', title: ct(lang).title, desc: ct(lang).card }];
+const ui = t(lang);
+const title = ui['nav.hobbies'];
+const hobbies = [{ url: href(lang, 'hobbies/coaching'), title: ct(lang).title, desc: ct(lang).card, img: asset('home/coaching.webp'), alt: ct(lang).title, action: ui['showcase.open'],
+  more: ['grandmaster', 'rankup', 'review'].map((n) => ({ src: asset(`hobbies/coaching/${n}.webp`), alt: ct(lang).title })) }];
 ---
 <Base lang={lang} title={title}>
-  <h1>{title}</h1>
-  <p class="muted">{t(lang)['hobbies.lede']}</p>
-  <ul class="project-list">
-    {hobbies.map((h) => (
-      <li>
-        <a href={href(lang, h.path)}>{h.title}</a>
-        <p class="muted">{h.desc}</p>
-      </li>
-    ))}
-  </ul>
+  <header class="page-head">
+    <h1>{title}</h1>
+    <p>{ui['hobbies.lede']}</p>
+  </header>
+  <Showcase items={hobbies} />
+  <section class="cv-section sheet hobby-acts">
+    <h2>{ui['cv.activities']}</h2>
+    <dl class="cv-acts">
+      {cv.activities.map((a) => <div><dt>{a.label[lang]}</dt><dd>{a[lang]}</dd></div>)}
+    </dl>
+  </section>
 </Base>

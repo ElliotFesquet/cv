@@ -23,5 +23,6 @@ const switchUrl = path.includes(`/${lang}/`) ? path.replace(`/${lang}/`, `/${oth
       <a href={l.url} aria-current={isCurrent(l.url) ? 'page' : undefined}>{l.label}</a>
     ))}
     <a class="lang" href={switchUrl} hreflang={other} lang={other} aria-label={languages[other]}>{other.toUpperCase()}</a>
+    <a class="nav-action" href="#contact">{labels['cta.label']}</a>
   </div>
 </nav>
