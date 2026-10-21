@@ -16,9 +16,7 @@
   --vitrine-art: 0.92;          /* hands opacity */
   --vitrine-angle: 32deg;       /* fallback for the screen diagonal (atan2 in vitrine.css) */
   --vitrine-axis: 21.7deg;      /* the image already slopes down this much (measured) */
-  --vitrine-length: 150vmax;   /* fallback arm length (hypot in vitrine.css) */
-  --vitrine-scale: 0.92;        /* image width / screen diagonal: both hands whole, arms still reach the corners */
-  --vitrine-center: calc(50% + var(--nav-h) / 2 - 4vh); /* middle of the space between nav and the first sheet */
+  --vitrine-length: 190vmax;    /* fallback arm length (hypot in vitrine.css) */
   --vitrine-glow: none;         /* a drop-shadow here gets clipped by the 3D layer in Chrome: leave none */
   --vitrine-depth: -90px;       /* how far behind the glass */
   --vitrine-tilt: 2.5deg;       /* max mouse tilt */

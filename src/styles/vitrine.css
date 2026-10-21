@@ -17,7 +17,7 @@
    The image's own arm axis already slopes var(--vitrine-axis); the arm ends fade out. */
 .vitrine-art {
   --angle: var(--vitrine-angle);
-  position: absolute; left: 50%; top: var(--vitrine-center); display: block; max-width: none; height: auto; width: var(--vitrine-length);
+  position: absolute; left: 50%; top: 50%; display: block; max-width: none; height: auto; width: var(--vitrine-length);
   opacity: var(--vitrine-art); filter: var(--vitrine-glow);
   /* the gap between the fingertips (50.6% across the image) lands on the centre of the screen */
   transform: translate(-50%, -50%) translateZ(var(--vitrine-depth)) rotate(calc(var(--angle) - var(--vitrine-axis))) translateX(-0.6%);
@@ -25,7 +25,7 @@
   mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
 @supports (rotate: atan2(1px, 1px)) { .vitrine-art { --angle: atan2(100vh, 100vw); } }
-@supports (width: hypot(1px, 1px)) { .vitrine-art { width: calc(hypot(100vw, 100vh) * var(--vitrine-scale)); } }
+@supports (width: hypot(1px, 1px)) { .vitrine-art { width: calc(hypot(100vw, 100vh) * 1.15); } }
 
 /* The pane of glass: a dark inner edge (the case is deeper than the painting) and one moving reflection */
 .vitrine-glass {
